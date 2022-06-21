@@ -84,6 +84,7 @@ return [
                     'compress_data' => '1',
                     'compression_lib' => 'l4z'
                 ]
+            ]
         ],
         'allow_parallel_generation' => false
     ],
