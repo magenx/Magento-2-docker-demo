@@ -84,10 +84,6 @@ return [
                     'compress_data' => '1',
                     'compression_lib' => 'l4z'
                 ]
-            ],
-            'page_cache' => [
-                'id_prefix' => '71f_'
-            ]
         ],
         'allow_parallel_generation' => false
     ],
@@ -101,20 +97,20 @@ return [
         'document_root_is_pub' => true
     ],
     'cache_types' => [
-        'config' => 0,
-        'layout' => 0,
-        'block_html' => 0,
-        'collections' => 0,
-        'reflection' => 0,
-        'db_ddl' => 0,
-        'compiled_config' => 0,
-        'eav' => 0,
-        'customer_notification' => 0,
-        'full_page' => 0,
-        'config_integration' => 0,
-        'config_integration_api' => 0,
-        'translate' => 0,
-        'config_webservice' => 0
+        'config' => 1,
+        'layout' => 1,
+        'block_html' => 1,
+        'collections' => 1,
+        'reflection' => 1,
+        'db_ddl' => 1,
+        'compiled_config' => 1,
+        'eav' => 1,
+        'customer_notification' => 1,
+        'full_page' => 1,
+        'config_integration' => 1,
+        'config_integration_api' => 1,
+        'translate' => 1,
+        'config_webservice' => 1
     ],
     'downloadable_domains' => [
         getenv('DOMAIN')
