@@ -24,9 +24,9 @@ return [
         'connection' => [
             'default' => [
                 'host' => 'mariadb',
-                'dbname' => getenv('DATABASE_NAME'),
-                'username' => getenv('DATABASE_USER'),
-                'password' => getenv('DATABASE_PASSWORD'),
+                'dbname' => getenv('MARIADB_DATABASE'),
+                'username' => getenv('MARIADB_USER'),
+                'password' => getenv('MARIADB_PASSWORD'),
                 'model' => 'mysql4',
                 'engine' => 'innodb',
                 'initStatements' => 'SET NAMES utf8;',
@@ -140,7 +140,7 @@ return [
                     'elasticsearch7_server_port' => '9200',
                     'elasticsearch7_index_prefix' => getenv('BRAND'),
                     'elasticsearch7_username' => 'elastic',
-                    'elasticsearch7_password' => getenv('ELK_PASSWORD')
+                    'elasticsearch7_password' => getenv('ELASTICSEARCH_PASSWORD')
                 ]
             ]
         ]
