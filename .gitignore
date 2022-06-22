@@ -15,6 +15,8 @@ atlassian*
 /.idea
 /.gitattributes
 /app/config_sandbox
+/app/etc/config.php
+/app/etc/env.php
 /app/code/Magento/TestModule*
 /lib/internal/flex/uploader/.actionScriptProperties
 /lib/internal/flex/uploader/.flexProperties
@@ -65,7 +67,6 @@ atlassian*
 
 /var/*
 !/var/.htaccess
-/vendor/*
 !/vendor/.htaccess
 /generated/*
 !/generated/.htaccess
