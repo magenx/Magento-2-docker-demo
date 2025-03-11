@@ -29,5 +29,5 @@ jobs:
       - name: Update Magento
         run: |
           composer update -W  --ignore-platform-reqs
-          composer require magento/product-community-edition=2.4.7-p4 --no-update --ignore-platform-reqs
+          composer require-commerce magento/product-community-edition=2.4.7-p4 --no-update --ignore-platform-reqs
           composer update -W  --ignore-platform-reqs
