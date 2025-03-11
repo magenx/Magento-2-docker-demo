@@ -1,3 +1,0 @@
-# Declare files that will always have LF line endings on checkout.
-dev/tests/verification/Resources/TestSuiteGeneration1.txt text=auto !eol
-dev/tests/verification/Resources/*.txt text eol=lf
