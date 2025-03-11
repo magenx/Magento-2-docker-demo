@@ -1,0 +1,145 @@
+name: Magenx CI/CD - full build for release
+on:
+  pull_request:
+    types:
+      - closed
+      - labeled
+    branches:
+      - production
+
+  workflow_dispatch:
+
+jobs:
+  release:
+    # check if PR merged and has label: release
+    # if: ${{(github.event.pull_request.merged == true) && (contains(github.event.pull_request.labels.*.name, 'release'))}}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{github.ref_name}}
+        
+    - name: Github Actions workflow identification
+      run: |
+        git config user.name "${{github.event.pull_request.user.login}}"
+        git config user.email "${{github.event.pull_request.user.login}}@users.noreply.github.com"
+
+    # INSTALL MODULES AND UPDATES
+    - name: Install modules and updates
+      id: composer_install
+      run: |
+        composer -n -q config -g http-basic.repo.magento.com 8c681734f22763b50ea0c29dff9e7af2 02dfee497e669b5db1fe1c8d481d6974
+        composer install --no-cache --no-interaction
+        if [[ $? -ne 0 ]]; then
+        echo "[!] Check for composer installation errors:"
+        exit 1
+        fi
+
+    # SETUP DI COMPILE
+    - name: Run setup:di:compile
+      id: setup_di_compile
+      if: ${{success()}}
+      run: |
+        composer dump-autoload
+        bin/magento setup:di:compile -n
+        if [[ $? -ne 0 ]]; then
+        echo "[!] Check for compile errors:"
+        exit 1
+        fi
+        composer dump-autoload --no-dev --optimize --apcu
+
+    # DEPLOY STATIC FILES | CSS AND PHTML CHANGES
+    - name: Deploy static files
+      id: setup_static_content_deploy
+      # static content deploy always
+      run: |
+        bin/magento setup:static-content:deploy -f -n
+        if [[ $? -ne 0 ]]; then
+        echo "[!] Check for static content deploy errors:"
+        exit 1
+        fi
+
+    # DEBUG STEP | CHECK OUTPUTS
+    - name: Debug with custom output
+      id: debug
+      run: |
+        bin/magento
+        if [[ $? -ne 0 ]]; then
+        echo "[!] Check if CLI has no errors:"
+        exit 1
+        fi
+
+    # GET THE LATEST RELEASE
+    - name: Get the latest release
+      uses: actions/github-script@v7
+      id: get_latest_release
+      with:
+        github-token: ${{secrets.token}}
+        script: |
+          return github.rest.repos.listReleases({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            per_page: 1,
+            page: 1
+          });
+        result-encoding: json
+
+    # GET THE LATEST TAG FROM RELEASE
+    - name: Get the latest tag for complete build
+      id: get_latest_tag
+      run: |
+        echo "latest_tag=$(echo '${{steps.latest_release.outputs.result}}' | jq -r '.data[].name' | cut -d_ -f2)" >> ${GITHUB_ENV}
+
+    # SET BUILD VERSION TO ENVIRONMENT VARIABLES
+    - name: Set version for complete build/release
+      id: set_release_version
+      if: ${{success()}}
+      run: |
+        tag="${{env.latest_tag}}"
+        version="${tag:-0.0.0}"
+        v=( ${version//./ } )
+        {((v[0]++));v[1]=0;v[2]=0;}
+        {((v[1]++));v[2]=0;}
+        {((v[2]++));}
+
+        echo "release_version=release_${v[0]}.${v[1]}.${v[2]}_$(date +%d%m%Y_%H%M%S)" >> ${GITHUB_ENV}
+
+    # PUSH COMPILED CODE TO BRANCH NAMED "BUILD"
+    - name: Push compiled code to ${{env.build_version}} branch
+      id: push_to_build_branch
+      if: ${{success()}}
+      run: |
+        git switch ${{env.release_version}}
+        git add . -A
+        git commit -m "${{github.sha}}"
+        git push origin HEAD:${{env.release_version}} --force
+
+    # CREATE TAG FOR THE LATEST BUILD
+    - name: Create tag for the latest release
+      id: tag
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/${{env.release_version}}',
+            sha: context.sha
+          })
+
+    # CREATE RELEASE FROM LATEST APPROVED BUILD
+    - name: Create release latest
+      id: release
+      if: ${{success()}}
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.repos.createRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag_name: '${{env.release_version}}',
+            target_commitish: '${{github.ref_name}}',
+            name: '${{github.head_ref}}',
+            generate_release_notes: true
+          })
