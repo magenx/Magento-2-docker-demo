@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="ProductCardSection">
+        <element name="addCoupon" type="button" selector="//span[text()='Apply Discount Code']" timeout="60"/>
+        <element name="addCode" type="button" selector="#discount-code"/>
+        <element name="applyDiscount" type="button" selector="//span[text()='Apply Discount']" timeout="60"/>
+        <element name="discountSuccessMsgInDOM" type="button" selector="//div[contains(@class, 'discount-code _active')]//div[@data-role='checkout-messages']/div[contains(@class,'message-success')]/div"/>
+    </section>
+</sections>

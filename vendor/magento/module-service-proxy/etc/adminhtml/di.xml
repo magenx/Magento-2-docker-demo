@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ServiceProxy\Controller\Adminhtml\Service\Proxy">
+        <arguments>
+            <argument name="logger" xsi:type="object">Magento\ServiceProxy\Model\Logger</argument>
+            <argument name="acceptedHeaderTypes" xsi:type="array">
+                <item name="contentType" xsi:type="string">Laminas\Http\Header\ContentType</item>
+                <item name="generic" xsi:type="string">Laminas\Http\Header\GenericHeader</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

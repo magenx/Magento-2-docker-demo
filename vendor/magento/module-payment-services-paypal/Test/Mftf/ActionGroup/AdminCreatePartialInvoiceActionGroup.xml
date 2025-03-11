@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminCreatePartialInvoiceActionGroup">
+        <annotations>
+            <description>Clicks on 'Invoice' on the Admin Orders view page. Edits number of items to invoice to '1'. Clicks on 'Submit Invoice'. Clicks on 'View Invoice'.</description>
+        </annotations>
+
+        <click selector="{{AdminOrderDetailsMainActionsSection.invoice}}" stepKey="clickInvoiceButton"/>
+        <waitForPageLoad stepKey="waitForNewInvoicePageLoad"/>
+        <fillField selector="{{AdminInvoiceItemsSection.qtyToInvoiceColumn}}" userInput="1" stepKey="fillQtyField" after="waitForNewInvoicePageLoad"/>
+        <click selector="{{AdminInvoiceItemsSection.updateQty}}" stepKey="clickUpdateQuantityButton" after="fillQtyField"/>
+        <waitForPageLoad stepKey="waitForPageRefreshed" after="clickUpdateQuantityButton"/>
+        <click selector="{{AdminInvoiceMainActionsSection.submitInvoice}}" stepKey="clickSubmitInvoice"/>
+        <see selector="{{AdminOrderDetailsMessagesSection.successMessage}}" userInput="The invoice has been created." stepKey="seeSuccessMessage"/>
+        <click selector="{{AdminOrderDetailsOrderViewSection.invoices}}" stepKey="clickInvoices"/>
+        <waitForLoadingMaskToDisappear stepKey="waitForLoadingMask5"/>
+        <conditionalClick selector="{{AdminOrderInvoicesTabSection.clearFilters}}" dependentSelector="{{AdminOrderInvoicesTabSection.clearFilters}}" visible="true" stepKey="clearExistingOrderFilters"/>
+        <click selector="{{AdminOrderInvoicesTabSection.viewInvoice}}" stepKey="openInvoicePage"/>
+        <waitForPageLoad stepKey="waitForInvoicePageLoad"/>
+    </actionGroup>
+</actionGroups>

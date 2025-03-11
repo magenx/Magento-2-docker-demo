@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminMagentoPaymentsDashboardPageTest">
+        <annotations>
+            <features value="MagentoPaymentsReporting"/>
+            <stories value="Magento Payments Reporting"/>
+            <title value="Can open Magento Payments reporting"/>
+            <description value="Admin can access reporting"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="dashboard-page"/>
+            <group value="magento-payments"/>
+        </annotations>
+        <before>
+            <magentoCLI command="config:set payment/payment_methods/method sandbox" stepKey="setMagentoPaymentsEnvironmentType"/>
+            <magentoCLI command="config:set payment/payment_methods/sandbox_merchant_id {{_CREDS.magento/magento_payments_sandbox_merchant_id}}" stepKey="setMagentoPaymentsMerchantId"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
+        </before>
+        <after>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+        </after>
+        <amOnPage url="admin/paymentservicesdashboard/dashboard/index" stepKey="navigateToPaymentsDashboardPage"/>
+        <waitForPageLoad stepKey="waitForPagePageLoad"/>
+        <waitForElement selector="div.react-spectrum-provider" stepKey="assertAppLoaded"/>
+    </test>
+</tests>

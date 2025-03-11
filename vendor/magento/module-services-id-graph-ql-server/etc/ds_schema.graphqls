@@ -1,0 +1,100 @@
+# Copyright © Magento, Inc. All rights reserved.
+# See COPYING.txt for license details.
+
+type Mutation {
+    saveCommerceServicesConfig(commerceServicesConfig: CommerceServicesConfigInput!): CommerceServicesConfigMutationResponse
+    @resolver(class: "Magento\\ServicesIdGraphQlServer\\Resolver\\Mutation\\SaveCommerceServicesConfig")
+    @doc(description: "Save Commerce Services Configuration")
+    validateSandboxKeys: CommerceServicesConfigMutationResponse
+    @resolver(class: "Magento\\ServicesIdGraphQlServer\\Resolver\\Mutation\\ValidateSandboxKeys")
+    @doc(description: "Validate Commerce Services Sandbox Keys")
+    validateProductionKeys: CommerceServicesConfigMutationResponse
+    @resolver(class: "Magento\\ServicesIdGraphQlServer\\Resolver\\Mutation\\ValidateProductionKeys")
+    @doc(description: "Validate Commerce Services Production Keys")
+    servicesApiRequest(servicesApiRequest: ServicesApiInput!): ServicesApiResponse
+    @resolver(class: "Magento\\ServicesIdGraphQlServer\\Resolver\\Mutation\\ServicesApiRequest")
+    @doc(description: "Make Request to SaaS Service")
+    imsRegistration: ImsRegistrationResponse
+    @resolver(class: "Magento\\ServicesIdGraphQlServer\\Resolver\\Mutation\\ImsRegistration")
+    @doc(description: "Initiatiate IMS Registration")
+    imsReadOrganizations: ImsReadOrganizationsResponse
+    @resolver(class: "Magento\\ServicesIdGraphQlServer\\Resolver\\Mutation\\ImsReadOrganizations")
+    @doc(description: "Gets list of organizations from IMS")
+}
+
+type CommerceConfig {
+    services: CommerceServicesConfig @resolver(class: "Magento\\ServicesIdGraphQlServer\\Resolver\\Query\\CommerceServicesConfig")
+}
+
+type CommerceServicesConfig {
+    sandboxApiKey: String
+    sandboxPrivateKey: String
+    productionApiKey: String
+    productionPrivateKey: String
+    projectId: String
+    projectName: String
+    environmentId: String
+    environmentName: String
+    environmentType: String
+    imsOrganizationId: String
+    disabledFields: [String]
+}
+
+input CommerceServicesConfigInput {
+    sandboxApiKey: String
+    sandboxPrivateKey: String
+    productionApiKey: String
+    productionPrivateKey: String
+    projectId: String
+    projectName: String
+    environmentId: String
+    environmentName: String
+    environmentType: String
+    imsOrganizationId: String
+    disabledFields: [String]
+}
+
+type CommerceServicesConfigMutationResponse {
+    message: CommerceServicesConfigMessage!
+}
+
+input ServicesApiInput {
+    method: String!
+    uri: String!
+    payload: String!
+    headers: [ServicesApiHeader]
+}
+
+input ServicesApiHeader {
+    key: String!
+    value: String!
+}
+
+type ServicesApiResponse {
+    response: String!
+}
+
+type ImsRegistrationResponse {
+    id: String
+    organizationId: String
+    error: String
+}
+
+type ImsReadOrganizationsResponse {
+    organizations: [ImsOrganization]
+    error: String
+}
+
+type ImsOrganization {
+    id: String!
+    name: String!
+}
+
+enum CommerceServicesConfigMessage {
+    OK
+    NOT_CHANGED
+    ERROR_SAVE_FAILED
+    ERROR_REQUEST_FAILED
+    ERROR_KEYS_NOT_VALID
+    ERROR_PRIVATE_KEY_SIGN_FAILED
+}

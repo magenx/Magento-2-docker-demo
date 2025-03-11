@@ -1,0 +1,82 @@
+<?php
+/**
+ * ADOBE CONFIDENTIAL
+ *
+ * Copyright 2024 Adobe
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ */
+declare(strict_types=1);
+
+?>
+
+<?php
+/** @var \Magento\PaymentServicesBase\Block\Adminhtml\System\Config\ResetPaymentsMerchantIdButton $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+
+//phpcs:disable Generic.Files.LineLength
+?>
+
+    <button type="button" id="<?= $escaper->escapeHtml($block->getHtmlId()) ?>" class="scalable"
+            onclick=showConfirmModal('<?= $escaper->escapeUrl($block->getDeleteMerchantControllerUrl()) ?>','<?= $escaper->escapeHtml($block->getPayEnvironment()) ?>')>
+        <?= $escaper->escapeHtml($block->getLabel()) ?>
+    </button>
+
+<?php
+$scriptString = <<<script
+    function showConfirmModal(deleteUrl, env) {
+        require([
+            "jquery",
+            "Magento_Ui/js/modal/confirm"
+        ], function ($, confirmation) {
+            "use strict";
+            confirmation({
+                title: $.mage.__("Reset Payment Services ID"),
+                content: $.mage.__("This will reset your configuration for Payment Services in " + env + " and you will need to onboard and reconnect your PayPal account. If you are accepting payments today, this will disconnect all Payment Services payment methods. This reset cannot be undone. Please click OK if you are sure, or CANCEL to leave the connection in place."),
+                actions: {
+                    confirm: function() {
+                        $.ajax({
+                            url: deleteUrl,
+                            type: 'DELETE',
+                            success: function(response) {
+                                location.reload();
+                            },
+                            error: function(xhr, status, error) {
+                                location.reload();
+                            },
+                        });
+                    },
+                    cancel: function() {
+                    }
+                },
+                buttons: [{
+                    text: $.mage.__("Cancel"),
+                    class: "action-secondary action-dismiss",
+                    click: function (event) {
+                        this.closeModal(event);
+                    }
+                }, {
+                    text: $.mage.__("OK"),
+                    class: "action-primary action-accept",
+                    click: function (event) {
+                        this.closeModal(event, true);
+                    }
+                }]
+            });
+        });
+    }
+script;
+?>
+
+<?= /* @noEscape */
+$secureRenderer->renderTag('script', [], $scriptString, false);
+?>

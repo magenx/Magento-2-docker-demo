@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsPartialCaptureTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalHostedFields"/>
+            <stories value="Magento Payments Checkout"/>
+            <title value="Partial capture on Magento Payments"/>
+            <description value="Admin is able to generate multiple invoices for capture purposes after authorization"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="partial-capture"/>
+            <group value="magento-payments"/>
+        </annotations>
+        <before>
+            <magentoCLI command="config:set {{EnableFreeShippingConfigData.path}} {{EnableFreeShippingConfigData.value}}" stepKey="enableFreeShipping"/>
+            <!-- Login -->
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
+            <actionGroup ref="AdminConfigurePaymentMethodActionGroup" stepKey="configurePaymentMethod"/>
+            <!-- Create Product -->
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <!-- Create Customer -->
+            <createData entity="Simple_US_Customer" stepKey="createCustomer"/>
+        </before>
+        <after>
+            <magentoCLI command="config:set {{DisableFreeShippingMethod.path}} {{DisableFreeShippingMethod.value}}" stepKey="disableFreeShipping"/>
+            <actionGroup ref="AdminDisablePaymentMethodActionGroup" stepKey="disablePaymentMethod"/>
+            <!-- Delete product -->
+            <deleteData stepKey="deleteCategory" createDataKey="createCategory"/>
+            <deleteData stepKey="deleteProduct" createDataKey="createProduct"/>
+            <!--Delete customer -->
+            <deleteData stepKey="deleteCustomer" createDataKey="createCustomer"/>
+            <!-- Logout -->
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+        </after>
+
+        <!-- Login to storefront as previously created customer -->
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginAsCustomer">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+        <amOnPage url="{{StorefrontCategoryPage.url($$createCategory.name$$)}}" stepKey="navigateToCategoryPage"/>
+        <!-- Add 2 items to cart -->
+        <actionGroup ref="StorefrontAddProductToCartFromCategoryActionGroup" stepKey="addItem1ToCart">
+            <argument name="productName" value="$$createProduct.name$$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAddProductToCartFromCategoryActionGroup" stepKey="addItem2ToCart">
+            <argument name="productName" value="$$createProduct.name$$"/>
+        </actionGroup>
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+        <actionGroup ref="StorefrontSetShippingMethodActionGroup" stepKey="selectFreeShippingMethod">
+            <argument name="shippingMethodName" value="{{freeTitleDefault.value}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckoutClickNextButtonActionGroup" stepKey="clickNext"/>
+
+        <!--Assert grand total-->
+        <actionGroup ref="VerifyCheckoutPaymentOrderSummaryActionGroup" stepKey="verifyCheckoutPaymentOrderSummary">
+            <argument name="orderSummarySubTotal" value="$246.00"/>
+            <argument name="orderSummaryShippingTotal" value="$0.00"/>
+            <argument name="orderSummaryTotal" value="$246.00"/>
+        </actionGroup>
+        <dontSeeElement selector="{{StorefrontOrderReviewSection.taxCost}}" stepKey="taxAssertion"/>
+
+        <actionGroup ref="StorefrontSelectPaymentServicesPaymentMethodActionGroup" stepKey="selectPaymentMethod"/>
+        <switchToIFrame userInput="braintree-hosted-field-number" stepKey="switchToCardNumberIFrame"/>
+        <appendField userInput="{{PaymentsCreditCardVisaValid.number}}" selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCardNumber}}" stepKey="appendCardNumber"/>
+        <switchToPreviousTab stepKey="switchToPreviousTab"/>
+        <switchToIFrame userInput="braintree-hosted-field-expirationDate" stepKey="switchToExpirationDataIFrame"/>
+        <appendField userInput="1225" selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsExpiration}}" stepKey="appendExpirationDate"/>
+        <switchToPreviousTab stepKey="switchToPreviousTab2"/>
+        <switchToIFrame userInput="braintree-hosted-field-cvv" stepKey="switchToCVVIFrame"/>
+        <appendField userInput="123" selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCVV}}" stepKey="appendCVV"/>
+        <switchToPreviousTab stepKey="switchToMainForm"/>
+        <click selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsPlaceOrderButton}}" stepKey="clickPlaceOrderButton"/>
+
+        <!-- I see order successful page -->
+        <waitForLoadingMaskToDisappear stepKey="waitForLoadingMaskToDisappear"/>
+        <actionGroup ref="AssertStorefrontCheckoutSuccessActionGroup" stepKey="assertCheckoutSuccess"/>
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="getOrderNumber"/>
+
+        <actionGroup ref="OpenOrderByIdActionGroup" stepKey="addFilterToGridAndOpenOrder">
+            <argument name="orderId" value="{$getOrderNumber}"/>
+        </actionGroup>
+        <actionGroup ref="AdminOrderViewCheckStatusActionGroup" stepKey="checkOrderStatus">
+            <argument name="status" value="Processing"/>
+        </actionGroup>
+        <!-- Create first invoice -->
+        <actionGroup ref="AdminCreatePartialInvoiceActionGroup" stepKey="createInvoiceForItem1"/>
+        <see selector="{{AdminInvoiceTotalSection.grandTotal}}" userInput="$123.00" stepKey="seeCorrectGrandTotalForInvoice1"/>
+        <click selector="{{AdminInvoiceMainActionsSection.back}}" stepKey="goBackToOrderDetails" />
+        <waitForPageLoad stepKey="waitForOrderDetailsPageLoad" after="goBackToOrderDetails"/>
+        <seeElement selector="{{AdminOrderDetailsMainActionsSection.invoice}}" stepKey="seeInvoiceActionAvailable"/>
+        <!-- Create second invoice -->
+        <actionGroup ref="AdminFastCreateInvoiceActionGroup" stepKey="createInvoiceForItem2"/>
+        <see selector="{{AdminInvoiceTotalSection.grandTotal}}" userInput="$123.00" stepKey="seeCorrectGrandTotalForInvoice2"/>
+
+        <!-- Check that invoice is no longer present as an action on the order page -->
+        <click selector="{{AdminInvoiceMainActionsSection.back}}" stepKey="goBackToOrderDetails2" />
+        <waitForPageLoad stepKey="waitForOrderDetailsPageLoad2" after="goBackToOrderDetails2"/>
+        <dontSeeElement selector="{{AdminOrderDetailsMainActionsSection.invoice}}" stepKey="seeInvoiceActionNotAvailable"/>
+    </test>
+</tests>

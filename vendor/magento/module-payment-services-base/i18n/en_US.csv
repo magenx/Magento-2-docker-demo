@@ -1,0 +1,31 @@
+Configure,Configure
+Close,Close
+Sandbox,Sandbox
+Production,Production
+"Recommended Solutions:","Recommended Solutions:"
+"Payment Services","Payment Services"
+"Payment Services is your turnkey integrated solution for providing secure payment processing, robust reporting, and optimized online order payments.","Payment Services is your turnkey integrated solution for providing secure payment processing, robust reporting, and optimized online order payments."
+"General Configuration","General Configuration"
+Enable,Enable
+Method,Method
+"Payment Services Sandbox ID","Payment Services Sandbox ID"
+"Reset Payment Services Sandbox ID","Reset Payment Services Sandbox ID"
+"Payment Services Production ID","Payment Services Production ID"
+"Reset Payment Services Production ID","Reset Payment Services Production ID"
+"Secure transaction","Secure transaction"
+"Pay with PayPal","Pay with PayPal"
+"Pay with credit card","Pay with credit card"
+"Pay with Apple Pay","Pay with Apple Pay"
+"Accept popular payment methods—credit/debit cards, PayPal, Apple Pay, Google Pay, and Venmo—and deliver your customers a smooth checkout experience.","Accept popular payment methods—credit/debit cards, PayPal, Apple Pay, Google Pay, and Venmo—and deliver your customers a smooth checkout experience."
+"Designed for Adobe Commerce and Magento Open Source merchants of all sizes, Payment Services delivers:","Designed for Adobe Commerce and Magento Open Source merchants of all sizes, Payment Services delivers:"
+"Designed for Magento Open Source merchants of all sizes, Payment Services delivers:","Designed for Magento Open Source merchants of all sizes, Payment Services delivers:"
+"Designed for Adobe Commerce merchants of all sizes, Payment Services delivers:","Designed for Adobe Commerce merchants of all sizes, Payment Services delivers:"
+"A fully-integrated payment experience","A fully-integrated payment experience"
+"Competitive processing fees","Competitive processing fees"
+"Advanced financial reporting capabilities","Advanced financial reporting capabilities"
+"Secure and up-to-date extension with SaaS","Secure and up-to-date extension with SaaS"
+"Accept debit/credit cards with Payment Services","Accept debit/credit cards with Payment Services"
+"If you have product questions or need help with setup, follow this link and fill out the form","If you have product questions or need help with setup, follow this link and fill out the form"
+"This value will be automatically populated after setting up the Commerce Connector and visiting the Payment Services dashboard for the first time. This value associates your SaaS ID to Payment Services.","This value will be automatically populated after setting up the Commerce Connector and visiting the Payment Services dashboard for the first time. This value associates your SaaS ID to Payment Services."
+"Your unique Production Merchant ID for Adobe Commerce Payment Services","Your unique Production Merchant ID for Adobe Commerce Payment Services"
+"Payment Services ID can't be reset right now","Payment Services ID can't be reset right now"

@@ -1,0 +1,23 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+?>
+
+<?php
+/** @var \Magento\PaymentServicesDashboard\Block\Adminhtml\System\Config\MagentoPaymentsButton $block */
+/** @var \Magento\Framework\Escaper $escaper */
+//phpcs:disable Generic.Files.LineLength
+?>
+
+<p class="note">
+    <span>
+        <?= /* @noEscape */ __('Note: More configuration options are available in Payment Service\'s %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $escaper->escapeUrl($block->getMagentoPaymentsSettingsUrl()), __('Settings'))) ?>
+    </span>
+</p>
+<button type="button" id="<?= $escaper->escapeHtml($block->getHtmlId()) ?>" class="scalable" onclick="window.location.href='<?= $escaper->escapeUrl($block->getMagentoPaymentsUrl()) ?>'">
+    <?= $escaper->escapeHtml($block->getLabel()) ?>
+</button>

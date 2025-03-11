@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+    <entity name="PaymentsCreditCardInvalid" type="payments_credit_card">
+        <data key="code">visa</data>
+        <data key="number">4</data>
+        <data key="numberErrorMessage">Please enter a valid credit card number.</data>
+        <data key="expirationDate">1</data>
+        <data key="expirationErrorMessage">Incorrect credit card expiration date.</data>
+        <data key="cvv">1</data>
+        <data key="cvvErrorMessage">Please enter a valid credit card security code.</data>
+    </entity>
+    <entity name="PaymentsCreditCardEmpty" type="payments_credit_card">
+        <data key="code">visa</data>
+        <data key="number"/>
+        <data key="numberErrorMessage">This is a required field.</data>
+        <data key="expirationDate"/>
+        <data key="expirationErrorMessage">This is a required field.</data>
+        <data key="cvv"/>
+        <data key="cvvErrorMessage">This is a required field.</data>
+    </entity>
+    <entity name="PaymentsCreditCardAmericanExpressValid" type="payments_credit_card">
+        <data key="code">amex</data>
+        <data key="number">378282246310005</data>
+        <data key="numberErrorMessage"/>
+        <data key="expirationDate">1225</data>
+        <data key="expirationErrorMessage"/>
+        <data key="cvv">1234</data>
+        <data key="cvvErrorMessage"/>
+    </entity>
+    <entity name="PaymentsCreditCardDiscoverValid" type="payments_credit_card">
+        <data key="code">discover</data>
+        <data key="number">6011111111111117</data>
+        <data key="numberErrorMessage"/>
+        <data key="expirationDate">1225</data>
+        <data key="expirationErrorMessage"/>
+        <data key="cvv">123</data>
+        <data key="cvvErrorMessage"/>
+    </entity>
+    <entity name="PaymentsCreditCardMasterCardValid" type="payments_credit_card">
+        <data key="code">mastercard</data>
+        <data key="number">2221000000000009</data>
+        <data key="numberErrorMessage"/>
+        <data key="expirationDate">1225</data>
+        <data key="expirationErrorMessage"/>
+        <data key="cvv">123</data>
+        <data key="cvvErrorMessage"/>
+    </entity>
+    <entity name="PaymentsCreditCardVisaValid" type="payments_credit_card">
+        <data key="code">visa</data>
+        <data key="number">4032034601040846</data>
+        <data key="numberErrorMessage"/>
+        <data key="expirationDate">1025</data>
+        <data key="expirationErrorMessage"/>
+        <data key="cvv">761</data>
+        <data key="cvvErrorMessage"/>
+    </entity>
+</entities>

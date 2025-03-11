@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsSmartButtonsCheckoutWithZeroTotalCartPageTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalSmartButtonsCartCheckout"/>
+            <stories value="Magento Payments Smart Buttons Can't Checkout with Zero Total from Cart Page"/>
+            <title value="Main checkout flow with Magento Payments Smart Buttons from Cart Page"/>
+            <description value="Users are not able to place order with zero total using Magento Payments from the cart page"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="cart-page-smart-buttons-zero-amount-cart-page"/>
+            <group value="magento-payments"/>
+        </annotations>
+        <before>
+            <magentoCLI command="config:set {{EnableFreeShippingConfigData.path}} {{EnableFreeShippingConfigData.value}}" stepKey="enableFreeShipping"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
+            <actionGroup ref="AdminConfigurePaymentMethodActionGroup" stepKey="configurePaymentMethod">
+                <argument name="methodName" value="payment_services_paypal_smart_buttons"/>
+            </actionGroup>
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <createData entity="Simple_US_Customer" stepKey="createCustomer"/>
+            <createData entity="ApiSalesRule" stepKey="createSalesRule">
+                <field key="discount_amount">100</field>
+            </createData>
+            <createData entity="ApiSalesRuleCoupon" stepKey="createSalesRuleCoupon">
+                <requiredEntity createDataKey="createSalesRule"/>
+            </createData>
+        </before>
+        <after>
+            <magentoCLI command="config:set {{DisableFreeShippingMethod.path}} {{DisableFreeShippingMethod.value}}" stepKey="disableFreeShipping"/>
+            <actionGroup ref="AdminDisablePaymentMethodActionGroup" stepKey="disablePaymentMethod">
+                <argument name="methodName" value="payment_services_paypal_smart_buttons"/>
+            </actionGroup>
+            <deleteData stepKey="deleteCategory" createDataKey="createCategory"/>
+            <deleteData stepKey="deleteProduct" createDataKey="createProduct"/>
+            <deleteData stepKey="deleteCustomer" createDataKey="createCustomer"/>
+            <deleteData stepKey="deleteSalesRuleCoupon" createDataKey="createSalesRuleCoupon"/>
+            <deleteData stepKey="deleteSalesRule" createDataKey="createSalesRule"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+        </after>
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginAsCustomer">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+        <amOnPage url="{{StorefrontCategoryPage.url($$createCategory.name$$)}}" stepKey="navigateToCategoryPage"/>
+        <actionGroup ref="StorefrontAddProductToCartFromCategoryActionGroup" stepKey="addProductToCart">
+            <argument name="productName" value="$$createProduct.name$$"/>
+        </actionGroup>
+        <actionGroup ref="ClickViewAndEditCartFromMiniCartActionGroup" stepKey="navigateToCartPage"/>
+        <actionGroup ref="StorefrontApplyCouponActionGroup" stepKey="applyCoupon">
+            <argument name="coupon" value="$$createSalesRuleCoupon$$"/>
+        </actionGroup>
+        <dontSeeElement selector="{{SmartButtonsCartSection.ButtonsContainer}}" stepKey="checkThatButtonsAreAbsent"/>
+        <dontSeeElement selector="{{SmartButtonsCartSection.MessageContainer}}" stepKey="checkThatMessageIsAbsent"/>
+    </test>
+</tests>

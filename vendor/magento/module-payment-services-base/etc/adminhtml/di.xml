@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ServiceProxy\Controller\Adminhtml\Service\Proxy">
+        <arguments>
+            <argument name="servicesList" xsi:type="array">
+                <item name="payments" xsi:type="string">payments</item>
+            </argument>
+            <argument name="servicesClients" xsi:type="array">
+                <item name="payments" xsi:type="object">Magento\PaymentServicesBase\Model\ServiceProxyClient</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\PaymentServicesBase\Model\ServiceProxyClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">Magento\PaymentServicesBase\Model\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Magento\ServiceProxy\Controller\Adminhtml\Config\Index">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="payments" xsi:type="array">
+                    <item name="payment_services_active" xsi:type="string">payment/payment_services/active</item>
+                    <item name="payment_methods_method" xsi:type="string">payment/payment_methods/method</item>
+                    <item name="payment_methods_sandbox_merchant_id" xsi:type="string">payment/payment_methods/sandbox_merchant_id</item>
+                    <item name="payment_methods_production_merchant_id" xsi:type="string">payment/payment_methods/production_merchant_id</item>
+                    <item name="general_locale_timezone" xsi:type="const">Magento\Directory\Helper\Data::XML_PATH_DEFAULT_TIMEZONE</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Paypal\Model\Config\Structure\PaymentSectionModifier">
+        <plugin name="move_express_checkout_us_to_other_paypal_payment_solutions"
+                type="Magento\PaymentServicesBase\Plugin\MovePaymentMethods"
+                sortOrder="1"
+                disabled="false"
+        />
+    </type>
+</config>

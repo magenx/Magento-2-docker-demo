@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsCheckoutPageTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalHostedFields"/>
+            <stories value="Magento Payments Checkout"/>
+            <title value="Main order flow with Magento Payments"/>
+            <description value="Users are able to place order using Magento Payments on checkout page, payment action is authorization. Merchant is able to capture and refund the entire payment."/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="checkout-page-authorize-invoice-refund"/>
+            <group value="magento-payments"/>
+        </annotations>
+        <before>
+            <magentoCLI command="config:set {{EnableFreeShippingConfigData.path}} {{EnableFreeShippingConfigData.value}}" stepKey="enableFreeShipping"/>
+            <!-- Login -->
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
+            <actionGroup ref="AdminConfigurePaymentMethodActionGroup" stepKey="configurePaymentMethod"/>
+            <!-- Create Product -->
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <!-- Create Customer -->
+            <createData entity="Simple_US_Customer" stepKey="createCustomer"/>
+        </before>
+        <after>
+            <magentoCLI command="config:set {{DisableFreeShippingMethod.path}} {{DisableFreeShippingMethod.value}}" stepKey="disableFreeShipping"/>
+            <actionGroup ref="AdminDisablePaymentMethodActionGroup" stepKey="disablePaymentMethod"/>
+            <!-- Delete product -->
+            <deleteData stepKey="deleteCategory" createDataKey="createCategory"/>
+            <deleteData stepKey="deleteProduct" createDataKey="createProduct"/>
+            <!--Delete customer -->
+            <deleteData stepKey="deleteCustomer" createDataKey="createCustomer"/>
+            <!-- Logout -->
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+        </after>
+
+        <!-- Login to storefront as previously created customer -->
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginAsCustomer">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+        <amOnPage url="{{StorefrontCategoryPage.url($$createCategory.name$$)}}" stepKey="navigateToCategoryPage"/>
+        <actionGroup ref="StorefrontAddProductToCartFromCategoryActionGroup" stepKey="addProductToCart">
+            <argument name="productName" value="$$createProduct.name$$"/>
+        </actionGroup>
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+        <actionGroup ref="StorefrontSetShippingMethodActionGroup" stepKey="selectFreeShippingMethod">
+            <argument name="shippingMethodName" value="{{freeTitleDefault.value}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckoutClickNextButtonActionGroup" stepKey="clickNext"/>
+
+        <!--Assert grand total-->
+        <actionGroup ref="VerifyCheckoutPaymentOrderSummaryActionGroup" stepKey="verifyCheckoutPaymentOrderSummary">
+            <argument name="orderSummarySubTotal" value="$123.00"/>
+            <argument name="orderSummaryShippingTotal" value="$0.00"/>
+            <argument name="orderSummaryTotal" value="$123.00"/>
+        </actionGroup>
+        <dontSeeElement selector="{{StorefrontOrderReviewSection.taxCost}}" stepKey="taxAssertion"/>
+
+        <!--Assert icon titles-->
+        <actionGroup ref="StorefrontSelectPaymentServicesPaymentMethodIconActionGroup" stepKey="selectSmartButtonsPaymentTypeIcon" >
+            <argument name="selector" value="{{CheckoutPaymentSection.MagentoPaymentServicesSmartButtonsRadio}}"/>
+        </actionGroup>
+
+        <assertEquals stepKey="assertSmartButtonsPaymentTypesIconsAltText">
+            <actualResult type="variable">$selectSmartButtonsPaymentTypeIcon</actualResult>
+            <expectedResult type="string">Pay with PayPal</expectedResult>
+        </assertEquals>
+
+        <actionGroup ref="StorefrontSelectPaymentServicesPaymentMethodIconActionGroup" stepKey="selectHostedFieldsPaymentTypeIcon" >
+            <argument name="selector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsRadio}}"/>
+        </actionGroup>
+
+        <assertEquals stepKey="assertHostedFieldsPaymentTypesIconsAltText">
+            <actualResult type="variable">$selectHostedFieldsPaymentTypeIcon</actualResult>
+            <expectedResult type="string">Pay with credit card</expectedResult>
+        </assertEquals>
+
+        <executeJS function="return document.querySelector('#card-number .lock-icon').getAttribute('title');"  stepKey="getCreditCardLockIconText"/>
+        <assertEquals stepKey="assertHostedFieldsPaymentLockIconsAltText">
+            <actualResult type="variable">$getCreditCardLockIconText</actualResult>
+            <expectedResult type="string">Secure transaction</expectedResult>
+        </assertEquals>
+
+        <actionGroup ref="StorefrontSelectPaymentServicesPaymentMethodActionGroup" stepKey="selectPaymentMethod"/>
+        <switchToIFrame userInput="braintree-hosted-field-number" stepKey="switchToCardNumberIFrame"/>
+        <appendField userInput="{{PaymentsCreditCardVisaValid.number}}" selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCardNumber}}" stepKey="appendCardNumber"/>
+        <switchToPreviousTab stepKey="switchToPreviousTab"/>
+        <switchToIFrame userInput="braintree-hosted-field-expirationDate" stepKey="switchToExpirationDataIFrame"/>
+        <appendField userInput="1225" selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsExpiration}}" stepKey="appendExpirationDate"/>
+        <switchToPreviousTab stepKey="switchToPreviousTab2"/>
+        <switchToIFrame userInput="braintree-hosted-field-cvv" stepKey="switchToCVVIFrame"/>
+        <appendField userInput="123" selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCVV}}" stepKey="appendCVV"/>
+        <switchToPreviousTab stepKey="switchToMainForm"/>
+        <click selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsPlaceOrderButton}}" stepKey="clickPlaceOrderButton"/>
+
+        <!-- I see order successful page -->
+        <waitForLoadingMaskToDisappear stepKey="waitForLoadingMaskToDisappear"/>
+        <actionGroup ref="AssertStorefrontCheckoutSuccessActionGroup" stepKey="assertCheckoutSuccess"/>
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="getOrderNumber"/>
+
+        <!-- Capture the order -->
+        <actionGroup ref="OpenOrderByIdActionGroup" stepKey="addFilterToGridAndOpenOrder">
+            <argument name="orderId" value="{$getOrderNumber}"/>
+        </actionGroup>
+        <actionGroup ref="AdminOrderViewCheckStatusActionGroup" stepKey="checkOrderStatus">
+            <argument name="status" value="Processing"/>
+        </actionGroup>
+        <actionGroup ref="AdminFastCreateInvoiceActionGroup" stepKey="createInvoice"/>
+        <see selector="{{AdminInvoiceTotalSection.grandTotal}}" userInput="$123.00" stepKey="seeCorrectGrandTotal"/>
+
+        <!-- Refund payment -->
+        <actionGroup ref="AdminCreateCreditMemoActionGroup" stepKey="createCreditMemo"/>
+        <see selector="{{AdminCreditMemoTotalSection.totalRefunded}}" userInput="$123.00" stepKey="seeCorrectTotalRefunded"/>
+    </test>
+</tests>

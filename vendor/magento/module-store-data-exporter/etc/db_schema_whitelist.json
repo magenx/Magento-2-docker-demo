@@ -1,0 +1,15 @@
+{
+    "stores_data_exporter": {
+        "index": {
+            "STORES_DATA_EXPORTER_MODIFIED_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        },
+        "column": {
+            "id": true,
+            "feed_data": true,
+            "modified_at": true
+        }
+    }
+}

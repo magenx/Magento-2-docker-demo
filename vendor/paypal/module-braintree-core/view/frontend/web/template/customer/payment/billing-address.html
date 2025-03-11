@@ -1,0 +1,49 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="billing-address-form">
+    <!-- ko if:  addressModal.viewModel.selectExistingVisible() || addressModal.viewModel.newAddressFormVisible() -->
+    <div class="address-select-modal">
+<!--        <div class="error" data-bind="i18n: 'Complete your address.', visible: invalidAddress"></div>-->
+
+        <div class="address-select-modal__form-container" style="display: block">
+            <div>
+                <div class="add-address-form">
+                    <div class="billing-address__actions">
+                        <button type="button" class="action add-manually primary"
+                                data-bind="click: showNewAddressForm">
+                            <span data-bind="i18n: 'Add Your Billing Address Manually'"></span>
+                        </button>
+                        <span class="separator" data-bind="i18n: 'or'"></span>
+                    </div>
+                </div>
+                <div class="billing-address__actions">
+                    <button type="button" class="action new-address primary"
+                            data-bind="click: showExistingSelector">
+                        <span data-bind="i18n: 'Select existing billing address'"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ko ifnot: addressModal.viewModel.newAddressFormVisible -->
+            <!-- ko if: addressModal.viewModel.currentAddresses().length -->
+                <fieldset class="address-select-container" data-bind="visible: addressModal.viewModel.selectExistingVisible">
+                    <p class="subs-modal__text" data-bind="i18n: 'Select your billing address'"></p>
+
+                    <select data-bind="options: addressModal.viewModel.currentAddresses, optionsText: 'street',
+                            optionsValue: 'id',
+                            value: addressModal.viewModel.currentShippingId,
+                            event:{ change: addressModal.updateCurrentAddressId.bind(addressModal) }"
+                        class="existing-address-select" name="billing_address_id">
+                    </select>
+                </fieldset>
+            <!-- /ko -->
+        <!-- /ko -->
+
+    </div>
+    <!-- /ko -->
+</div>

@@ -1,0 +1,28 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+use Magento\Framework\Escaper;
+use PayPal\Braintree\Block\Lpm\Fallback;
+
+/** @var Escaper $escaper */
+/** @var Fallback $block */
+?>
+
+<div class="payment-method _active" style="display: none;">
+    <?= $block->getChildHtml(); ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "PayPal_Braintree/js/lpm/process-fallback-response": {
+                "clientToken": "<?= $block->getClientToken() ?>",
+                "merchantAccountId": "<?= $escaper->escapeHtmlAttr($block->getMerchantAccountId()) ?>",
+                "redirectOnFail": "<?= $escaper->escapeUrl($block->getRedirectUrlOnFail()) ?>"
+            }
+        }
+    }
+</script>

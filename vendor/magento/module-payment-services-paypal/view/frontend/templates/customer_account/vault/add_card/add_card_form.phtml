@@ -1,0 +1,23 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Magento\PaymentServicesPaypal\Block\Customer\Vault\AddCardForm;
+
+/** @var AddCardForm|Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<div id="paymentservices_add_vault_card">
+    <?= $block->getChildHtml('paypal_cardfields_form') ?>
+
+    <div><?= $block->getChildHtml('address_form') ?></div>
+
+    <button type="button" id="paymentservices-add-card-button" role="add-card" title="<?= $escaper->escapeHtmlAttr(__('Save New Card')) ?>" class="action primary add" style="margin-top: 2em">
+        <span><?= $escaper->escapeHtml(__('Save New Card')) ?></span>
+    </button>
+</div>

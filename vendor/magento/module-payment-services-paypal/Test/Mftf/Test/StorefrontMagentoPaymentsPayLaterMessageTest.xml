@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsPayLaterMessageTest">
+        <annotations>
+            <features value="MagentoPaymentsPayLaterMessageTest"/>
+            <stories value="Pay Later message visible in all locations"/>
+            <title value="Pay Later message "/>
+            <description value="Users are able see Pay Later message"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="pay-later-message"/>
+            <group value="magento-payments"/>
+        </annotations>
+        <before>
+            <magentoCLI command="config:set {{EnableFreeShippingConfigData.path}} {{EnableFreeShippingConfigData.value}}" stepKey="enableFreeShipping"/>
+            <!-- Login as admin -->
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
+            <actionGroup ref="AdminConfigurePaymentMethodActionGroup" stepKey="configurePaymentMethod">
+                <argument name="methodName" value="payment_services_paypal_smart_buttons"/>
+            </actionGroup>
+            <!-- Create product -->
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <!-- Create customer -->
+            <createData entity="Simple_US_Customer" stepKey="createCustomer"/>
+        </before>
+        <after>
+            <magentoCLI command="config:set {{DisableFreeShippingMethod.path}} {{DisableFreeShippingMethod.value}}" stepKey="disableFreeShipping"/>
+            <actionGroup ref="AdminDisablePaymentMethodActionGroup" stepKey="disablePaymentMethod">
+                <argument name="methodName" value="payment_services_paypal_smart_buttons"/>
+            </actionGroup>
+            <!-- Delete product -->
+            <deleteData stepKey="deleteCategory" createDataKey="createCategory"/>
+            <deleteData stepKey="deleteProduct" createDataKey="createProduct"/>
+            <!--Delete customer -->
+            <deleteData stepKey="deleteCustomer" createDataKey="createCustomer"/>
+            <!-- Logout -->
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+        </after>
+
+        <!-- Login as a customer -->
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginAsCustomer">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="navigateToProductPage">
+            <argument name="productUrl" value="$createProduct.custom_attributes[url_key]$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontValidatePayLaterMessagePresentActionGroup" stepKey="validateMessageOnProductPage">
+            <argument name="selector" value="{{SmartButtonsProductSection.MessageIframe}}"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontAddProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$createProduct$$"/>
+            <argument name="productCount" value="1"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontOpenMiniCartActionGroup" stepKey="openMiniCart"/>
+        <actionGroup ref="StorefrontValidatePayLaterMessagePresentActionGroup" stepKey="validateMessageInMiniCart">
+            <argument name="selector" value="{{SmartButtonsMiniCartSection.MessageIframe}}"/>
+        </actionGroup>
+
+        <actionGroup ref="ClickViewAndEditCartFromMiniCartActionGroup" stepKey="navigateToCartPage"/>
+        <actionGroup ref="StorefrontValidatePayLaterMessagePresentActionGroup" stepKey="validateMessageInShoppingCart">
+            <argument name="selector" value="{{SmartButtonsCartSection.MessageIframe}}"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontClickProceedToCheckoutActionGroup" stepKey="clickProceedToCheckout"/>
+        <actionGroup ref="StorefrontSetShippingMethodActionGroup" stepKey="selectFreeShippingMethod">
+            <argument name="shippingMethodName" value="{{freeTitleDefault.value}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckoutClickNextButtonActionGroup" stepKey="clickNext"/>
+        <actionGroup ref="StorefrontSelectPaymentServicesPaymentMethodActionGroup" stepKey="selectPaymentMethod">
+            <argument name="selector" value="{{CheckoutPaymentSection.MagentoPaymentServicesSmartButtonsRadio}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontValidatePayLaterMessagePresentActionGroup" stepKey="validateMessageOnPaymentsScreen">
+            <argument name="selector" value="{{SmartButtonsPaymentSection.MessageIframe}}"/>
+        </actionGroup>
+    </test>
+</tests>

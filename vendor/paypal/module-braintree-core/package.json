@@ -1,0 +1,14 @@
+{
+  "name": "@paypal/module-braintree-core",
+  "version": "4.6.1",
+  "description": "Fork from the Magento Braintree 2.2.0 module by Gene Commerce for PayPal.",
+  "main": ".eslintrc",
+  "scripts": {
+    "lint": "eslint . --rulesdir ./vendor/magento/magento-coding-standard/eslint/rules",
+    "lint-fix": "eslint . --rulesdir ./vendor/magento/magento-coding-standard/eslint/rules --fix"
+  },
+  "license": "proprietary",
+  "devDependencies": {
+    "eslint": "^8.50.0"
+  }
+}

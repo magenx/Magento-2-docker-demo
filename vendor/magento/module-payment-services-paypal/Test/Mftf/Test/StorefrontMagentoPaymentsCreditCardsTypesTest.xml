@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsCreditCardsTypesTest" extends="StorefrontMagentoPaymentsAuthorizeAndCaptureTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalHostedFields"/>
+            <stories value="Magento Payments Credit Cards Inline Validation at Checkout"/>
+            <title value="Magento Payments Credit Cards Types at Checkout"/>
+            <description value="Users see highlighted credit card types when filling credit card number"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="credit-card-types"/>
+            <group value="magento-payments"/>
+        </annotations>
+
+        <!-- Check American Express card -->
+        <actionGroup ref="StorefrontFillPaymentServicesCreditCardFormActionGroup" stepKey="fillCreditCardFormAmericanExpress" before="seeCreditCardTypeAmericanExpress">
+            <argument name="creditCard" value="PaymentsCreditCardAmericanExpressValid"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertCreditCardTypeActionGroup" stepKey="seeCreditCardTypeAmericanExpress" before="fillCreditCardFormDiscover">
+            <argument name="creditCard" value="PaymentsCreditCardAmericanExpressValid"/>
+        </actionGroup>
+
+        <!-- Check Discover card -->
+        <actionGroup ref="StorefrontFillPaymentServicesCreditCardFormActionGroup" stepKey="fillCreditCardFormDiscover" before="seeCreditCardTypeDiscover">
+            <argument name="creditCard" value="PaymentsCreditCardDiscoverValid"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertCreditCardTypeActionGroup" stepKey="seeCreditCardTypeDiscover" before="fillCreditCardFormMasterCard">
+            <argument name="creditCard" value="PaymentsCreditCardDiscoverValid"/>
+        </actionGroup>
+
+        <!-- Check MasterCard card -->
+        <actionGroup ref="StorefrontFillPaymentServicesCreditCardFormActionGroup" stepKey="fillCreditCardFormMasterCard" before="seeCreditCardTypeMasterCard">
+            <argument name="creditCard" value="PaymentsCreditCardMasterCardValid"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertCreditCardTypeActionGroup" stepKey="seeCreditCardTypeMasterCard" before="fillCreditCardFormVisa">
+            <argument name="creditCard" value="PaymentsCreditCardMasterCardValid"/>
+        </actionGroup>
+
+        <!-- Check Visa card -->
+        <actionGroup ref="StorefrontFillPaymentServicesCreditCardFormActionGroup" stepKey="fillCreditCardFormVisa" before="seeCreditCardTypeVisa">
+            <argument name="creditCard" value="PaymentsCreditCardVisaValid"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertCreditCardTypeActionGroup" stepKey="seeCreditCardTypeVisa" before="fillCreditCardForm">
+            <argument name="creditCard" value="PaymentsCreditCardVisaValid"/>
+        </actionGroup>
+
+        <!-- Remove redundant steps from extended test -->
+        <remove keyForRemoval="getOrderNumber"/>
+        <remove keyForRemoval="addFilterToGridAndOpenOrder"/>
+        <remove keyForRemoval="dontSeeOrderWaitingForAuthorize"/>
+        <remove keyForRemoval="checkOrderStatus"/>
+        <remove keyForRemoval="openInvoiceFromOrder"/>
+        <remove keyForRemoval="seeCorrectGrandTotal"/>
+    </test>
+</tests>

@@ -1,0 +1,15 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var \Magento\ServicesIdLayout\Block\Adminhtml\Index $block */ ?>
+
+<div
+    data-graph-ql-url="<?= $block->escapeUrl($block->getGraphQlUrl()); ?>"
+    data-gateway-url="<?= $block->escapeUrl($block->getGatewayUrl()); ?>"
+    id="root"
+></div>
+
+<script src="<?= $block->escapeUrl($block->getFrontendUrl()) ?>"></script>

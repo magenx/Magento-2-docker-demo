@@ -1,0 +1,12 @@
+{
+    "sales_order": {
+        "column": {
+            "dispute_status": true
+        }
+    },
+    "sales_order_grid": {
+        "column": {
+            "dispute_status": true
+        }
+    }
+}

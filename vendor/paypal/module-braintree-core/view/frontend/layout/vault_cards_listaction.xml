@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="stored.cards.customer.update"
+                   template="PayPal_Braintree::customer/update/update.phtml">
+                <arguments>
+                    <argument name="braintreeConfigViewModel"
+                              xsi:type="object">PayPal\Braintree\ViewModel\BraintreeConfig</argument>
+                    <argument name="braintreePayPalConfigViewModel"
+                              xsi:type="object">PayPal\Braintree\ViewModel\BraintreePayPalConfig</argument>
+                </arguments>
+
+                <!-- Add New card -->
+                <block class="Magento\Framework\View\Element\Template"
+                       name="stored.cards.update.new.card"
+                       as="new_card"
+                       template="PayPal_Braintree::customer/update/new-card.phtml">
+                    <arguments>
+                        <argument name="braintreeConfigViewModel"
+                                  xsi:type="object">PayPal\Braintree\ViewModel\BraintreeConfig</argument>
+                        <argument name="braintreeThreeDSecureConfigViewModel"
+                                  xsi:type="object">PayPal\Braintree\ViewModel\BraintreeThreeDSecureConfig</argument>
+                    </arguments>
+                    <block class="Magento\Customer\Block\Address\Edit"
+                           template="Magento_Customer::address/edit.phtml"
+                           name="new_card_billing_address"
+                           cacheable="false">
+                        <action method="setFormCode">
+                            <argument name="code" xsi:type="string">customer_address_edit</argument>
+                        </action>
+                        <action method="setEntityModelClass">
+                            <argument name="code" xsi:type="string">Magento\Customer\Model\Address</argument>
+                        </action>
+                        <arguments>
+                            <argument name="attribute_data"
+                                      xsi:type="object">Magento\Customer\Block\DataProviders\AddressAttributeData</argument>
+                            <argument name="post_code_config"
+                                      xsi:type="object">Magento\Customer\Block\DataProviders\PostCodesPatternsAttributeData</argument>
+                            <argument name="view_model"
+                                      xsi:type="object">Magento\Customer\ViewModel\Address</argument>
+                            <argument name="region_provider"
+                                      xsi:type="object">Magento\Customer\ViewModel\Address\RegionProvider</argument>
+                        </arguments>
+                    </block>
+                </block>
+
+                <!-- Add New PayPal account -->
+                <block class="PayPal\Braintree\Block\Paypal\Button"
+                       name="stored.token.customer.update.paypal"
+                       as="paypal"
+                       template="PayPal_Braintree::customer/update/new-paypal.phtml">
+                    <arguments>
+                        <argument name="braintreePayPalConfigViewModel"
+                                  xsi:type="object">PayPal\Braintree\ViewModel\BraintreePayPalConfig</argument>
+                    </arguments>
+                </block>
+            </block>
+            <referenceBlock name="vault.cards.list">
+                <block class="PayPal\Braintree\Block\Customer\CardRenderer"
+                       name="braintree.card.renderer"
+                       template="Magento_Vault::customer_account/credit_card.phtml"/>
+                <block class="PayPal\Braintree\Block\Customer\GooglePay\VaultTokenRenderer"
+                       name="braintree_googlepay.token.renderer"
+                       template="Magento_Vault::customer_account/credit_card.phtml" />
+                <block class="PayPal\Braintree\Block\Customer\ApplePay\VaultTokenRenderer"
+                       name="braintree_applepay.token.renderer"
+                       template="Magento_Vault::customer_account/credit_card.phtml" />
+            </referenceBlock>
+            <referenceBlock name="vault.token.list">
+                <block class="PayPal\Braintree\Block\Customer\PayPal\VaultTokenRenderer"
+                       name="braintree_paypal.token.renderer"
+                       template="PayPal_Braintree::paypal/vault_token.phtml"/>
+                <block class="PayPal\Braintree\Block\Customer\Venmo\VaultTokenRenderer"
+                       name="braintree_venmo.token.renderer"
+                       template="PayPal_Braintree::venmo/vault_token.phtml"/>
+                <block class="PayPal\Braintree\Block\Customer\Ach\VaultTokenRenderer"
+                       name="braintree_ach_direct_debit.token.renderer"
+                       template="PayPal_Braintree::ach/vault_token.phtml"/>
+            </referenceBlock>
+        </referenceContainer>
+
+        <move element="vault.cards.list" destination="stored.cards.customer.update" as="saved-cards-tokens-list" after="-"/>
+        <move element="vault.token.list" destination="stored.cards.customer.update" as="saved-token-tokens-list" after="stored.cards.customer.update"/>
+    </body>
+</page>

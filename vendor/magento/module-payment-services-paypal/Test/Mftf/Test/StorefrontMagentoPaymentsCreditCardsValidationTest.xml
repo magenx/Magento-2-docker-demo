@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsCreditCardsValidationTest" extends="StorefrontMagentoPaymentsAuthorizeAndCaptureTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalHostedFields"/>
+            <stories value="Magento Payments Credit Cards Inline Validation at Checkout"/>
+            <title value="Magento Payments Credit Cards Inline Validation at Checkout"/>
+            <description value="Users see error message when trying to place order using Magento Payments with invalid credit card data"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="credit-card-validation"/>
+            <group value="magento-payments"/>
+        </annotations>
+
+        <!-- Check error messages with invalid credit card and Place Order Button Disabled -->
+        <actionGroup ref="StorefrontFillPaymentServicesCreditCardFormActionGroup" stepKey="fillCreditCardFormWithInvalidData" before="seeCreditCardNumberErrorMessage">
+            <argument name="creditCard" value="PaymentsCreditCardInvalid"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertSeeCreditCardErrorMessageActionGroup" stepKey="seeCreditCardNumberErrorMessage" before="seeCreditCardExpirationDateErrorMessage">
+            <argument name="message" value="{{PaymentsCreditCardInvalid.numberErrorMessage}}"/>
+            <argument name="fieldCSSSelector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCardNumberFieldElement}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertSeeCreditCardErrorMessageActionGroup" stepKey="seeCreditCardExpirationDateErrorMessage" before="seeCreditCardCVVErrorMessage">
+            <argument name="message" value="{{PaymentsCreditCardInvalid.expirationErrorMessage}}"/>
+            <argument name="fieldCSSSelector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsExpirationFieldElement}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertSeeCreditCardErrorMessageActionGroup" stepKey="seeCreditCardCVVErrorMessage" before="checkPlaceOrderButtonDisabled">
+            <argument name="message" value="{{PaymentsCreditCardInvalid.cvvErrorMessage}}"/>
+            <argument name="fieldCSSSelector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCVVFieldElement}}"/>
+        </actionGroup>
+        <seeElement selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsPlaceOrderButtonDisabled}}" stepKey="checkPlaceOrderButtonDisabled" before="fillCreditCardFormWithEmptyData"/>
+
+        <!-- Check error messages with empty credit card and Place Order Button Disabled -->
+        <actionGroup ref="StorefrontFillPaymentServicesCreditCardFormActionGroup" stepKey="fillCreditCardFormWithEmptyData" before="seeCreditCardNumberEmptyErrorMessage">
+            <argument name="creditCard" value="PaymentsCreditCardEmpty"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertSeeCreditCardErrorMessageActionGroup" stepKey="seeCreditCardNumberEmptyErrorMessage" before="seeCreditCardExpirationDateEmptyErrorMessage">
+            <argument name="message" value="{{PaymentsCreditCardEmpty.numberErrorMessage}}"/>
+            <argument name="fieldCSSSelector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCardNumberFieldElement}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertSeeCreditCardErrorMessageActionGroup" stepKey="seeCreditCardExpirationDateEmptyErrorMessage" before="seeCreditCardCVVEmptyErrorMessage">
+            <argument name="message" value="{{PaymentsCreditCardEmpty.expirationErrorMessage}}"/>
+            <argument name="fieldCSSSelector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsExpirationFieldElement}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertSeeCreditCardErrorMessageActionGroup" stepKey="seeCreditCardCVVEmptyErrorMessage" before="checkPlaceOrderButtonDisabled2">
+            <argument name="message" value="{{PaymentsCreditCardEmpty.cvvErrorMessage}}"/>
+            <argument name="fieldCSSSelector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCVVFieldElement}}"/>
+        </actionGroup>
+        <seeElement selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsPlaceOrderButtonDisabled}}" stepKey="checkPlaceOrderButtonDisabled2" before="fillCreditCardForm"/>
+
+        <!-- Check error messages absent with valid credit card and Place Order Button Enabled -->
+        <actionGroup ref="StorefrontAssertDontSeeCreditCardErrorMessageActionGroup" stepKey="dontSeeCreditCardNumberErrorMessage" before="dontSeeCreditCardExpirationDateErrorMessage">
+            <argument name="fieldCSSSelector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCardNumberFieldElement}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertDontSeeCreditCardErrorMessageActionGroup" stepKey="dontSeeCreditCardExpirationDateErrorMessage" before="dontSeeCreditCardCVVErrorMessage">
+            <argument name="fieldCSSSelector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsExpirationFieldElement}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontAssertDontSeeCreditCardErrorMessageActionGroup" stepKey="dontSeeCreditCardCVVErrorMessage" before="checkPlaceOrderButtonEnabled">
+            <argument name="fieldCSSSelector" value="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsCVVFieldElement}}"/>
+        </actionGroup>
+        <dontSeeElement selector="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsPlaceOrderButtonDisabled}}" stepKey="checkPlaceOrderButtonEnabled" before="waitPlaceOrderButton"/>
+
+        <!-- Remove redundant steps from extended test -->
+        <remove keyForRemoval="getOrderNumber"/>
+        <remove keyForRemoval="addFilterToGridAndOpenOrder"/>
+        <remove keyForRemoval="dontSeeOrderWaitingForAuthorize"/>
+        <remove keyForRemoval="checkOrderStatus"/>
+        <remove keyForRemoval="openInvoiceFromOrder"/>
+        <remove keyForRemoval="seeCorrectGrandTotal"/>
+    </test>
+</tests>

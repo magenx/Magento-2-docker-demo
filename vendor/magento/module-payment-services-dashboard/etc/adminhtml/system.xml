@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="recommended_solutions">
+                <group id="magento_payments" translate="label comment" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Payment Services</label>
+                    <frontend_model>Magento\PaymentServicesDashboard\Block\Adminhtml\System\Config\MagentoPaymentsRedirect</frontend_model>
+                    <fieldset_css>complex magento-payments-section</fieldset_css>
+                    <comment><![CDATA[Payment Services is your turnkey integrated solution for providing secure payment processing, robust reporting, and optimized online order payments. Payment Services can be configured in the settings page under <b>Sales > Payment Services</b>.]]></comment>
+                </group>
+                <group id="magento_payments_legacy">
+                    <field id="magento_payments_button" translate="button_label" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label/>
+                        <button_label>Go to Payment Services</button_label>
+                        <frontend_model>Magento\PaymentServicesDashboard\Block\Adminhtml\System\Config\MagentoPaymentsButton</frontend_model>
+                    </field>
+                    <field id="legacy_admin_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\Field\Hidden</frontend_model>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payment_services/legacy_admin_enabled</config_path>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

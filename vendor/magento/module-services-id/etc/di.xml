@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\ServicesId\Model\ServicesClientInterface" type="Magento\ServicesId\Model\ServicesClient" />
+    <preference for="Magento\ServicesId\Model\ServicesConfigInterface" type="Magento\ServicesId\Model\ServicesConfig" />
+    <type name="Magento\Framework\App\Config\Storage\WriterInterface">
+        <plugin name="set_cloud_id_on_config_value_save" type="Magento\ServicesId\Plugin\SetCloudIdOnConfigSave"/>
+    </type>
+    <type name="Magento\Framework\App\Config\Value">
+        <plugin name="set_cloud_id_on_config_value_import" type="Magento\ServicesId\Plugin\SetCloudIdOnConfigImport"/>
+    </type>
+</config>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="services_connector">
+            <group id="services_id_onboarding" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Commerce Services Connector Setup</label>
+                <comment>Identifies the secure cloud storage project and data space used by Commerce Services Connector for this instance.</comment>
+                <field id="initiate_onboarding" translate="label comment" type="button" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <frontend_model>Magento\ServicesIdLayout\Block\Adminhtml\System\Config\Onboarding</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

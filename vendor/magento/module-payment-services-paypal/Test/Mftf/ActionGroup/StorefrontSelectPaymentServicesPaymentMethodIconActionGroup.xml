@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="StorefrontSelectPaymentServicesPaymentMethodIconActionGroup">
+        <annotations>
+            <description>Select payment method icon on the storefront.</description>
+        </annotations>
+        <arguments>
+            <argument name="selector" type="string" defaultValue="{{CheckoutPaymentSection.MagentoPaymentServicesHostedFieldsRadio}}"/>
+        </arguments>
+        <!-- Select payment method -->
+        <waitForElement selector="{{CheckoutPaymentSection.paymentSectionTitle}}" stepKey="waitForPlaceOrderButton"/>
+        <executeJS function="return document.querySelector('{{selector}} + label img.payment-type-icon').getAttribute('alt');"  stepKey="getPaymentTypeIconAltText"/>
+        <return value="$getPaymentTypeIconAltText" stepKey="returnIconAltText"/>
+    </actionGroup>
+</actionGroups>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_QueryXml:etc/query.xsd">
+    <query name="stores">
+        <source name="store">
+            <attribute name="store_id" alias="store_view_id"/>
+            <attribute name="group_id" alias="store_id"/>
+            <attribute name="website_id"/>
+            <attribute name="name" alias="store_view_name"/>
+            <filter glue="and">
+                <condition attribute="website_id" operator="in" type="placeholder">websiteIds</condition>
+            </filter>
+            <link-source name="store_group" link-type="inner">
+                <attribute name="name" alias="store_name"/>
+                <using glue="and">
+                    <condition attribute="group_id" operator="eq" type="identifier">group_id</condition>
+                </using>
+            </link-source>
+            <link-source name="store_website" link-type="inner">
+                <attribute name="name" alias="website_name"/>
+                <using glue="and">
+                    <condition attribute="website_id" operator="eq" type="identifier">website_id</condition>
+                </using>
+            </link-source>
+        </source>
+    </query>
+</config>

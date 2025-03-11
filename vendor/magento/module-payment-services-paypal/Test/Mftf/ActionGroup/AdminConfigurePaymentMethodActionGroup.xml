@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminConfigurePaymentMethodActionGroup">
+        <annotations>
+            <description>Configure payment method in admin.</description>
+        </annotations>
+        <arguments>
+            <argument name="methodName" type="string" defaultValue="payment_services_paypal_hosted_fields"/>
+            <argument name="methodAction" type="string" defaultValue="authorize"/>
+        </arguments>
+        <magentoCLI command="config:set payment/payment_methods/method sandbox" stepKey="setMagentoPaymentsEnvironmentType"/>
+        <magentoCLI command="config:set payment/payment_methods/sandbox_merchant_id {{_CREDS.magento/magento_payments_sandbox_merchant_id}}" stepKey="setMagentoPaymentsMerchantId"/>
+        <magentoCLI command="config:set payment/payment_services/active 1" stepKey="enablePaymentMethod"/>
+        <magentoCLI command="config:set payment/{{methodName}}/payment_action {{methodAction}}" stepKey="setPaymentAction"/>
+    </actionGroup>
+</actionGroups>

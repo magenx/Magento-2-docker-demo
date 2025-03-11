@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminCreateCreditMemoActionGroup">
+        <click selector="{{AdminOrderInvoiceViewSection.creditMemoBtn}}" stepKey="pushButtonCreditMemo"/>
+        <waitForPageLoad stepKey="waitForLoadingCreditMemoPage"/>
+        <scrollTo selector="{{AdminCreditMemoTotalSection.submitRefundOffline}}" stepKey="scrollToBottom"/>
+        <click selector="{{AdminCreditMemoTotalSection.submitRefundOffline}}" stepKey="clickSubmitRefund"/>
+        <waitForPageLoad stepKey="waitForMainOrderPageLoad" after="clickSubmitRefund" time="60"/>
+        <see userInput="You created the credit memo." stepKey="seeCreditMemoMessage"/>
+    </actionGroup>
+</actionGroups>

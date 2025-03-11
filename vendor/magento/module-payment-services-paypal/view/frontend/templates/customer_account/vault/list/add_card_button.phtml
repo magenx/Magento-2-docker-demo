@@ -1,0 +1,31 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+use Magento\PaymentServicesPaypal\Block\Customer\Vault\AddCardButton;
+
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var AddCardButton $block */
+/** @var SecureHtmlRenderer $secureRenderer */
+?>
+
+<?php if ($block->isButtonEnabled()): ?>
+    <button type="button" role="add-card" title="<?= $escaper->escapeHtmlAttr(__('Add New Card')) ?>" class="action primary add" style="margin-top: 2em">
+        <span><?= $escaper->escapeHtml(__('Add New Card')) ?></span>
+    </button>
+
+    <script type="text/x-magento-init">
+        {
+            ".action": {
+                "Magento_PaymentServicesPaypal/js/view/customer_account/vault/add-card-button": {
+                    "addCard": "button[role='add-card']",
+                    "addCardLocation": "<?= $escaper->escapeUrl($block->getAddCardUrl()); ?>"
+                }
+            }
+        }
+    </script>
+<?php endif ?>

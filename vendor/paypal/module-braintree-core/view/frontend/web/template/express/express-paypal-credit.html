@@ -1,0 +1,26 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko if: isMethodActive() -->
+<div class="paypal-credit paypal-cart paypal-logo braintree-paypal-logo braintree-paypal-express-credit-container">
+    <div data-bind="attr: {
+            'data-currency': checkoutCurrency,
+            'data-locale': checkoutLocale,
+            'data-amount': checkoutAmount,
+            'data-displayname': getMerchantName(),
+            'data-actionsuccess': actionSuccess,
+            'data-funding': 'credit',
+            'data-fundingicons': true,
+            'data-label': buttonLabel,
+            'data-color': buttonColor,
+            'data-shape': buttonShape,
+            'data-requiredbillingaddress': getIsRequiredBillingAddress()
+            }"
+         id="paypal-braintree-express-credit-payment"
+         class="action-braintree-paypal-logo express-credit"></div>
+</div>
+<!-- /ko -->
+

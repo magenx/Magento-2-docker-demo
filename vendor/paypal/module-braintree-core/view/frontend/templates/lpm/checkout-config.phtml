@@ -1,0 +1,22 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+use Magento\Checkout\Block\Onepage;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+
+/** @var $block Onepage */
+/** @var SecureHtmlRenderer $secureRenderer */
+?>
+<?php $serializedCheckoutConfig = /* @noEscape */ $block->getSerializedCheckoutConfig();
+$scriptString = <<<script
+        window.checkoutConfig = {$serializedCheckoutConfig};
+        // Create aliases for customer.js model from customer module
+        window.isCustomerLoggedIn = window.checkoutConfig.isCustomerLoggedIn;
+        window.customerData = window.checkoutConfig.customerData;
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>

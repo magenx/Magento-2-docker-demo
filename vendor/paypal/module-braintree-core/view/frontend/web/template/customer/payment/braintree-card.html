@@ -1,0 +1,90 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="payment-method-braintree">
+    <form id="co-transparent-form-braintree" class="form" method="post" novalidate="novalidate">
+        <!-- ko if: viewModel.errorMessage() -->
+            <div aria-atomic="true" role="alert" class="message message-error error">
+                <span data-bind="text: viewModel.errorMessage"></span>
+            </div>
+        <!--/ko-->
+        <fieldset class="fieldset">
+            <div class="field number required">
+                <label for="braintree_cc_number" class="label">
+                    <span><!-- ko i18n: 'Card Number'--><!-- /ko --></span>
+                </label>
+                <div class="control braintree-card-control">
+                    <!-- ko if: !selectedCardType() -->
+                    <img data-bind="attr: {
+                        'src': getIcons('NONE').url,
+                        'alt': 'NONE'
+                    }" class="braintree-credit-card-selected">
+                    <!--/ko-->
+                        <!-- ko if: selectedCardType() -->
+                        <img data-bind="attr: {
+                            'src': getIcons(selectedCardType()).url,
+                            'alt': getIcons(selectedCardType()).alt
+                        }" class="braintree-credit-card-selected">
+                        <!--/ko-->
+                    <div data-bind="attr: {id: code + '_cc_number'}" class="hosted-control"></div>
+                    <div class="hosted-error"><!-- ko i18n: 'Please enter a valid Card Number'--><!-- /ko --></div>
+                </div>
+                <div class="credit-card-types braintree-credit-card-types">
+                    <!-- ko foreach: {data: icons, as: 'icon'} -->
+                        <!-- ko ifnot: icon.type === 'NONE' -->
+                            <div class="item">
+                                <img data-bind="attr: {
+                                                'src': icon.url,
+                                                'alt': icon.type
+                                            }">
+                            </div>
+                        <!--/ko-->
+                    <!--/ko-->
+                </div>
+            </div>
+            <div class="field number required">
+                <label data-bind="attr: {for: 'repeat_order_expiration'}" class="label">
+                    <span><!-- ko i18n: 'Expiry Date'--><!-- /ko --></span>
+                </label>
+                <div class="control">
+                    <div class="hosted-date-wrap">
+                        <div data-bind="attr: {id: code + '_expirationDate'}"
+                            class="hosted-control hosted-date"></div>
+
+                        <div class="hosted-error"><!-- ko i18n: 'Please enter a valid Expiry Date'--><!-- /ko --></div>
+                    </div>
+                </div>
+            </div>
+            <div class="field cvv required" data-bind="attr: {id: 'repeat_order_cc_type_cvv_div'}">
+                <label data-bind="attr: {for: 'repeat_order_cc_cid'}" class="label">
+                    <span><!-- ko i18n: 'Security Code'--><!-- /ko --></span>
+                </label>
+                <div class="control _with-tooltip">
+                    <div data-bind="attr: {id: code + '_cc_cid'}" class="hosted-control hosted-cid"></div>
+                    <div class="hosted-error"><!-- ko i18n: 'Please enter a valid Security Code'--><!-- /ko --></div>
+
+                    <div class="field-tooltip toggle">
+                        <span class="field-tooltip-action action-cvv"
+                              tabindex="0"
+                              data-toggle="dropdown"
+                              data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
+                            <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
+                        </span>
+                        <div class="field-tooltip-content"
+                             data-target="dropdown"
+                             data-bind="html: getCvvImageHtml()"></div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- ko foreach: elems -->
+        <!-- ko template: {name: getTemplate(), afterRender: function(){ showAddressModal(null, null, null); }} --><!-- /ko -->
+        <!-- /ko -->
+
+        <input type="hidden" name="braintree-cc-payment-method-nonce" id="braintree-cc-payment-method-nonce">
+    </form>
+</div>

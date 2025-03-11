@@ -1,0 +1,279 @@
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+@import 'variables/_colors.less';
+
+& when (@media-common = true) {
+    .account.vault-cards-listaction {
+        .page-title-wrapper {
+            display: none;
+        }
+
+        .address-select-modal__form-container {
+            margin-bottom: @indent__base;
+
+            > div {
+                align-items: center;
+                display: flex;
+                flex-wrap: wrap;
+
+                > div {
+                    margin-top: @indent__s;
+                }
+            }
+        }
+
+        .field.company,
+        .field.choice.set.billing,
+        .field.choice.set.shipping,
+        .primary[data-action='save-address'] {
+            display: none !important;
+        }
+
+        #form-validate {
+            display: none;
+        }
+
+        [for='repeat_order_cc_number'] + .control {
+            position: relative;
+        }
+
+        .account-section__title-view-all-link {
+            display: block;
+            margin-bottom: @indent__l;
+        }
+
+        .braintree-credit-card-types {
+            display: flex;
+            flex-wrap: wrap;
+
+            .item {
+                margin-right: 5px;
+                margin-top: 5px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+
+            img {
+                height: 24px;
+            }
+        }
+
+        .separator {
+            margin: @indent__s @indent__s 0;
+        }
+
+        .address-select-container {
+            border: 1px solid @color-gray80;
+            border-radius: 2px;
+            padding: @indent__m;
+        }
+
+        #braintree_submit {
+            .lib-font-size(16);
+            border-radius: 3px;
+            box-shadow: none;
+            box-sizing: border-box;
+            color: @color-white;
+            height: 40px;
+            margin: @indent__s 0;
+            padding: 0 @indent__base;
+        }
+
+        //  Modals
+
+        .subs-modal-overlay {
+            background-color: @color-black;
+            height: 100%;
+            left: 0;
+            opacity: 0.3;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        #paypal_container {
+            margin: auto;
+            max-width: 360px;
+        }
+
+        .add-methods {
+            .lib-vendor-prefix-display(flex);
+            justify-content: space-between;
+            margin-bottom: @indent__l;
+        }
+
+        .add-method {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-box-align(center);
+            border: 1px solid @color-gray80;
+            border-radius: 2px;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3px;
+            width: 50%;
+
+            &:hover {
+                border-color: @braintree_color-account-vault-grey;
+            }
+
+            &:first-child {
+                margin-right: 35px;
+            }
+
+            >div {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: @indent__base @indent__s;
+
+                p {
+                    font-weight: @font-weight__bold;
+                    padding-top: 15px;
+                }
+            }
+
+            .icon-container {
+                background: @color-gray94;
+                border-radius: 0 0 1px 1px;
+                height: 100%;
+                padding: 15px 0;
+                width: 100%;
+
+                ul {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-evenly;
+                    list-style: none;
+                    margin: 0;
+                    max-width: 160px;
+                    padding: 0;
+                    width: 100%;
+
+                    li {
+                        margin: 0;
+                        width: 25%;
+
+                        img {
+                            height: 24px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .subs-modal {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-box-align(center);
+            height: 100%;
+            justify-content: center;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+
+            &__box {
+                -moz-box-shadow: 0 4px 15px 5px rgba(0, 0, 0, 0.25);
+                -webkit-box-shadow: 0 4px 15px 5px rgba(0, 0, 0, 0.25);
+                background-color: @color-white;
+                box-shadow: 0 4px 15px 5px rgba(0, 0, 0, 0.25);
+                margin: @indent__base;
+                max-width: 610px;
+                overflow-y: auto;
+                padding: @indent__xl @indent__base;
+                position: relative;
+                text-align: center;
+                width: 100%;
+            }
+
+            &__close-button {
+                .lib-button-reset();
+                box-shadow: none !important;
+                cursor: pointer;
+                position: absolute;
+                right: @indent__base;
+                top: @indent__base;
+            }
+
+            &__screen-reader-label {
+                display: none;
+            }
+
+            &__title {
+                text-align: center;
+            }
+        }
+
+        .add-card-modal {
+
+            .subs-modal__box {
+                padding: @indent__base;
+            }
+
+            form {
+                margin: 0;
+            }
+
+            legend {
+                border-bottom: none !important; // Needed to over write base styles
+                margin-bottom: @indent__base !important;
+                padding-bottom: 0 !important;
+            }
+        }
+
+        .add-paypal-modal {
+
+            span,
+            p {
+                font-weight: @font-weight__heavier;
+                margin: @indent__l 0;
+            }
+        }
+
+
+        //
+        //  Braintree Card
+        //  ---------------------------------------------
+        #co-transparent-form-braintree {
+
+            .fieldset {
+                max-width: 400px;
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum ='max') and (@break =@screen__m) {
+    .account.vault-cards-listaction {
+        .add-methods {
+            flex-direction: column;
+
+            >div {
+                width: ~'calc(100% - 6px)';
+
+                >div:first-child {
+                    flex-direction: row;
+
+                    img {
+                        margin-right: @indent__base;
+                    }
+                }
+
+                &:first-child {
+                    margin-bottom: @indent__base;
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .braintree-credit-card-types {
+            max-width: 130px;
+        }
+    }
+}

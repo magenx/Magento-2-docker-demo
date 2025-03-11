@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_data_exporter_orders" resource="default" engine="innodb" comment="Sales Orders Feed Storage">
+        <column xsi:type="int"
+                name="id"
+                padding="10"
+                unsigned="true"
+                nullable="false"
+                comment="ID"/>
+        <column xsi:type="varchar"
+                name="mode"
+                nullable="false"
+                comment="Order Payment Mode"/>
+        <column xsi:type="mediumtext"
+                name="feed_data"
+                nullable="false"
+                comment="Feed Data"/>
+        <column xsi:type="timestamp"
+                name="modified_at"
+                on_update="true"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                comment="Modified At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="sales_data_exporter_orders_modified_at" indexType="btree">
+            <column name="modified_at"/>
+        </index>
+    </table>
+    <table name="sales_data_exporter_order_statuses" resource="default" engine="innodb" comment="Sales Order Statuses Feed Storage">
+        <column xsi:type="varchar"
+                name="status"
+                nullable="false"
+                comment="status"/>
+        <column xsi:type="mediumtext"
+                name="feed_data"
+                nullable="false"
+                comment="Feed Data"/>
+        <column xsi:type="timestamp"
+                name="modified_at"
+                on_update="true"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                comment="Modified At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="status"/>
+        </constraint>
+        <index referenceId="sales_data_exporter_order_statuses_modified_at" indexType="btree">
+            <column name="modified_at"/>
+        </index>
+    </table>
+</schema>

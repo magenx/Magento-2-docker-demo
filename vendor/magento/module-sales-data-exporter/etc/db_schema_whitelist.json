@@ -1,0 +1,29 @@
+{
+    "sales_data_exporter_orders": {
+        "index": {
+            "SALES_DATA_EXPORTER_ORDERS_MODIFIED_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        },
+        "column": {
+            "id": true,
+            "mode": true,
+            "feed_data": true,
+            "modified_at": true
+        }
+    },
+    "sales_data_exporter_order_statuses": {
+        "index": {
+            "SALES_DATA_EXPORTER_ORDER_STATUSES_MODIFIED_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        },
+        "column": {
+            "status": true,
+            "feed_data": true,
+            "modified_at": true
+        }
+    }
+}

@@ -1,0 +1,48 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block Product */
+/** @var $escaper Escaper */
+
+use Magento\Framework\Escaper;
+use PayPal\Braintree\Block\Credit\Calculator\Listing\Product;
+
+$scopeId = sprintf(
+    'ppcreditsummary-product-%d%d',
+    $block->getProduct()->getId(),
+    random_int(PHP_INT_MIN, PHP_INT_MAX)
+);
+?>
+<?php if ($priceData = $block->getPriceData()): ?>
+    <div data-bind="scope: '<?= $escaper->escapeHtmlAttr($scopeId) ?>'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app":{
+                    "components": {
+                        "<?= $escaper->escapeHtml($scopeId) ?>": {
+                            "component": "PayPal_Braintree/js/paypal/credit/calculator",
+                            "template": "PayPal_Braintree/credit/calculator",
+                            "displaySummary": true,
+                            "merchantName": "<?= $escaper->escapeJs($block->getMerchantName()) ?>",
+                            "instalments": [
+                                {
+                                    "term": <?= $escaper->escapeJs($priceData->getTerm()) ?>,
+                                    "monthlyPayment": <?= $escaper->escapeJs($priceData->getMonthlyPayment()) ?>,
+                                    "apr": <?= $escaper->escapeJs($priceData->getInstalmentRate()) ?>,
+                                    "cost": <?= $escaper->escapeJs($priceData->getCostOfPurchase()) ?>,
+                                    "costIncInterest": <?= $escaper->escapeJs($priceData->getTotalIncInterest()) ?>
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

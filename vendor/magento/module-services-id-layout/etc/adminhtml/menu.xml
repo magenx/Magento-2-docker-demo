@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magento_ServicesId::configuration"
+             title="Services"
+             translate="title"
+             module="Magento_ServicesId"
+             sortOrder="20"
+             parent="Magento_Backend::system"
+             resource="Magento_Backend::system"
+        />
+        <add id="Magento_ServicesId::services_id"
+             title="Commerce Services Connector"
+             translate="title"
+             module="Magento_ServicesId"
+             sortOrder="10"
+             parent="Magento_ServicesId::configuration"
+             action="services_id/"
+             resource="Magento_ServicesId::configuration"
+        />
+    </menu>
+</config>

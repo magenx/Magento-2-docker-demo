@@ -1,0 +1,284 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\PaymentServicesSaaSExport\Model\Http\Command\FeedRouteResolverInterface" type="Magento\PaymentServicesSaaSExport\Model\Http\Command\FeedRouteResolver"/>
+    <!--  Payment Services Order Production/Sandbox Feed  -->
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\Http\Converter\OrderConverter" type="Magento\PaymentServicesSaaSExport\Model\Http\Converter">
+        <arguments>
+            <argument name="feedName" xsi:type="string">orders</argument>
+            <argument name="version" xsi:type="string">v1</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\OrderProductionFeedRegistry" type="Magento\SaaSCommon\Model\FeedRegistry">
+        <arguments>
+            <argument name="excludeFields" xsi:type="array">
+                <item name="modifiedAt" xsi:type="string">modifiedAt</item>
+            </argument>
+            <argument name="uniqueFields" xsi:type="array">
+                <item name="id" xsi:type="string">id</item>
+            </argument>
+            <argument name="registryTable" xsi:type="string">payment_services_order_data_production_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\OrderSandboxFeedRegistry" type="Magento\SaaSCommon\Model\FeedRegistry">
+        <arguments>
+            <argument name="excludeFields" xsi:type="array">
+                <item name="modifiedAt" xsi:type="string">modifiedAt</item>
+            </argument>
+            <argument name="uniqueFields" xsi:type="array">
+                <item name="id" xsi:type="string">id</item>
+            </argument>
+            <argument name="registryTable" xsi:type="string">payment_services_order_data_sandbox_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitProductionOrderFeed" type="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitFeed">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Converter\OrderConverter</argument>
+            <argument name="environment" xsi:type="string">production</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitSandboxOrderFeed" type="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitFeed">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Converter\OrderConverter</argument>
+            <argument name="environment" xsi:type="string">sandbox</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Cron\OrderProductionSubmitFeed" type="Magento\PaymentServicesSaaSExport\Cron\SubmitFeed">
+        <arguments>
+            <argument name="feedName" xsi:type="string">salesOrdersProduction</argument>
+            <argument name="feedSyncFlag" xsi:type="string">payment-services-order-production-feed-version</argument>
+            <argument name="environment" xsi:type="string">production</argument>
+            <argument name="feedRegistry" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\OrderProductionFeedRegistry</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitProductionOrderFeed</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Cron\OrderSandboxSubmitFeed" type="Magento\PaymentServicesSaaSExport\Cron\SubmitFeed">
+        <arguments>
+            <argument name="feedName" xsi:type="string">salesOrdersSandbox</argument>
+            <argument name="feedSyncFlag" xsi:type="string">payment-services-order-sandbox-feed-version</argument>
+            <argument name="environment" xsi:type="string">sandbox</argument>
+            <argument name="feedRegistry" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\OrderSandboxFeedRegistry</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitSandboxOrderFeed</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\OrderProductionResyncManager" type="Magento\PaymentServicesSaaSExport\Model\ResyncManager">
+        <arguments>
+            <argument name="feedIndexer" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrdersFeedIndexer</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Cron\OrderProductionSubmitFeed</argument>
+            <argument name="feedInterface" xsi:type="object">Magento\SalesDataExporter\Model\OrdersFeed\Production</argument>
+            <argument name="flagName" xsi:type="string">payment-services-order-production-feed-version</argument>
+            <argument name="indexerName" xsi:type="string">sales_order_data_exporter</argument>
+            <argument name="registryTableName" xsi:type="string">payment_services_order_data_production_submitted_hash</argument>
+            <argument name="environment" xsi:type="string">production</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\OrderSandboxResyncManager" type="Magento\PaymentServicesSaaSExport\Model\ResyncManager">
+        <arguments>
+            <argument name="feedIndexer" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrdersFeedIndexer</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Cron\OrderSandboxSubmitFeed</argument>
+            <argument name="feedInterface" xsi:type="object">Magento\SalesDataExporter\Model\OrdersFeed\Sandbox</argument>
+            <argument name="flagName" xsi:type="string">payment-services-order-sandbox-feed-version</argument>
+            <argument name="indexerName" xsi:type="string">sales_order_data_exporter</argument>
+            <argument name="registryTableName" xsi:type="string">payment_services_order_data_sandbox_submitted_hash</argument>
+            <argument name="environment" xsi:type="string">sandbox</argument>
+        </arguments>
+    </virtualType>
+
+    <!--  Payment Services Order Status Production/Sandbox Feed  -->
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\Http\Converter\OrderStatusConverter" type="Magento\PaymentServicesSaaSExport\Model\Http\Converter">
+        <arguments>
+            <argument name="feedName" xsi:type="string">sales_status</argument>
+            <argument name="version" xsi:type="string">v1</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\OrderStatusProductionFeedRegistry" type="Magento\SaaSCommon\Model\FeedRegistry">
+        <arguments>
+            <argument name="excludeFields" xsi:type="array">
+                <item name="modifiedAt" xsi:type="string">modifiedAt</item>
+            </argument>
+            <argument name="uniqueFields" xsi:type="array">
+                <item name="id" xsi:type="string">status</item>
+            </argument>
+            <argument name="registryTable" xsi:type="string">payment_services_order_status_data_prod_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\OrderStatusSandboxFeedRegistry" type="Magento\SaaSCommon\Model\FeedRegistry">
+        <arguments>
+            <argument name="excludeFields" xsi:type="array">
+                <item name="modifiedAt" xsi:type="string">modifiedAt</item>
+            </argument>
+            <argument name="uniqueFields" xsi:type="array">
+                <item name="id" xsi:type="string">status</item>
+            </argument>
+            <argument name="registryTable" xsi:type="string">payment_services_order_status_data_sandbox_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitProductionOrderStatusFeed" type="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitFeed">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Converter\OrderStatusConverter</argument>
+            <argument name="environment" xsi:type="string">production</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitSandboxOrderStatusFeed" type="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitFeed">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Converter\OrderStatusConverter</argument>
+            <argument name="environment" xsi:type="string">sandbox</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Cron\OrderStatusSubmitProductionFeed" type="Magento\PaymentServicesSaaSExport\Cron\SubmitFeed">
+        <arguments>
+            <argument name="feedName" xsi:type="string">salesOrderStatuses</argument>
+            <argument name="feedSyncFlag" xsi:type="string">payment-services-order-status-production-feed-version</argument>
+            <argument name="environment" xsi:type="string">production</argument>
+            <argument name="feedRegistry" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\OrderStatusProductionFeedRegistry</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitProductionOrderStatusFeed</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Cron\OrderStatusSubmitSandboxFeed" type="Magento\PaymentServicesSaaSExport\Cron\SubmitFeed">
+        <arguments>
+            <argument name="feedName" xsi:type="string">salesOrderStatuses</argument>
+            <argument name="feedSyncFlag" xsi:type="string">payment-services-order-status-sandbox-feed-version</argument>
+            <argument name="environment" xsi:type="string">sandbox</argument>
+            <argument name="feedRegistry" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\OrderStatusSandboxFeedRegistry</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitSandboxOrderStatusFeed</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\OrderStatusProductionResyncManager" type="Magento\SaaSCommon\Model\ResyncManager">
+        <arguments>
+            <argument name="feedIndexer" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrderStatusesFeedIndexer</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Cron\OrderStatusSubmitProductionFeed</argument>
+            <argument name="feedInterface" xsi:type="object">Magento\SalesDataExporter\Model\OrderStatusesFeed</argument>
+            <argument name="flagName" xsi:type="string">payment-services-order-status-production-feed-version</argument>
+            <argument name="indexerName" xsi:type="string">sales_order_status_data_exporter</argument>
+            <argument name="registryTableName" xsi:type="string">payment_services_order_status_data_prod_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\OrderStatusSandboxResyncManager" type="Magento\SaaSCommon\Model\ResyncManager">
+        <arguments>
+            <argument name="feedIndexer" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrderStatusesFeedIndexer</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Cron\OrderStatusSubmitSandboxFeed</argument>
+            <argument name="feedInterface" xsi:type="object">Magento\SalesDataExporter\Model\OrderStatusesFeed</argument>
+            <argument name="flagName" xsi:type="string">payment-services-order-status-sandbox-feed-version</argument>
+            <argument name="indexerName" xsi:type="string">sales_order_status_data_exporter</argument>
+            <argument name="registryTableName" xsi:type="string">payment_services_order_status_data_sandbox_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+
+    <!--  Payment Services Store Production/Sandbox Feed  -->
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\Http\Converter\StoreConverter" type="Magento\PaymentServicesSaaSExport\Model\Http\Converter">
+        <arguments>
+            <argument name="feedName" xsi:type="string">stores</argument>
+            <argument name="version" xsi:type="string">v1</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\StoreProductionFeedRegistry" type="Magento\SaaSCommon\Model\FeedRegistry">
+        <arguments>
+            <argument name="excludeFields" xsi:type="array">
+                <item name="modifiedAt" xsi:type="string">modifiedAt</item>
+            </argument>
+            <argument name="uniqueFields" xsi:type="array">
+                <item name="id" xsi:type="string">store_view_id</item>
+            </argument>
+            <argument name="registryTable" xsi:type="string">payment_services_store_data_production_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\StoreSandboxFeedRegistry" type="Magento\SaaSCommon\Model\FeedRegistry">
+        <arguments>
+            <argument name="excludeFields" xsi:type="array">
+                <item name="modifiedAt" xsi:type="string">modifiedAt</item>
+            </argument>
+            <argument name="uniqueFields" xsi:type="array">
+                <item name="id" xsi:type="string">store_view_id</item>
+            </argument>
+            <argument name="registryTable" xsi:type="string">payment_services_store_data_sandbox_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitProductionStoreFeed" type="\Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitFeed">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Converter\StoreConverter</argument>
+            <argument name="environment" xsi:type="string">production</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitSandboxStoreFeed" type="\Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitFeed">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Converter\StoreConverter</argument>
+            <argument name="environment" xsi:type="string">sandbox</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Cron\StoreSubmitProductionFeed" type="Magento\PaymentServicesSaaSExport\Cron\SubmitFeed">
+        <arguments>
+            <argument name="feedName" xsi:type="string">stores</argument>
+            <argument name="feedSyncFlag" xsi:type="string">payment-services-store-production-feed-version</argument>
+            <argument name="environment" xsi:type="string">production</argument>
+            <argument name="feedRegistry" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\StoreProductionFeedRegistry</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitProductionStoreFeed</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Cron\StoreSubmitSandboxFeed" type="Magento\PaymentServicesSaaSExport\Cron\SubmitFeed">
+        <arguments>
+            <argument name="feedName" xsi:type="string">stores</argument>
+            <argument name="feedSyncFlag" xsi:type="string">payment-services-store-sandbox-feed-version</argument>
+            <argument name="environment" xsi:type="string">sandbox</argument>
+            <argument name="feedRegistry" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\StoreSandboxFeedRegistry</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Model\Http\Command\SubmitSandboxStoreFeed</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\StoreProductionResyncManager" type="Magento\SaaSCommon\Model\ResyncManager">
+        <arguments>
+            <argument name="feedIndexer" xsi:type="object">Magento\StoreDataExporter\Model\Indexer\StoresFeedIndexer</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Cron\StoreSubmitProductionFeed</argument>
+            <argument name="feedInterface" xsi:type="object">Magento\StoreDataExporter\Model\StoresFeed</argument>
+            <argument name="flagName" xsi:type="string">payment-services-store-production-feed-version</argument>
+            <argument name="indexerName" xsi:type="string">store_data_exporter</argument>
+            <argument name="registryTableName" xsi:type="string">payment_services_store_data_production_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesSaaSExport\Model\StoreSandboxResyncManager" type="Magento\SaaSCommon\Model\ResyncManager">
+        <arguments>
+            <argument name="feedIndexer" xsi:type="object">Magento\StoreDataExporter\Model\Indexer\StoresFeedIndexer</argument>
+            <argument name="submitFeed" xsi:type="object">Magento\PaymentServicesSaaSExport\Cron\StoreSubmitSandboxFeed</argument>
+            <argument name="feedInterface" xsi:type="object">Magento\StoreDataExporter\Model\StoresFeed</argument>
+            <argument name="flagName" xsi:type="string">payment-services-store-sandbox-feed-version</argument>
+            <argument name="indexerName" xsi:type="string">store_data_exporter</argument>
+            <argument name="registryTableName" xsi:type="string">payment_services_store_data_sandbox_submitted_hash</argument>
+        </arguments>
+    </virtualType>
+
+    <!--  Resync registration  -->
+    <type name="Magento\SaaSCommon\Model\ResyncManagerPool">
+        <arguments>
+            <argument name="classMap" xsi:type="array">
+                <item name="paymentServicesOrdersProduction" xsi:type="string">Magento\PaymentServicesSaaSExport\Model\OrderProductionResyncManager</item>
+                <item name="paymentServicesOrdersSandbox" xsi:type="string">Magento\PaymentServicesSaaSExport\Model\OrderSandboxResyncManager</item>
+                <item name="paymentServicesOrderStatusesProduction" xsi:type="string">Magento\PaymentServicesSaaSExport\Model\OrderStatusProductionResyncManager</item>
+                <item name="paymentServicesOrderStatusesSandbox" xsi:type="string">Magento\PaymentServicesSaaSExport\Model\OrderStatusSandboxResyncManager</item>
+                <item name="paymentServicesStoresProduction" xsi:type="string">Magento\PaymentServicesSaaSExport\Model\StoreProductionResyncManager</item>
+                <item name="paymentServicesStoresSandbox" xsi:type="string">Magento\PaymentServicesSaaSExport\Model\StoreSandboxResyncManager</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\SaaSCommon\Console\Command\Resync">
+        <arguments>
+            <argument name="feedNames" xsi:type="array">
+                <item name="paymentServicesOrdersProduction" xsi:type="string">Payment Services Order Production</item>
+                <item name="paymentServicesOrdersSandbox" xsi:type="string">Payment Services Order Sandbox</item>
+                <item name="paymentServicesOrderStatusesProduction" xsi:type="string">Payment Services Order Status Production</item>
+                <item name="paymentServicesOrderStatusesSandbox" xsi:type="string">Payment Services Order Status Sandbox</item>
+                <item name="paymentServicesStoresProduction" xsi:type="string">Payment Services Store Production</item>
+                <item name="paymentServicesStoresSandbox" xsi:type="string">Payment Services Store Sandbox</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Setup\Declaration\Schema\Operations\CreateTable">
+        <arguments>
+            <argument name="triggers" xsi:type="array">
+                <item name="safeMigrateDataFromAnotherTable" xsi:type="object">Magento\PaymentServicesSaaSExport\Setup\Declaration\Schema\Db\MySQL\DDL\Trigger\SafeMigrateDataFromAnotherTable</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

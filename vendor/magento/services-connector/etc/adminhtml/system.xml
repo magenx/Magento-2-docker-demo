@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="services_connector" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Commerce Services Connector</label>
+            <tab>service</tab>
+            <resource>Magento_ServicesConnector::config_integration</resource>
+            <group id="services_connector_integration" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>API Keys</label>
+                <comment><![CDATA[
+                You must follow these steps to configure your Commerce Services Connector:
+                (See <a target="_blank" href="https://docs.magento.com/user-guide/system/saas.html">Commerce Services Connector</a> documentation for detailed instructions.)
+                    <ol class="services-connector-api-keys-text">
+                        <li>Provide API keys of the account owner or license-holder.</li>
+                            <ul>
+                                <li>You can generate API keys from your account at <a target="_blank" href="https://account.magento.com/">account.magento.com</a></li>
+                                <li>We recommend you provide both production and sandbox keys.</li>
+                            </ul>
+                        <li>Click Save Config.</li>
+                        <li>Complete SaaS Identifier section below to finish setup.</li>
+                    </ol>
+                ]]>
+                </comment>
+                <field id="production_api_key" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Production API Key</label>
+                    <comment>Value passed as the API Key to the Commerce Services in production environment.</comment>
+                    <backend_model>Magento\ServicesConnector\Model\Config\Backend\KeyEncrypted</backend_model>
+                </field>
+                <field id="production_private_key" translate="label comment" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Production Private Key</label>
+                    <comment>Used to sign requests to call Commerce Services in production environment.</comment>
+                    <backend_model>Magento\ServicesConnector\Model\Config\Backend\KeyEncrypted</backend_model>
+                </field>
+                <field id="sandbox_api_key" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Sandbox API Key</label>
+                    <comment>Value passed as the API Key to the Commerce Services in sandbox environment.</comment>
+                    <backend_model>Magento\ServicesConnector\Model\Config\Backend\KeyEncrypted</backend_model>
+                </field>
+                <field id="sandbox_private_key" translate="label comment" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Sandbox Private Key</label>
+                    <comment>Used to sign requests to call Commerce Services in sandbox environment.</comment>
+                    <backend_model>Magento\ServicesConnector\Model\Config\Backend\KeyEncrypted</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

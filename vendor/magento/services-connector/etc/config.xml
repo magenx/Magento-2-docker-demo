@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <magento_saas>
+            <environment>production</environment>
+        </magento_saas>
+        <services_connector>
+            <production_gateway_url>https://commerce.adobe.io/</production_gateway_url>
+            <sandbox_gateway_url>https://commerce-beta.adobe.io/</sandbox_gateway_url>
+            <production_key_validation_url>/merchant-registry/v1/ping</production_key_validation_url>
+            <sandbox_key_validation_url>/merchant-registry/v1/ping</sandbox_key_validation_url>
+            <cloudfront_validation_url>/merchant-registry/index.html</cloudfront_validation_url>
+            <cloudfront_validation_domains>commerce-beta.adobe.io</cloudfront_validation_domains>
+            <api_portal_url>https://account.magento.com/apiportal/index/index/</api_portal_url>
+            <production_magi_gateway_url>https://api.magento.com/</production_magi_gateway_url>
+            <sandbox_magi_gateway_url>https://sandbox.api.magento.com/</sandbox_magi_gateway_url>
+            <services_connector_credentials>
+                <credentials_type>Magento_JWT</credentials_type>
+            </services_connector_credentials>
+            <services_connector_integration>
+                <sandbox_api_key backend_model="Magento\ServicesConnector\Model\Config\Backend\KeyEncrypted"/>
+                <sandbox_private_key backend_model="Magento\ServicesConnector\Model\Config\Backend\KeyEncrypted"/>
+                <production_api_key backend_model="Magento\ServicesConnector\Model\Config\Backend\KeyEncrypted"/>
+                <production_private_key backend_model="Magento\ServicesConnector\Model\Config\Backend\KeyEncrypted"/>
+            </services_connector_integration>
+
+            <ims_technical_account_credentials>
+                <ims_url>https://ims-na1.adobelogin.com/</ims_url>
+                <ims_access_token_resource>ims/token/v2</ims_access_token_resource>
+                <ims_read_organizations_resource>ims/organizations/v6</ims_read_organizations_resource>
+                <client_id/>
+                <client_secret backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <technical_account_id/>
+                <organization_id/>
+                <scopes/>
+            </ims_technical_account_credentials>
+        </services_connector>
+    </default>
+</config>

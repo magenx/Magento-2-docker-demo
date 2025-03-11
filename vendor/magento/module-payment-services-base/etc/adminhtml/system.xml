@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="recommended_solutions" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Featured Adobe Payment solution:</label>
+                <fieldset_css>magento-payments-top-section magento-payments-recommended-header</fieldset_css>
+                <attribute type="expanded">1</attribute>
+                <group id="magento_payments_legacy" translate="label comment" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Accept debit/credit cards with Payment Services</label>
+                    <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>complex magento-payments-section</fieldset_css>
+                    <comment>Payment Services is your turnkey integrated solution for providing secure payment processing, robust reporting, and optimized online order payments.</comment>
+                    <group id="general_configuration" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>General Configuration</label>
+                        <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\Fieldset\Child</frontend_model>
+                        <field id="active" translate="label" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Enable</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services/active</config_path>
+                            <comment>
+                                <model>Magento\PaymentServicesBase\Model\Config\Comment\PaymentsEnableComment</model>
+                            </comment>
+                        </field>
+                        <field id="method" type="select" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1">
+                            <label>Method</label>
+                            <source_model>Magento\PaymentServicesBase\Model\Adminhtml\Source\EnvironmentType</source_model>
+                            <config_path>payment/payment_methods/method</config_path>
+                        </field>
+                        <field id="sandbox_merchant_id" type="text" translate="label comment tooltip" sortOrder="1" showInDefault="1">
+                            <label>Payment Services Sandbox ID</label>
+                            <frontend_model>Magento\PaymentServicesBase\Model\Adminhtml\System\Config\Fieldset\EnvironmentMerchantId</frontend_model>
+                            <config_path>payment/payment_methods/sandbox_merchant_id</config_path>
+                            <comment>
+                                <model>Magento\PaymentServicesBase\Model\Config\Comment\MerchantIDComment</model>
+                            </comment>
+                            <tooltip>Your unique Sandbox Merchant ID for Adobe Commerce Payment Services.</tooltip>
+                        </field>
+                        <field id="reset_sandbox_merchant_id" translate="button_label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                            <label/>
+                            <button_label>Reset Payment Services Sandbox ID</button_label>
+                            <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\ResetPaymentsMerchantIdButton</frontend_model>
+                        </field>
+                        <field id="production_merchant_id" type="text" translate="label comment tooltip" sortOrder="1" showInDefault="1">
+                            <label>Payment Services Production ID</label>
+                            <frontend_model>Magento\PaymentServicesBase\Model\Adminhtml\System\Config\Fieldset\EnvironmentMerchantId</frontend_model>
+                            <config_path>payment/payment_methods/production_merchant_id</config_path>
+                            <comment>
+                                <model>Magento\PaymentServicesBase\Model\Config\Comment\MerchantIDComment</model>
+                            </comment>
+                            <tooltip>Your unique Production Merchant ID for Adobe Commerce Payment Services.</tooltip>
+                        </field>
+                        <field id="reset_production_merchant_id" translate="button_label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                            <label/>
+                            <button_label>Reset Payment Services Production ID</button_label>
+                            <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\ResetPaymentsMerchantIdButton</frontend_model>
+                        </field>
+                        <depends>
+                            <field id="legacy_admin_enabled">1</field>
+                        </depends>
+                    </group>
+                </group>
+            </group>
+            <group id="other_paypal_payment_solutions" >
+                <label>Additional payment solutions:</label>
+            </group>
+        </section>
+    </system>
+</config>

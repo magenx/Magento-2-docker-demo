@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="payment_services_data_export">
+        <job name="submit_payment_services_order_production_feed" instance="Magento\PaymentServicesSaaSExport\Cron\OrderProductionSubmitFeed" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="submit_payment_services_order_sandbox_feed" instance="Magento\PaymentServicesSaaSExport\Cron\OrderSandboxSubmitFeed" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="submit_payment_services_order_status_production_feed" instance="Magento\PaymentServicesSaaSExport\Cron\OrderStatusSubmitProductionFeed" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="submit_payment_services_order_status_sandbox_feed" instance="Magento\PaymentServicesSaaSExport\Cron\OrderStatusSubmitSandboxFeed" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="submit_payment_services_store_production_feed" instance="Magento\PaymentServicesSaaSExport\Cron\StoreSubmitProductionFeed" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="submit_payment_services_store_sandbox_feed" instance="Magento\PaymentServicesSaaSExport\Cron\StoreSubmitSandboxFeed" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+    </group>
+</config>

@@ -1,0 +1,41 @@
+<?php
+// @codingStandardsIgnoreFile
+use Magento\Framework\Escaper;
+use PayPal\Braintree\Block\Customer\Ach\VaultTokenRenderer;
+
+/** @var VaultTokenRenderer $block */
+/** @var Escaper $escaper */
+
+?>
+<tr>
+    <td data-th="<?= $escaper->escapeHtmlAttr(__('Ach Direct Debit Account')) ?>" class="col ach-direct-debit-account">
+        <img src="<?= $escaper->escapeHtmlAttr($block->getIconUrl()) ?>"
+             width="54px"
+             alt="<?= $escaper->escapeHtmlAttr(__('Ach Direct Debit Logo')) ?>">
+        <span><?= $escaper->escapeHtml(__('ending') . ' ' . $block->getAccountNumberLastFourDigits()) ?></span>
+        <span>(<?= $escaper->escapeHtml(__('Routing Number') . ': ' . $block->getBankRoutingNumber()) ?>)</span>
+    </td>
+    <td data-th="<?= $escaper->escapeHtmlAttr(__('Actions')) ?>" class="col actions">
+        <form class="form"
+              action="<?= $escaper->escapeUrl($block->getUrl('vault/cards/deleteAction')) ?>"
+              method="post">
+            <?= $block->getBlockHtml('formkey') ?>
+            <input name="public_hash"
+                   value="<?= $escaper->escapeHtmlAttr($block->getToken()->getPublicHash()) ?>"
+                   type="hidden">
+            <button type="submit"
+                    class="action delete"
+                    data-mage-init='{
+                        "Magento_Vault/js/customer_account/deleteWidget":{
+                            "type": "popup",
+                            "modalClass": "my-credit-cards-popup",
+                            "toggleEvent": "click",
+                            "title": "<?= $escaper->escapeHtmlAttr(__('Delete')) ?>",
+                            "content": "<?= $escaper->escapeJs(__('Are you sure you want to delete this ACH Direct Debit account number ending in: %1?', $block->getAccountNumberLastFourDigits())); ?>"
+                        }
+                    }'>
+                <span><?= $escaper->escapeHtml(__('Delete')) ?></span>
+            </button>
+        </form>
+    </td>
+</tr>

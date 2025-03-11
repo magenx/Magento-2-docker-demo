@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsGuestGooglePayButtonRendered">
+        <annotations>
+            <features value="MagentoPaymentsPayPalGooglePay"/>
+            <stories value="Guest browsing using PayPal Google Pay"/>
+            <title value="Guest browsing using PayPal Google Pay"/>
+            <description value="Users can see the Google Pay button rendered on all pages"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="guest-browsing-google-pay"/>
+            <group value="magento-payments"/>
+        </annotations>
+
+        <before>
+            <magentoCLI command="config:set {{EnableFreeShippingConfigData.path}} {{EnableFreeShippingConfigData.value}}" stepKey="enableFreeShipping"/>
+            <!-- Login -->
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
+            <actionGroup ref="AdminConfigurePaymentMethodActionGroup" stepKey="configurePaymentMethod">
+                <argument name="methodName" value="payment_services_paypal_google_pay"/>
+                <argument name="methodAction" value="authorize_capture"/>
+            </actionGroup>
+
+            <!-- Enable HTTPS on storefront for Google Pay -->
+            <executeJS function="return window.location.host" stepKey="hostname"/>
+            <magentoCLI command="config:set web/unsecure/base_url https://{$hostname}/" stepKey="setUnsecureBaseURL"/>
+            <magentoCLI command="config:set web/secure/base_url https://{$hostname}/" stepKey="setSecureBaseURL"/>
+            <magentoCLI command="config:set web/secure/use_in_frontend 1" stepKey="useSecureURLsOnStorefront"/>
+            <actionGroup ref="CliCacheFlushActionGroup" stepKey="flushCache">
+                <argument name="tags" value="full_page"/>
+            </actionGroup>
+
+            <!-- Create Product -->
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+        </before>
+
+        <after>
+            <executeJS function="return window.location.host" stepKey="hostname"/>
+            <magentoCLI command="config:set web/unsecure/base_url http://{$hostname}/" stepKey="unsetUnsecureBaseURL"/>
+            <magentoCLI command="config:set web/secure/use_in_frontend 0" stepKey="doNotUseSecureURLsOnStorefront"/>
+
+            <magentoCLI command="config:set {{DisableFreeShippingMethod.path}} {{DisableFreeShippingMethod.value}}" stepKey="disableFreeShipping"/>
+            <actionGroup ref="AdminDisablePaymentMethodActionGroup" stepKey="disablePaymentMethod" />
+            <!-- Delete product -->
+            <deleteData stepKey="deleteCategory" createDataKey="createCategory"/>
+            <deleteData stepKey="deleteProduct" createDataKey="createProduct"/>
+            <!-- Logout -->
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+        </after>
+
+        <!-- Navigate to storefront as a guest -->
+        <amOnPage url="{{StorefrontCategoryPage.url($$createCategory.name$$)}}" stepKey="navigateToCategoryPage"/>
+        <actionGroup ref="StorefrontAddProductToCartFromCategoryActionGroup" stepKey="addProductToCart">
+            <argument name="productName" value="$$createProduct.name$$"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="navigateToProductPage">
+            <argument name="productUrl" value="$createProduct.custom_attributes[url_key]$"/>
+        </actionGroup>
+
+        <!-- assert GP button is rendered on product page -->
+        <waitForElementVisible selector="{{CheckoutPaymentSection.MagentoPaymentServicesGooglePayButtonOnProductPage}}" stepKey="waitForGPButtonOnProductPage"/>
+
+        <!-- assert GP button is rendered on minicart page -->
+        <conditionalClick selector="{{StorefrontMinicartSection.showCart}}" dependentSelector="{{StorefrontMinicartSection.miniCartOpened}}" visible="false" stepKey="openMiniCart"/>
+        <waitForElementVisible selector="{{CheckoutPaymentSection.MagentoPaymentServicesGooglePayButtonOnMiniCart}}" stepKey="waitForGPButtonOnMiniCart"/>
+
+        <actionGroup ref="ClickViewAndEditCartFromMiniCartActionGroup" stepKey="navigateToCartPage"/>
+
+        <!-- assert GP button is rendered on cart page -->
+        <waitForElementVisible selector="{{CheckoutPaymentSection.MagentoPaymentServicesGooglePayButtonOnCartPage}}" stepKey="waitForGPButtonOnCartPage"/>
+
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+
+        <!-- Fill in the guest customer's shipping information -->
+        <actionGroup ref="GuestCheckoutFillingShippingSectionActionGroup" stepKey="guestCheckoutFillingShippingSection">
+            <argument name="customerVar" value="CustomerEntityOne"/>
+            <argument name="customerAddressVar" value="CustomerAddressSimple"/>
+        </actionGroup>
+
+        <!-- Click on Google Pay Smart Button radio button -->
+        <waitForElement selector="{{CheckoutPaymentSection.paymentSectionTitle}}" stepKey="waitForPlaceOrderButton"/>
+        <click selector="{{CheckoutPaymentSection.MagentoPaymentServicesGooglePaySmartButtonRadio}}" stepKey="clickGooglePaySmartButtonsRadio"/>
+
+        <!-- assert GP button is rendered on checkout page -->
+        <waitForElementVisible selector="{{CheckoutPaymentSection.MagentoPaymentServicesGooglePayButtonOnCheckoutPage}}" stepKey="waitForGPButtonOnCheckoutPage"/>
+    </test>
+</tests>

@@ -1,0 +1,29 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use PayPal\Braintree\Block\Payment;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+
+/** @var Payment $block */
+/** @var SecureHtmlRenderer $secureRenderer */
+
+$code = $block->escapeHtml($block->getCode());
+$scriptString = <<<SCRIPT
+    //<![CDATA[
+    require(
+        [
+            'PayPal_Braintree/js/virtual',
+            'jquery',
+            'mage/backend/validation',
+            'domReady!'
+        ], function(Braintree, $) {
+            let config = {$block->getPaymentConfig()},
+                payment;
+            payment = new Braintree(config);
+        });
+    //]]>
+SCRIPT;
+echo $secureRenderer->renderTag('script', [], $scriptString, false);

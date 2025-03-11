@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsSmartButtonsCheckoutMiniCartTest" extends="StorefrontMagentoPaymentsSmartButtonsCheckoutProductPageTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalSmartButtonsMiniCartCheckout"/>
+            <stories value="Magento Payments Smart Buttons Checkout from Mini Cart"/>
+            <title value="Main checkout flow with Magento Payments Smart Buttons from Mini Cart"/>
+            <description value="Users are able to place order using Magento Payments from mini cart, payment action is authorization"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="mini-cart-smart-buttons"/>
+            <group value="magento-payments"/>
+        </annotations>
+        <remove keyForRemoval="navigateToProductPage"/>
+        <amOnPage url="{{StorefrontCategoryPage.url($$createCategory.name$$)}}" after="loginAsCustomer" stepKey="navigateToCategoryPage"/>
+        <actionGroup ref="StorefrontAddProductToCartFromCategoryActionGroup" after="navigateToCategoryPage" stepKey="addProductToCart">
+            <argument name="productName" value="$$createProduct.name$$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontOpenMiniCartActionGroup" after="addProductToCart" stepKey="openMiniCart"/>
+        <actionGroup ref="StorefrontClickPayPalButtonActionGroup" stepKey="clickPayPalBtn">
+            <argument name="selector" value="{{SmartButtonsMiniCartSection.ButtonsIframe}}"/>
+        </actionGroup>
+    </test>
+</tests>

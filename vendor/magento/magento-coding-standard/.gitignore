@@ -1,0 +1,13 @@
+/vendor/*
+/bin/*
+/node_modules
+
+# IDE files
+.idea/
+.project/
+.settings/
+.vscode/
+
+.phpunit.result.cache
+.DS_Store
+phpunit.xml

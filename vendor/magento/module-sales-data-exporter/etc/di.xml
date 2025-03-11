@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Indexer & metadata declaration -->
+    <!-- Sales Order Feed -->
+    <virtualType name="Magento\SalesDataExporter\Model\Indexer\OrdersFeedIndexMetadata" type="Magento\DataExporter\Model\Indexer\FeedIndexMetadata">
+        <arguments>
+            <argument name="feedName" xsi:type="string">salesOrders</argument>
+            <argument name="feedIdentity" xsi:type="string">id</argument>
+            <argument name="sourceTableName" xsi:type="string">sales_order</argument>
+            <argument name="sourceTableField" xsi:type="string">entity_id</argument>
+            <argument name="feedTableName" xsi:type="string">sales_data_exporter_orders</argument>
+            <argument name="feedTableField" xsi:type="string">id</argument>
+            <argument name="feedTableMutableColumns" xsi:type="array">
+                <item name="feed_data" xsi:type="string">feed_data</item>
+            </argument>
+            <argument name="entitiesRemovable" xsi:type="boolean">false</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\Indexer\OrdersFeedIndexer" type="Magento\DataExporter\Model\Indexer\FeedIndexer">
+        <arguments>
+            <argument name="processor" xsi:type="object">Magento\DataExporter\Model\Indexer\FeedIndexProcessorCreateUpdate</argument>
+            <argument name="feedIndexMetadata" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrdersFeedIndexMetadata</argument>
+            <argument name="serializer" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrdersDataSerializer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\Query\OrdersFeedQuery\Sandbox" type="\Magento\SalesDataExporter\Model\Query\OrdersFeedQuery">
+        <arguments>
+            <argument name="environment" xsi:type="string">sandbox</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\Query\OrdersFeedQuery\Production" type="\Magento\SalesDataExporter\Model\Query\OrdersFeedQuery">
+        <arguments>
+            <argument name="environment" xsi:type="string">production</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\OrdersFeed\Sandbox" type="Magento\DataExporter\Model\Feed">
+        <arguments>
+            <argument name="feedIndexMetadata" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrdersFeedIndexMetadata</argument>
+            <argument name="feedQuery" xsi:type="object">Magento\SalesDataExporter\Model\Query\OrdersFeedQuery\Sandbox</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\OrdersFeed\Production" type="Magento\DataExporter\Model\Feed">
+        <arguments>
+            <argument name="feedIndexMetadata" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrdersFeedIndexMetadata</argument>
+            <argument name="feedQuery" xsi:type="object">Magento\SalesDataExporter\Model\Query\OrdersFeedQuery\Production</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\Provider\Invoices" type="Magento\SalesDataExporter\Model\Provider\Generic">
+        <arguments>
+            <argument name="queryName" xsi:type="string">salesInvoices</argument>
+            <argument name="keyNames"  xsi:type="array">
+                <item name="entitiesKeyName" xsi:type="string">invoices</item>
+                <item name="orderKeyName" xsi:type="string">order_id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\Provider\CreditMemos" type="Magento\SalesDataExporter\Model\Provider\Generic">
+        <arguments>
+            <argument name="queryName" xsi:type="string">salesCreditMemos</argument>
+            <argument name="keyNames"  xsi:type="array">
+                <item name="entitiesKeyName" xsi:type="string">credit_memos</item>
+                <item name="orderKeyName" xsi:type="string">order_id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\Provider\Transactions" type="Magento\SalesDataExporter\Model\Provider\Generic">
+        <arguments>
+            <argument name="queryName" xsi:type="string">salesTransactions</argument>
+            <argument name="keyNames"  xsi:type="array">
+                <item name="entitiesKeyName" xsi:type="string">transactions</item>
+                <item name="orderKeyName" xsi:type="string">order_id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\SalesDataExporter\Model\Indexer\OrdersDataSerializer">
+        <arguments>
+            <argument name="mapping" xsi:type="array">
+                <item name="id" xsi:type="string">id</item>
+                <item name="mode" xsi:type="string">additional_information.payments_mode</item>
+            </argument>
+            <argument name="unserializeKeys" xsi:type="array">
+                <item name="additional_information" xsi:type="string">additional_information</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\SalesDataExporter\Model\Provider\Orders">
+        <arguments>
+            <argument name="methods" xsi:type="array">
+                <item name="smart_buttons" xsi:type="string">payment_services_paypal_smart_buttons</item>
+                <item name="hosted_fields" xsi:type="string">payment_services_paypal_hosted_fields</item>
+                <item name="apple_pay" xsi:type="string">payment_services_paypal_apple_pay</item>
+                <item name="google_pay" xsi:type="string">payment_services_paypal_google_pay</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Sales Order Statuses Feed -->
+    <virtualType name="Magento\SalesDataExporter\Model\Indexer\OrderStatusesFeedIndexMetadata" type="Magento\DataExporter\Model\Indexer\FeedIndexMetadata">
+        <arguments>
+            <argument name="feedName" xsi:type="string">salesOrderStatuses</argument>
+            <argument name="feedIdentity" xsi:type="string">status</argument>
+            <argument name="sourceTableName" xsi:type="string">sales_order_status</argument>
+            <argument name="sourceTableField" xsi:type="string">status</argument>
+            <argument name="feedTableName" xsi:type="string">sales_data_exporter_order_statuses</argument>
+            <argument name="feedTableField" xsi:type="string">status</argument>
+            <argument name="feedTableMutableColumns" xsi:type="array">
+                <item name="feed_data" xsi:type="string">feed_data</item>
+            </argument>
+            <argument name="entitiesRemovable" xsi:type="boolean">false</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\Indexer\OrderStatusesFeedIndexer" type="Magento\DataExporter\Model\Indexer\FeedIndexer">
+        <arguments>
+            <argument name="processor" xsi:type="object">Magento\DataExporter\Model\Indexer\FeedIndexProcessorCreateUpdate</argument>
+            <argument name="feedIndexMetadata" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrderStatusesFeedIndexMetadata</argument>
+            <argument name="serializer" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrderStatusesDataSerializer</argument>
+            <argument name="entityIdsProvider" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrderStatusIdsProvider</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\OrderStatusesFeed" type="Magento\DataExporter\Model\Feed">
+        <arguments>
+            <argument name="feedIndexMetadata" xsi:type="object">Magento\SalesDataExporter\Model\Indexer\OrderStatusesFeedIndexMetadata</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\SalesDataExporter\Model\Indexer\OrderStatusesDataSerializer" type="Magento\DataExporter\Model\Indexer\DataSerializer">
+        <arguments>
+            <argument name="mapping" xsi:type="array">
+                <item name="status" xsi:type="string">status</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Sales\Model\Order\Status">
+        <plugin name="reindex_order_status_feed"
+                type="Magento\SalesDataExporter\Plugin\ReindexOrderStatusFeed"/>
+    </type>
+    <type name="Magento\Framework\Mview\View\Changelog">
+        <plugin name="update_order_statuses_cl_entity_id_type"
+                type="Magento\SalesDataExporter\Plugin\UpdateColumnType"/>
+    </type>
+
+    <!-- Data feeds registration -->
+    <type name="Magento\DataExporter\Model\FeedPool">
+        <arguments>
+            <argument name="classMap" xsi:type="array">
+                <item name="salesOrdersProduction" xsi:type="string">Magento\SalesDataExporter\Model\OrdersFeed\Production</item>
+                <item name="salesOrdersSandbox" xsi:type="string">Magento\SalesDataExporter\Model\OrdersFeed\Sandbox</item>
+                <item name="salesOrderStatuses" xsi:type="string">Magento\SalesDataExporter\Model\OrderStatusesFeed</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

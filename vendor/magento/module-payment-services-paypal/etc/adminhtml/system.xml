@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="recommended_solutions">
+                <group id="magento_payments_legacy">
+                    <group id="general_configuration">
+                        <field id="soft_descriptor" type="text" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Soft Descriptor</label>
+                            <config_path>payment/payment_services/soft_descriptor</config_path>
+                            <validate>validate-length maximum-length-22</validate>
+                        </field>
+                        <field id="async_status_updates" translate="label" sortOrder="2" type="select" showInDefault="0" showInWebsite="0" showInStore="0">
+                            <label>Enable asynchronous status updates</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services/async_status_updates</config_path>
+                        </field>
+                        <field id="paypal_l2_l3_send_data" translate="label" sortOrder="3" type="select" showInDefault="0" showInWebsite="0" showInStore="0">
+                            <label>Enable sending L2 L3 Data to Payments Service (Not visible in Admin UI)</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_l2_l3/send_data</config_path>
+                        </field>
+                        <field id="payments_sdk_url" translate="label" sortOrder="4" type="select" showInDefault="0" showInWebsite="0" showInStore="0">
+                            <label>Url of the Payment Services SDK</label>
+                            <config_path>payment/payment_services/sdk_url</config_path>
+                        </field>
+                    </group>
+                    <group id="hosted_fields" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Credit Card Fields</label>
+                        <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\Fieldset\Child</frontend_model>
+                        <field id="title" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/payment_services_paypal_hosted_fields/title</config_path>
+                        </field>
+                        <field id="payment_action" translate="label" sortOrder="25" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Payment Action</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\PaymentAction</source_model>
+                            <config_path>payment/payment_services_paypal_hosted_fields/payment_action</config_path>
+                        </field>
+                        <field id="display_on_checkout" translate="label" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show on checkout page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_hosted_fields/display_on_checkout</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" sortOrder="35" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/payment_services_paypal_hosted_fields/sort_order</config_path>
+                            <validate>validate-zero-or-greater validate-digits</validate>
+                        </field>
+                        <field id="vault_active" translate="label" sortOrder="38" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Vault Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_vault/active</config_path>
+                        </field>
+                        <field id="vault_active_admin" translate="label" sortOrder="38" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Vault Enabled in Admin</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_vault/active_admin</config_path>
+                        </field>
+                        <field id="three_ds" translate="label comment" sortOrder="38" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>3D Secure authentication</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\ThreeDS</source_model>
+                            <config_path>payment/payment_services_paypal_hosted_fields/three_ds</config_path>
+                            <comment><![CDATA[Use <b>When Required</b> to comply with EU regulations. Use <b>Always</b> for extra fraud protection. <a href="https://experienceleague.adobe.com/docs/commerce-merchant-services/payment-services/security.html#3ds" target="_blank">More information</a>]]></comment>
+                        </field>
+                        <field id="debug" translate="label" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Debug Mode</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_hosted_fields/debug</config_path>
+                        </field>
+                        <depends>
+                            <field id="legacy_admin_enabled">1</field>
+                        </depends>
+                    </group>
+                    <group id="apple_pay" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Apple Pay</label>
+                        <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\Fieldset\Child</frontend_model>
+                        <field id="title" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/payment_services_paypal_apple_pay/title</config_path>
+                        </field>
+                        <field id="payment_action" translate="label" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Payment Action</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\PaymentAction</source_model>
+                            <config_path>payment/payment_services_paypal_apple_pay/payment_action</config_path>
+                        </field>
+                        <field id="display_buttons_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show Apple Pay on checkout page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_apple_pay/display_checkout</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" sortOrder="45" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/payment_services_paypal_apple_pay/sort_order</config_path>
+                            <validate>validate-zero-or-greater validate-digits</validate>
+                        </field>
+                        <field id="display_buttons_product_detail" translate="label" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show Apple Pay on product detail page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_apple_pay/display_product_detail</config_path>
+                        </field>
+                        <field id="display_buttons_minicart" translate="label" sortOrder="55" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show Apple Pay in mini cart preview</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_apple_pay/display_minicart</config_path>
+                        </field>
+                        <field id="display_buttons_cart" translate="label" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show Apple Pay on cart page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_apple_pay/display_cart</config_path>
+                        </field>
+                        <field id="debug" translate="label" sortOrder="85" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Debug Mode</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_apple_pay/debug</config_path>
+                        </field>
+                        <depends>
+                            <field id="legacy_admin_enabled">1</field>
+                        </depends>
+                    </group>
+                    <group id="google_pay" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Google Pay</label>
+                        <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\Fieldset\Child</frontend_model>
+                        <field id="title" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/payment_services_paypal_google_pay/title</config_path>
+                        </field>
+                        <field id="payment_action" translate="label" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Payment Action</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\PaymentAction</source_model>
+                            <config_path>payment/payment_services_paypal_google_pay/payment_action</config_path>
+                        </field>
+                        <field id="display_buttons_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show Google Pay on checkout page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_google_pay/display_checkout</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" sortOrder="45" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/payment_services_paypal_google_pay/sort_order</config_path>
+                            <validate>validate-zero-or-greater validate-digits</validate>
+                        </field>
+                        <field id="display_buttons_product_detail" translate="label" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show Google Pay on product detail page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_google_pay/display_product_detail</config_path>
+                        </field>
+                        <field id="display_buttons_minicart" translate="label" sortOrder="55" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show Google Pay in mini cart preview</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_google_pay/display_minicart</config_path>
+                        </field>
+                        <field id="display_buttons_cart" translate="label" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show Google Pay on cart page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_google_pay/display_cart</config_path>
+                        </field>
+                        <field id="three_ds" translate="label comment" sortOrder="84" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>3D Secure authentication</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\ThreeDS</source_model>
+                            <config_path>payment/payment_services_paypal_google_pay/three_ds</config_path>
+                            <comment><![CDATA[Use <b>When Required</b> to comply with EU regulations. Use <b>Always</b> for extra fraud protection. <a href="https://experienceleague.adobe.com/docs/commerce-merchant-services/payment-services/security.html#3ds" target="_blank">More information</a>]]></comment>
+                        </field>
+                        <field id="debug" translate="label" sortOrder="85" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Debug Mode</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_google_pay/debug</config_path>
+                        </field>
+                        <field id="button_color" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Button Color</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\ButtonColor</source_model>
+                            <config_path>payment/payment_services_paypal_google_pay/button_color</config_path>
+                        </field>
+                        <field id="button_type" translate="label" type="select" sortOrder="91" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Button type</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\ButtonType</source_model>
+                            <config_path>payment/payment_services_paypal_google_pay/button_type</config_path>
+                        </field>
+                        <depends>
+                            <field id="legacy_admin_enabled">1</field>
+                        </depends>
+                    </group>
+                    <group id="smart_buttons" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>PayPal Smart Buttons</label>
+                        <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\Fieldset\Child</frontend_model>
+                        <field id="title" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/payment_services_paypal_smart_buttons/title</config_path>
+                        </field>
+                        <field id="payment_action" translate="label" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Payment Action</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\PaymentAction</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/payment_action</config_path>
+                        </field>
+                        <field id="display_paylater_message" translate="label comment" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Display Pay Later Message</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/display_paylater_message</config_path>
+                            <comment><![CDATA[Displays Pay Later messaging for available offers. Restrictions apply. <a href="https://developer.paypal.com/docs/business/pay-later/us/" target="_blank">Learn more</a>]]></comment>
+                        </field>
+                        <field id="display_buttons_checkout" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show buttons on checkout page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/display_buttons_checkout</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" sortOrder="45" type="text" showInDefault="48" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/payment_services_paypal_smart_buttons/sort_order</config_path>
+                            <validate>validate-zero-or-greater validate-digits</validate>
+                        </field>
+                        <field id="display_buttons_product_detail" translate="label" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show buttons on product detail page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/display_buttons_product_detail</config_path>
+                        </field>
+                        <field id="display_buttons_minicart" translate="label" sortOrder="55" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show buttons in mini cart preview</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/display_buttons_minicart</config_path>
+                        </field>
+                        <field id="display_buttons_cart" translate="label" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Show buttons on cart page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/display_buttons_cart</config_path>
+                        </field>
+                        <field id="funding_venmo" translate="label" sortOrder="65" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Venmo Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/funding_venmo</config_path>
+                        </field>
+                        <field id="funding_card" translate="label" sortOrder="68" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Credit and Debit Card Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/funding_card</config_path>
+                        </field>
+                        <field id="funding_paypal_credit" translate="label" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>PayPal Pay Later Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/funding_paypal_credit</config_path>
+                        </field>
+                        <field id="debug" translate="label" sortOrder="85" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Debug Mode</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/debug</config_path>
+                        </field>
+                        <depends>
+                            <field id="legacy_admin_enabled">1</field>
+                        </depends>
+                    </group>
+                    <group id="button_style" translate="label" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Button Style</label>
+                        <frontend_model>Magento\PaymentServicesBase\Block\Adminhtml\System\Config\Fieldset\Child</frontend_model>
+                        <field id="style_layout" translate="label" sortOrder="20" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Layout</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\SdkButtonLayout</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/style_layout</config_path>
+                        </field>
+                        <field id="style_color" translate="label" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Color</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\SdkButtonColor</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/style_color</config_path>
+                        </field>
+                        <field id="style_shape" translate="label" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shape</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\SdkButtonShape</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/style_shape</config_path>
+                        </field>
+                        <field id="style_height" translate="label" sortOrder="50" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Height</label>
+                            <config_path>payment/payment_services_paypal_smart_buttons/style_height</config_path>
+                        </field>
+                        <field id="style_height_use_default" translate="label" sortOrder="45" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Use Default Height</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/style_height_use_default</config_path>
+                        </field>
+                        <field id="style_label" translate="label" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Label</label>
+                            <source_model>Magento\PaymentServicesPaypal\Model\Adminhtml\Source\SdkButtonLabel</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/style_label</config_path>
+                        </field>
+                        <field id="style_tagline" translate="label" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Tagline</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payment_services_paypal_smart_buttons/style_tagline</config_path>
+                        </field>
+                        <depends>
+                            <field id="legacy_admin_enabled">1</field>
+                        </depends>
+                    </group>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

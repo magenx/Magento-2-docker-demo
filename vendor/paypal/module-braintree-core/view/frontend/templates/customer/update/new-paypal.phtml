@@ -1,0 +1,55 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/**
+ * Store(Vault) New PayPal Account
+ *
+ * @var Button $block
+ * @var Escaper $escaper
+ */
+
+use Magento\Framework\Escaper;
+use PayPal\Braintree\Block\Paypal\Button;
+?>
+
+<div data-bind="scope: 'new-form-braintree-paypal'">
+    <h2><?= $escaper->escapeHtml(__('Add a new PayPal account')); ?></h2>
+    <p><?= $escaper->escapeHtml(__(
+        'Please note you will be taken away from the site to update your PayPal details.'
+        )) ?>
+    </p>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "new-form-braintree-paypal": {
+                        "component": "PayPal_Braintree/js/customer/payment/braintree-paypal",
+                        "template" : "PayPal_Braintree/customer/payment/braintree-paypal",
+                        "clientToken" : "<?= /* @noEscape */ $block->getClientToken(); ?>",
+                        "merchantName" : "<?= /* @noEscape */ $block->getMerchantName(); ?>",
+                        "merchantCountry" : "<?= /* @noEscape */ $block->getMerchantCountry(); ?>",
+                        "locale" : "<?= /* @noEscape */ $block->getLocale(); ?>",
+                        "orderAmount" : "0",
+                        "currency" : "<?= /* @noEscape */ $block->getCurrency() ?>",
+                        "shape" : "<?= /* @noEscape */ $block->getButtonShape('paypal'); ?>",
+                        "label" : "<?= /* @noEscape */ $block->getButtonLabel('paypal'); ?>",
+                        "size" : "<?= /* @noEscape */ $block->getButtonSize('paypal'); ?>",
+                        "layout" : "<?= /* @noEscape */ $block->getButtonLayout('paypal'); ?>",
+                        "color" : "<?= /* @noEscape */ $block->getButtonColor('paypal'); ?>",
+                        "disabledFunding" : <?= /* @noEscape */ json_encode($block->getDisabledFunding()); ?>,
+                        "environment" : "<?= /* @noEscape */ $block->getEnvironment(); ?>"
+                    }
+                }
+            }
+        }
+    }
+</script>
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="font-src">
+            <values>
+                <value id="services_id_google_gstatic" type="host">fonts.gstatic.com</value>
+                <value id="use_typekit" type="host">use.typekit.net</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="recs_google_fonts" type="host">fonts.googleapis.com</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="p_typekit" type="host">p.typekit.net</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="adobe_assets" type="host">assets.adobedtm.com</value>
+                <value id="amcglobal" type="host">amcglobal.sc.omtrdc.net</value>
+                <value id="services_id_ui" type="host">*.magento-ds.com</value>
+                <value id="use_typekit" type="host">use.typekit.net</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="adobe_io" type="host">*.adobe.io</value>
+                <value id="use_typekit" type="host">performance.typekit.net</value>
+                <value id="sentry_io" type="host">*.sentry.io</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

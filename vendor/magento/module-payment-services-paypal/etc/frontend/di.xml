@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="payment_services_paypal_hosted_fields_config_provider" xsi:type="object">Magento\PaymentServicesPaypal\Model\HostedFieldsConfigProvider</item>
+                <item name="payment_services_paypal_smart_buttons_config_provider" xsi:type="object">Magento\PaymentServicesPaypal\Model\SmartButtonsConfigProvider</item>
+                <item name="payment_services_paypal_apple_pay_config_provider" xsi:type="object">Magento\PaymentServicesPaypal\Model\ApplePayConfigProvider</item>
+                <item name="payment_services_paypal_google_pay_config_provider" xsi:type="object">Magento\PaymentServicesPaypal\Model\GooglePayConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\CustomerData\SectionPoolInterface">
+        <arguments>
+            <argument name="sectionSourceMap" xsi:type="array">
+                <item name="payments" xsi:type="string">Magento\PaymentServicesPaypal\CustomerData\SdkParams</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Vault\Model\Ui\TokensConfigProvider">
+        <arguments>
+            <argument name="tokenUiComponentProviders" xsi:type="array">
+                <item name="payment_services_paypal_hosted_fields" xsi:type="object">Magento\PaymentServicesPaypal\Model\Ui\TokenUiComponentProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\App\RouterList">
+        <arguments>
+            <argument name="routerList" xsi:type="array">
+                <item name="wellknown" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\PaymentServicesPaypal\Controller\Router</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\InstantPurchase\Model\QuoteManagement\PaymentConfiguration">
+        <plugin name="payment_services_create_order_instant_purchase" type="Magento\PaymentServicesPaypal\Plugin\InstantPurchase\PaymentConfiguration"/>
+    </type>
+    <type name="Magento\InstantPurchase\Model\QuoteManagement\QuoteCreation">
+        <plugin name="payment_services_create_quote_instant_purchase" type="Magento\PaymentServicesPaypal\Plugin\InstantPurchase\QuoteCreation"/>
+    </type>
+    <type name="Magento\InstantPurchase\Model\ShippingMethodChoose\CheapestMethodChooser">
+        <!-- Fixes https://github.com/magento/magento2/issues/38811 -->
+        <plugin name="payment_services_choose_cheapest_method_chooser" type="Magento\PaymentServicesPaypal\Plugin\InstantPurchase\CheapestMethodChooser"/>
+    </type>
+    <type name="Magento\InstantPurchase\Model\ShippingMethodChoose\DeferredShippingMethodChooserPool">
+        <arguments>
+            <argument name="choosers" xsi:type="array">
+                <item name="payment-services-cheapest" xsi:type="object">Magento\PaymentServicesPaypal\Model\InstantPurchase\CheapestMethodDeferredChooser</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

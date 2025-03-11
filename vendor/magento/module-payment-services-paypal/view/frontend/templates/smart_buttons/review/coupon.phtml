@@ -1,0 +1,90 @@
+<?php
+/**
+ * ADOBE CONFIDENTIAL
+ *
+ * Copyright 2024 Adobe
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ */
+declare(strict_types=1);
+
+?>
+
+<?php
+
+/**
+ * @var \Magento\Framework\View\Element\AbstractBlock $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+// We should use strlen function because coupon code could be "0", converted to bool will lead to false
+$hasCouponCode = $block->getCouponCode() !== null && strlen($block->getCouponCode()) > 0;
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+?>
+<div class="block discount"
+     id="block-discount"
+     data-mage-init='{"collapsible":{"active": <?= $hasCouponCode ? 'true' : 'false' ?>, "openedState": "active", "saveState": false}}'>
+    <div class="title" data-role="title">
+        <strong id="block-discount-heading" role="heading" aria-level="2"><?= $escaper->escapeHtml(__('Apply Discount Code')) ?></strong>
+    </div>
+    <div class="content" data-role="content" aria-labelledby="block-discount-heading">
+        <form id="discount-coupon-form"
+              action="<?= $escaper->escapeUrl($block->getUrl('paymentservicespaypal/smartbuttons/couponPost')) ?>"
+              method="post"
+              data-mage-init='{"discountCode":{"couponCodeSelector": "#coupon_code",
+                                               "removeCouponSelector": "#remove-coupon",
+                                               "applyButton": "button.action.apply",
+                                               "cancelButton": "button.action.cancel"}}'>
+            <div class="fieldset coupon<?= $hasCouponCode ? ' applied' : '' ?>">
+                <input type="hidden" name="remove" id="remove-coupon" value="0" />
+                <input type="hidden" name="location" id="location-coupon" value="0" />
+                <div class="field">
+                    <label for="coupon_code" class="label">
+                        <span><?= $escaper->escapeHtml(__('Enter discount code')) ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="text"
+                               class="input-text"
+                               id="coupon_code"
+                               name="coupon_code"
+                               value="<?= $escaper->escapeHtmlAttr($block->getCouponCode()) ?>"
+                               placeholder="<?= $escaper->escapeHtmlAttr(__('Enter discount code')) ?>"
+                                <?php if ($hasCouponCode): ?>
+                                   disabled="disabled"
+                                <?php endif; ?>
+                        />
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <?php if (!$hasCouponCode): ?>
+                    <div class="primary">
+                        <button class="action apply primary" type="button"
+                                value="<?= $escaper->escapeHtmlAttr(__('Apply Discount')) ?>">
+                            <span><?= $escaper->escapeHtml(__('Apply Discount')) ?></span>
+                        </button>
+                    </div>
+                    <?php else: ?>
+                        <div class="primary">
+                            <button  type="button" class="action cancel primary"
+                                     value="<?= $escaper->escapeHtmlAttr(__('Cancel Coupon')) ?>">
+                                <span><?= $escaper->escapeHtml(__('Cancel Coupon')) ?></span>
+                            </button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php if (!$hasCouponCode): ?>
+                <?= /* @noEscape */ $block->getChildHtml('captcha') ?>
+            <?php endif; ?>
+        </form>
+    </div>
+</div>

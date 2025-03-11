@@ -1,0 +1,37 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block View */
+/** @var $escaper Escaper */
+
+use PayPal\Braintree\Block\Credit\Calculator\Product\View;
+use Magento\Framework\Escaper;
+
+$scopeId = sprintf('ppcreditsummary-product-%d%d', $block->getProduct()->getId(), random_int(PHP_INT_MIN, PHP_INT_MAX));
+?>
+<?php if ($priceData = $block->getPriceData()): ?>
+    <div data-bind="scope: '<?= $escaper->escapeHtmlAttr($scopeId) ?>'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app":{
+                    "components": {
+                        "<?= $escaper->escapeHtml($scopeId) ?>": {
+                            "component": "PayPal_Braintree/js/paypal/credit/calculator",
+                            "template": "PayPal_Braintree/credit/calculator",
+                            "displaySummary": false,
+                            "displayInterestDetails": true,
+                            "merchantName": "<?= $escaper->escapeJs($block->getMerchantName()) ?>",
+                            "instalments": <?= /* @noEscape */ $priceData ?>
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

@@ -1,0 +1,64 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+?>
+
+<?php
+/** @var \Magento\PaymentServicesPaypal\Block\SmartButtons\Review $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+
+<div id="shipping-method-container">
+    <?php if ($block->getCanEditShippingMethod() || !$block->getCurrentShippingRate()): ?>
+        <?php if ($groups = $block->getShippingRateGroups()): ?>
+            <?php $currentRate = $block->getCurrentShippingRate() ?>
+            <select name="shipping_method" id="shipping_method" class="required-entry">
+                <?php if (!$currentRate): ?>
+                    <option value="">
+                        <?= $escaper->escapeHtml(__('Please select a shipping method...')) ?>
+                    </option>
+                <?php endif ?>
+                <?php foreach ($groups as $code => $rates): ?>
+                    <optgroup id="group_<?= /* @noEscape */ $code ?>"
+                              label="<?= $escaper->escapeHtml($block->getCarrierName($code)) ?>">
+                        <?php foreach ($rates as $rate): ?>
+                            <option
+                                value="<?= $escaper->escapeHtml($block->renderShippingRateValue($rate)) ?>"
+                                    <?= ($currentRate === $rate) ? ' selected="selected"' : '' ?>>
+                                <?= /* @noEscape */ $block->renderShippingRateOption($rate) ?>
+                            </option>
+                        <?php endforeach ?>
+                    </optgroup>
+                    <?= /* @noEscape */ $secureRenderer->renderStyleAsTag(
+                        'font-style:normal;',
+                        'optgroup#group_' . /* @noEscape */ $code
+                    ) ?>
+                <?php endforeach ?>
+            </select>
+        <?php else: ?>
+            <p>
+                <strong>
+                    <?= $escaper->escapeHtml(__('Sorry, no quotes are available for this order right now.')) ?>
+                </strong>
+            </p>
+        <?php endif ?>
+    <?php else: ?>
+        <p>
+            <strong>
+                <?= /* @noEscape */ $block->renderShippingRateOption($block->getCurrentShippingRate()) ?>
+            </strong>
+        </p>
+    <?php endif ?>
+</div>
+<div id="shipping_method_update">
+    <p><?= $escaper->escapeHtml(__('Please update order data to get shipping methods and rates')) ?></p>
+</div>
+<?= /* @noEscape */ $secureRenderer->renderStyleAsTag(
+    'display:none',
+    'div#shipping_method_update'
+) ?>

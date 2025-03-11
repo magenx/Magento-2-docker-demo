@@ -1,0 +1,116 @@
+<?php
+// @codingStandardsIgnoreFile
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+use PayPal\Braintree\Block\Paypal\ProductPage;
+
+/** @var ProductPage $block */
+/** @var Escaper $escaper */
+/** @var SecureHtmlRenderer $secureRenderer */
+
+try {
+    $paypalId = sprintf('paypal-%s-%d', $block->getContainerId(), random_int(PHP_INT_MIN, PHP_INT_MAX));
+    $paypalCreditId = sprintf('credit-%s-%d', $block->getContainerId(), random_int(PHP_INT_MIN, PHP_INT_MAX));
+    $paypalPayLaterId = sprintf('paylater-%s-%d', $block->getContainerId(), random_int(PHP_INT_MIN, PHP_INT_MAX));
+    $paypalPayLaterMessagingId = sprintf(
+        'paylater-%s-%d-message', $block->getContainerId(), random_int(PHP_INT_MIN, PHP_INT_MAX)
+    );
+} catch (Exception $e) {
+    /**
+     * Exception only thrown if an appropriate source of randomness cannot be found.
+     * https://www.php.net/manual/en/function.random-int.php
+     */
+    $paypalId = sprintf('paypal-%s', $block->getContainerId());
+    $paypalCreditId = sprintf('credit-%s', $block->getContainerId());
+    $paypalPayLaterId = sprintf('paylater-%s', $block->getContainerId());
+    $paypalPayLaterMessagingId = sprintf('paylater-%s-message', $block->getContainerId());
+}
+
+?>
+<?php
+if ($block->getAmount() > 0) :
+    $jsonButtonConfig = json_encode($block->getButtonConfig());
+    $jsonCartLines = json_encode($block->getCartLineItems());
+    $scriptString = <<<SCRIPT
+        require([
+            'PayPal_Braintree/js/paypal/button',
+            'jquery'
+        ], function (button, $) {
+            $(function () {
+                button.init(
+                    $jsonButtonConfig,
+                    '$jsonButtonConfig'
+                );
+            })
+        })
+SCRIPT;
+    echo $secureRenderer->renderTag('script', [], $scriptString, false);
+?>
+    <?php if ($block->showPayPalButton('paypal', 'productpage')):?>
+        <div class="paypal product-page paypal-logo braintree-paypal-logo <?= $escaper->escapeHtmlAttr($block->getContainerId()) ?>-container">
+            <div data-currency="<?= $escaper->escapeHtmlAttr($block->getCurrency()) ?>"
+                 data-locale="<?= $escaper->escapeHtmlAttr($block->getLocale()) ?>"
+                 data-amount="<?= $escaper->escapeHtmlAttr($block->getAmount()) ?>"
+                 id="<?= $escaper->escapeHtmlAttr($paypalId) ?>"
+                 data-displayname="<?= $block->getMerchantName() ?>"
+                 data-actionsuccess="<?= $block->getActionSuccess() ?>"
+                 data-funding="paypal"
+                 data-fundingicons="true"
+                 data-label="<?= $block->getButtonLabel('paypal') ?>"
+                 data-color="<?= $block->getButtonColor('paypal') ?>"
+                 data-shape="<?= $block->getButtonShape('paypal') ?>"
+                 data-location="<?= $block->getLocation() ?>"
+                 data-requiredbillingaddress="<?= $block->isRequiredBillingAddress() ?>"
+                 class="action-braintree-paypal-logo product-page-action"></div>
+        </div>
+    <?php endif;?>
+    <?php if ($block->isCreditActive() && $block->showPayPalButton('credit', 'productpage')): ?>
+        <div class="paypal-credit product-page paypal-logo braintree-paypal-logo <?= $escaper->escapeHtmlAttr($block->getContainerId()) ?>-container">
+            <div data-currency="<?= $escaper->escapeHtmlAttr($block->getCurrency()) ?>"
+                 data-locale="<?= $escaper->escapeHtmlAttr($block->getLocale()) ?>"
+                 data-amount="<?= $escaper->escapeHtmlAttr($block->getAmount()) ?>"
+                 id="<?= $escaper->escapeHtmlAttr($paypalCreditId) ?>"
+                 data-displayname="<?= $block->getMerchantName() ?>"
+                 data-actionsuccess="<?= $block->getActionSuccess() ?>"
+                 data-funding="credit"
+                 data-fundingicons="true"
+                 data-label="<?= $block->getButtonLabel('credit') ?>"
+                 data-color="<?= $block->getButtonColor('credit') ?>"
+                 data-shape="<?= $block->getButtonShape('credit') ?>"
+                 data-location="<?= $block->getLocation() ?>"
+                 data-requiredbillingaddress="<?= $block->isRequiredBillingAddress() ?>"
+                 class="action-braintree-paypal-logo product-page-action"></div>
+        </div>
+    <?php endif; ?>
+    <?php if ($block->isPayLaterActive() && $block->showPayPalButton('paylater', 'productpage')): ?>
+        <div class="paypal-paylater product-page paypal-logo braintree-paypal-logo <?= $escaper->escapeHtmlAttr($block->getContainerId()) ?>-container">
+            <div data-currency="<?= $escaper->escapeHtmlAttr($block->getCurrency()) ?>"
+                 data-locale="<?= $escaper->escapeHtmlAttr($block->getLocale()) ?>"
+                 data-amount="<?= $escaper->escapeHtmlAttr($block->getAmount()) ?>"
+                 id="<?= $escaper->escapeHtmlAttr($paypalPayLaterId) ?>"
+                 data-displayname="<?= $block->getMerchantName() ?>"
+                 data-actionsuccess="<?= $block->getActionSuccess() ?>"
+                 data-funding="paylater"
+                 data-fundingicons="true"
+                 data-label="<?= $block->getButtonLabel('paylater') ?>"
+                 data-color="<?= $block->getButtonColor('paylater') ?>"
+                 data-shape="<?= $block->getButtonShape('paylater') ?>"
+                 data-location="<?= $block->getLocation() ?>"
+                 data-requiredbillingaddress="<?= $block->isRequiredBillingAddress() ?>"
+                 class="action-braintree-paypal-logo product-page-action"></div>
+        </div>
+    <?php endif; ?>
+    <?php if ($block->showPayPalButton('messaging', 'productpage')): ?>
+        <div class="action-braintree-paypal-message"
+             id="<?= $escaper->escapeHtmlAttr($paypalPayLaterMessagingId) ?>"
+             data-pp-amount="<?= $escaper->escapeHtmlAttr($block->getAmount()) ?>"
+             data-pp-type="product"
+             data-currency-symbol="<?= $block->getCurrencySymbol(); ?>"
+             data-messaging-layout="<?= $block->getMessagingLayout('messaging') ?>"
+             data-messaging-logo="<?= $block->getMessagingLogo('messaging') ?>"
+             data-messaging-logo-position="<?= $block->getMessagingLogoPosition('messaging') ?>"
+             data-messaging-text-color="<?= $block->getMessagingTextColor('messaging') ?>"
+        ></div>
+    <?php endif; ?>
+<?php endif; ?>
+

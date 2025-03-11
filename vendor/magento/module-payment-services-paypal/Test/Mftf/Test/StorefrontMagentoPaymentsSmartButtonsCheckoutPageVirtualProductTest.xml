@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsSmartButtonsCheckoutPageVirtualProductTest" extends="StorefrontMagentoPaymentsSmartButtonsCheckoutPageTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalSmartButtonsPaymentsScreenCheckout"/>
+            <stories value="Magento Payments Smart Buttons Checkout with Virtual Product"/>
+            <title value="Main checkout flow with Magento Payments Smart Buttons with Virtual Product"/>
+            <description value="Users are able to place order with Virtual Product using Magento Payments on checkout page, payment action is authorization. Merchant is able to capture and refund the entire payment."/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="checkout-page-smart-buttons-authorize"/>
+            <group value="magento-payments"/>
+            <group value="magento-payments-virtual-product"/>
+        </annotations>
+        <before>
+            <createData entity="defaultVirtualProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+        </before>
+
+        <remove keyForRemoval="selectFreeShippingMethod"/>
+        <remove keyForRemoval="clickNext"/>
+        <remove keyForRemoval="verifyCheckoutPaymentOrderSummary"/>
+    </test>
+</tests>

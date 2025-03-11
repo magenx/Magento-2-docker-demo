@@ -1,0 +1,36 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block Product */
+/** @var $escaper Escaper */
+
+use PayPal\Braintree\Block\Credit\Calculator\Listing\Product;
+use Magento\Framework\Escaper;
+
+$scopeId = 'ppcreditsummary-cart';
+?>
+<div data-bind="scope: '<?= $escaper->escapeHtmlAttr($scopeId) ?>'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app":{
+                "components": {
+                    "<?= $escaper->escapeHtml($scopeId) ?>": {
+                        "component": "PayPal_Braintree/js/paypal/credit/calculator",
+                        "template": "PayPal_Braintree/credit/calculator",
+                        "displaySummary": false,
+                        "displayInterestDetails": true,
+                        "endpoint": "<?= $escaper->escapeUrl($block->getUrl('braintree/paypal/cart')) ?>",
+                        "merchantName": "<?= $escaper->escapeJs($block->getMerchantName()) ?>",
+                        "installments": []
+                    }
+                }
+            }
+        }
+    }
+</script>

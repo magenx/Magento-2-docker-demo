@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Review Order</title>
+    </head>
+    <update handle="checkout_onepage_review_item_renderers"/>
+    <body>
+        <move element="logo" destination="review.header.wrapper"/>
+        <referenceContainer name="header.container" remove="true"/>
+        <referenceContainer name="page.top" remove="true"/>
+        <referenceContainer name="footer-container" remove="true"/>
+        <referenceContainer name="page.wrapper">
+            <container name="review.header.container" as="review_header_container" label="Review Page Header Container" htmlTag="header" htmlClass="page-header" before="main.content">
+                <container name="review.header.wrapper" label="Review Page Header" as="review-header-wrapper" htmlTag="div" htmlClass="header content" before="-"/>
+            </container>
+        </referenceContainer>
+        <referenceContainer name="page.messages">
+            <block class="Magento\PaymentServicesPaypal\Block\Cart\ValidationMessages" name="paypal.validation.messages"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Magento\PaymentServicesPaypal\Block\SmartButtons\Review" name="paymentservicespaypal.smartbuttons.review" template="Magento_PaymentServicesPaypal::smart_buttons/review.phtml">
+                <block class="Magento\PaymentServicesPaypal\Block\SmartButtons\Review" name="paymentservicespaypal.smartbuttons.review.shipping.method" as="shipping_method" template="Magento_PaymentServicesPaypal::smart_buttons/review/shipping/method.phtml"/>
+                <block class="Magento\Framework\View\Element\Text\ListText" name="paymentservicespaypal.additional.actions">
+                    <block class="Magento\Checkout\Block\Cart\Coupon" name="paymentservicespaypal.cart.coupon" as="coupon" template="Magento_PaymentServicesPaypal::smart_buttons/review/coupon.phtml"/>
+                </block>
+                <block class="Magento\PaymentServicesPaypal\Block\SmartButtons\Review\Details" name="paymentservicespaypal.smartbuttons.review.details" as="details" template="Magento_PaymentServicesPaypal::smart_buttons/review/details.phtml">
+                    <block class="Magento\Framework\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list"/>
+                    <block class="Magento\Checkout\Block\Cart\Totals" name="paymentservicespaypal.smartbuttons.review.details.totals" as="totals" template="Magento_PaymentServicesPaypal::checkout/onepage/review/totals.phtml"/>
+                </block>
+                <block class="Magento\CheckoutAgreements\Block\Agreements" name="paymentservicespaypal.smartbuttons.review.details.agreements" as="agreements" template="Magento_CheckoutAgreements::additional_agreements.phtml"/>
+            </block>
+        </referenceContainer>
+        <block class="Magento\Framework\View\Element\Template" name="additional.product.info" template="Magento_Theme::template.phtml"/>
+    </body>
+</page>

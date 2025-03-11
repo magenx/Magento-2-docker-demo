@@ -1,0 +1,146 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/**
+ * @var Template $block
+ * @var Escaper $escaper
+ * @var BraintreeConfig $braintreeConfigViewModel
+ * @var BraintreePayPalConfig $braintreePayPalConfigViewModel
+ */
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use PayPal\Braintree\ViewModel\BraintreeConfig;
+use PayPal\Braintree\ViewModel\BraintreePayPalConfig;
+
+$braintreeConfigViewModel = $block->getData('braintreeConfigViewModel');
+$braintreePayPalConfigViewModel = $block->getData('braintreePayPalConfigViewModel');
+$isCardPaymentActive = $braintreeConfigViewModel->isActive();
+$isCCVaultActive = $braintreeConfigViewModel->isCCVaultEnabled();
+$isPayPalActive = $braintreePayPalConfigViewModel->isActive();
+$isPayPalVaultActive = $braintreePayPalConfigViewModel->isPayPalVaultEnabled();
+?>
+
+<?= $block->getChildHtml('back-link') ?>
+
+<div class="account-section">
+    <div data-bind="scope: 'payment-info-update'">
+        <h1 class="account-section__title-label" data-bind="visible: !addNewCardVM.visible()">
+            <?= $escaper->escapeHtml(__('Stored Payment Methods'))?>
+        </h1>
+        <div class="add-methods" data-bind="visible: !addNewCardVM.visible()">
+            <?php if ($isCardPaymentActive && $isCCVaultActive): ?>
+                <?php
+                    $availableCardTypes = $braintreeConfigViewModel->getAvailableCardTypes();
+                    $cardIcons = $braintreeConfigViewModel->getCardIcons();
+                ?>
+                <div class="add-method" data-bind="click: showAddCardModal">
+                    <div>
+                        <img width="40"
+                             src='<?= $block->getViewFileUrl('PayPal_Braintree::images/add-icon.svg'); ?>'
+                             alt="<?= $escaper->escapeHtml(__('Add New Card')) ?>">
+                        <p><?= $escaper->escapeHtml(__('Add New Credit / Debit Card')) ?></p>
+                    </div>
+                    <div class="icon-container">
+                        <ul class="credit-card-types braintree-credit-card-types">
+                            <?php foreach ($availableCardTypes as $cardType): ?>
+                                <?php $icon = $cardIcons[$cardType] ?? null; ?>
+                                <?php if ($icon !== null && $cardType !== 'NONE'): ?>
+                                    <li class="item">
+                                        <?php $cardTypePath = 'PayPal_Braintree::images/cc/'. $cardType .'.png' ?>
+                                        <img src='<?= $block->getViewFileUrl($cardTypePath); ?>'
+                                             alt="<?= $escaper->escapeHtml(__($cardType)) ?>">
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if ($isPayPalActive && $isPayPalVaultActive): ?>
+                <div class="add-method" data-bind="click: showAddPayPalModal">
+                    <div>
+                        <img width="40"
+                             src='<?= $block->getViewFileUrl('PayPal_Braintree::images/add-icon.svg'); ?>'
+                             alt="<?= $escaper->escapeHtml(__('Add New PayPal Account')) ?>">
+                        <p><?= $escaper->escapeHtml(__('Add New PayPal Account')) ?></p>
+                    </div>
+                    <div class="icon-container">
+                        <img src='<?= $block->getViewFileUrl('PayPal_Braintree::images/cc/PP.png'); ?>'
+                             alt="<?= $escaper->escapeHtml(__('PayPal')) ?>">
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div data-bind="visible: !addNewCardVM.visible()">
+            <?= $block->getChildHtml('saved-cards-tokens-list'); ?>
+            <?= $block->getChildHtml('saved-token-tokens-list'); ?>
+        </div>
+
+        <!-- Render new card option -->
+        <div class="account-section cc-section" data-bind="visible: addNewCardVM.visible" style="display: none;">
+            <div class="account-section__title">
+                <a data-bind="click: hideAddCardModal" class="account-section__title-view-all-link">
+                    <?= $escaper->escapeHtml(__('<  Back to Stored Payment Methods'))?>
+                </a>
+                <h1 class="account-section__title-label">
+                    <?= $escaper->escapeHtml(__('Add New Credit or Debit Card'))?>
+                </h1>
+            </div>
+            <?= $block->getChildHtml('new_card'); ?>
+        </div>
+
+        <!-- Render new PayPal option -->
+        <div class="subs-modal add-paypal-modal" data-bind="visible: addNewPayPalVM.visible" style="display: none;">
+            <div class="subs-modal-overlay"></div>
+            <div class="subs-modal__box">
+                <button class="subs-modal__close-button" data-bind="click: hideAddPayPalModal">
+                    <span class="subs-modal__screen-reader-label"><?= $escaper->escapeHtml(__('Close'))?></span>
+                    <img src="<?= $block->getViewFileUrl('PayPal_Braintree::images/cross.svg'); ?>"
+                         alt="<?= $escaper->escapeHtml(__('Close')) ?>">
+                </button>
+                <?= $block->getChildHtml('paypal'); ?>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div class="subs-modal" data-bind="visible: errorModalVM.visible" style="display: none;">
+            <div class="subs-modal-overlay"></div>
+            <div class="subs-modal__box">
+                <button class="subs-modal__close-button" data-bind="click: function(){errorModalVM.visible(false)}">
+                    <span class="subs-modal__screen-reader-label"><?= $escaper->escapeHtml(__('Close')) ?></span>
+                    <img src='<?= $block->getViewFileUrl('PayPal_Braintree::images/cross.svg'); ?>'
+                         alt="<?= $escaper->escapeHtml(__('Error Close')) ?>">
+                </button>
+                <!-- ko if: errorModalVM.header -->
+                <h2><span data-bind="i18n: errorModalVM.header"></span></h2>
+                <!-- /ko -->
+                <p data-bind="text: errorModalVM.message"></p>
+                <button data-bind="click: function(){errorModalVM.visible(false)}"
+                        class="subs-modal__button subs-button subs-button--secondary"
+                        type="button">
+                    <?= $escaper->escapeHtml(__('Ok')) ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "payment-info-update": {
+                        "component": "PayPal_Braintree/js/customer/payment/update-payment"
+                    }
+                }
+            }
+        }
+    }
+</script>

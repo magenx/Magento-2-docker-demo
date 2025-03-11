@@ -1,0 +1,31 @@
+// /**
+//  * Copyright © Magento, Inc. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+.smart-buttons {
+    & > div {
+        & > div {
+            vertical-align: bottom;
+        }
+    }
+}
+
+.apple-pay {
+    margin-top: 14px;
+}
+
+.cart-summary {
+    & .apple-pay {
+        margin-top: 11px;
+    }
+}
+
+//  Mobile
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    .cart-summary {
+        & .apple-pay {
+            margin-top: 14px;
+        }
+    }
+}

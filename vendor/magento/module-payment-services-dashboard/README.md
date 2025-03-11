@@ -1,0 +1,1 @@
+The Magento_PaymentServicesDashboard provides Payment Services reporting.

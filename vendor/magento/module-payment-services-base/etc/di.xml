@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\PaymentServicesBase\Model\ServiceRouteResolverInterface" type="Magento\PaymentServicesBase\Model\GatewayFacadeRouteResolver" />
+    <preference for="Magento\PaymentServicesBase\Model\ServiceClientInterface" type="Magento\PaymentServicesBase\Model\ServiceClient" />
+    <virtualType name="Magento\PaymentServicesBase\Model\Logger\Handler\Payments" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/payment.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesBase\Model\Logger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Magento\PaymentServicesBase\Model\Logger\Handler\Payments</item>
+                <item name="error" xsi:type="object">Magento\PaymentServicesBase\Model\Logger\Handler\Payments</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\PaymentServicesBase\Model\ServiceClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">Magento\PaymentServicesBase\Model\Logger</argument>
+            <argument name="keyValidator" xsi:type="object">Magento\PaymentServicesBase\Model\ServicesConnector\InMemoryKeyValidor</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Config\Model\Config\Structure">
+        <plugin name="magpay_payments_base_config_structure" type="Magento\PaymentServicesBase\Plugin\Config\Structure"/>
+    </type>
+    <type name="Magento\Directory\Model\Region">
+        <plugin name="magpay_payments_model_region" type="Magento\PaymentServicesBase\Plugin\Directory\Region" />
+    </type>
+    <type name="Magento\PaymentServicesBase\Model\Config">
+        <arguments>
+            <argument name="keyValidator" xsi:type="object">Magento\PaymentServicesBase\Model\ServicesConnector\InMemoryKeyValidor</argument>
+        </arguments>
+    </type>
+</config>

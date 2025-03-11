@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Vault\Block\Customer\CreditCards" name="vault.cards.list" cacheable="false" template="Magento_PaymentServicesPaypal::customer_account/vault/list/cards_list.phtml" />
+            <referenceBlock name="vault.cards.list">
+                <block class="Magento\PaymentServicesPaypal\Block\Customer\CardRenderer" name="paymentservices.card.renderer" template="Magento_PaymentServicesPaypal::customer_account/vault/list/credit_card_details.phtml"/>
+            </referenceBlock>
+            <block class="Magento\PaymentServicesPaypal\Block\Customer\Vault\AddCardButton" name="paymentservices.card.addcardbutton" template="Magento_PaymentServicesPaypal::customer_account/vault/list/add_card_button.phtml" after="-"/>
+        </referenceContainer>
+    </body>
+</page>

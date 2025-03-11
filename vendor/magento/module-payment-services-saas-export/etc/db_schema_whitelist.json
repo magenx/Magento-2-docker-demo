@@ -1,0 +1,32 @@
+{
+    "payment_services_order_data_production_submitted_hash": {
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "payment_services_order_data_sandbox_submitted_hash": {
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "payment_services_order_status_data_prod_submitted_hash": {
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "payment_services_order_status_data_sandbox_submitted_hash": {
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "payment_services_store_data_production_submitted_hash": {
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "payment_services_store_data_sandbox_submitted_hash": {
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

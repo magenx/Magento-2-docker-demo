@@ -1,0 +1,27 @@
+{
+    "name": "magento/module-services-id",
+    "description": "Commerce Services identity",
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": "~7.2.0||~7.3.0||~7.4.0||~8.1.0||~8.2.0||~8.3.0||~8.4.0",
+        "magento/framework": ">=102.0.0 <104.0.0",
+        "magento/module-config": ">=101.1.0 <101.3.0",
+        "magento/services-connector": "^1.3.6"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Magento\\ServicesId\\": ""
+        }
+    },
+    "version": "3.2.7"
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\ServiceProxy\Model\Logger\Handler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/services_proxy.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ServiceProxy\Model\Logger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Magento\ServiceProxy\Model\Logger\Handler</item>
+                <item name="error" xsi:type="object">Magento\ServiceProxy\Model\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

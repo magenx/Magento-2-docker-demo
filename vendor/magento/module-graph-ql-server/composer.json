@@ -1,0 +1,25 @@
+{
+    "name": "magento/module-graph-ql-server",
+    "description": "Commerce BFF GraphQL Server",
+    "type": "magento2-module",
+    "require": {
+        "php": "~7.3.0||~7.4.0||~8.1.0||~8.2.0||~8.3.0||~8.4.0",
+        "magento/framework": "^103.0.0",
+        "magento/module-backend": ">=101.0.0 <103.0.0",
+        "magento/module-webapi": "^100.4.0",
+        "magento/module-graph-ql": "^100.4.0"
+    },
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+          "registration.php"
+        ],
+        "psr-4": {
+            "Magento\\GraphQlServer\\": ""
+        }
+    },
+    "version": "1.0.3"
+}

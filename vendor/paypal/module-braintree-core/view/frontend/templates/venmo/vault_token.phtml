@@ -1,0 +1,40 @@
+<?php
+// @codingStandardsIgnoreFile
+use Magento\Framework\Escaper;
+use PayPal\Braintree\Block\Customer\Venmo\VaultTokenRenderer;
+
+/** @var VaultTokenRenderer $block */
+/** @var Escaper $escaper */
+
+?>
+<tr>
+    <td data-th="<?= $escaper->escapeHtmlAttr(__('Venmo Account')) ?>" class="col venmo-account">
+        <img src="<?= $escaper->escapeHtmlAttr($block->getIconUrl()) ?>"
+             width="54px"
+             alt="<?= $escaper->escapeHtmlAttr(__('Venmo Logo')) ?>">
+        <span><?= $escaper->escapeHtml($block->getVenmoUsername()) ?></span>
+    </td>
+    <td data-th="<?= $escaper->escapeHtmlAttr(__('Actions')) ?>" class="col actions">
+        <form class="form"
+              action="<?= $escaper->escapeUrl($block->getUrl('vault/cards/deleteaction')) ?>"
+              method="post">
+            <?= $block->getBlockHtml('formkey') ?>
+            <input name="public_hash"
+                   value="<?= $escaper->escapeHtmlAttr($block->getToken()->getPublicHash()) ?>"
+                   type="hidden">
+            <button type="submit"
+                    class="action delete"
+                    data-mage-init='{
+                        "Magento_Vault/js/customer_account/deleteWidget":{
+                            "type": "popup",
+                            "modalClass": "my-credit-cards-popup",
+                            "toggleEvent": "click",
+                            "title": "<?= $escaper->escapeHtmlAttr(__('Delete')) ?>",
+                            "content": "Are you sure you want to delete this Venmo account: <?= $escaper->escapeHtmlAttr($block->getVenmoUsername()) ?>?"
+                        }
+                    }'>
+                <span><?= $escaper->escapeHtml(__('Delete')) ?></span>
+            </button>
+        </form>
+    </td>
+</tr>

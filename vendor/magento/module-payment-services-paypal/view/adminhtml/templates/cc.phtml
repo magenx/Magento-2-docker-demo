@@ -1,0 +1,72 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+/**
+ * @var Magento\PaymentServicesPaypal\Block\Adminhtml\Form\AdminHostedFields $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+$code = $escaper->escapeHtml($block->getMethodCode());
+?>
+<fieldset class="admin__fieldset payment-method payment-services-hosted-fields-form"
+          id="payment_form_<?= /* @noEscape */ $code ?>"
+          data-mage-init='{"Magento_PaymentServicesPaypal/js/hosted-fields":{
+             "code":"<?= /* @noEscape */ $code ?>",
+             "createOrderUrl":"<?= $block->escapeUrl($block->getCreateOrderUrl()) ?>",
+             "scriptParams":<?= /* @noEscape */ $block->getSdkParams() ?>,
+             "paymentSource":"<?= /* @noEscape */ $block::CC_SOURCE ?>"
+        }}'>
+    <input type="hidden" id="mp-order-id" name="payment[payments_order_id]"/>
+    <input type="hidden" id="paypal-order-id" name="payment[paypal_order_id]"/>
+    <div class="card-container">
+        <form id="hosted-fields-form">
+            <div class="grid-container">
+                <div class="admin__field _required card-number-area">
+                    <label class="label admin__field-label">
+                        <span><?= $block->escapeHtml(__('Credit Card Number')) ?></span>
+                    </label>
+                    <div class="card-field">
+                        <div id="card-number" class="card-field-icon"></div>
+                        <div class="lock-icon" if="fields[fieldName]?.showLockIcon"
+                              title="<?= $block->escapeHtml(__('Secure transaction')) ?>"></div>
+                    </div>
+                </div>
+                <div class="admin__field _required expiration-date-area">
+                    <label class="label admin__field-label">
+                        <span><?= $block->escapeHtml(__('Expiration Date')) ?></span>
+                    </label>
+                    <div id="expiration-date" class="card-field card-field-date"></div>
+                </div>
+                <div class="admin__field _required cvv-area">
+                    <label class="label admin__field-label">
+                        <span><?= $block->escapeHtml(__('Card Security Code')) ?></span>
+                    </label>
+                    <div id="cvv" class="card-field card-field-cvv"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="message"></div>
+</fieldset>
+<?= /* @noEscape */
+$secureRenderer->renderStyleAsTag(
+    "display: none;",
+    "fieldset#payment_form_" . $code
+) ?>
+<?php $codeNoEscaped = /* @noEscape */
+    $code;
+$scriptString = <<<script
+    /**
+     * Disable card server validation in admin
+     */
+    require(["Magento_Sales/order/create/form"], function () {
+        order.addExcludedPaymentMethod('{$codeNoEscaped}');
+    });
+script;
+?>
+<?= /* @noEscape */
+$secureRenderer->renderTag('script', [], $scriptString, false) ?>

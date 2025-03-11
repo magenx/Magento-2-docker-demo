@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_QueryXml:etc/query.xsd">
+    <query name="salesOrdersInPaymentReview">
+        <source name="sales_order">
+            <attribute name="entity_id" alias="id" sort="desc"/>
+            <attribute name="state"/>
+            <filter glue="and">
+                <condition attribute="state" operator="eq">payment_review</condition>
+            </filter>
+            <link-source name="sales_order_payment" link-type="inner">
+                <attribute name="method" alias="payment_method"/>
+                <using glue="and">
+                    <condition attribute="parent_id" operator="eq" type="identifier">entity_id</condition>
+                    <condition attribute="method" operator="in" type="placeholder">methods</condition>
+                </using>
+            </link-source>
+        </source>
+    </query>
+</config>

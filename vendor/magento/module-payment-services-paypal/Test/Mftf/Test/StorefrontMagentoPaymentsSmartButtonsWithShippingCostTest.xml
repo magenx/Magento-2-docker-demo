@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsSmartButtonsWithShippingCostTest" extends="StorefrontMagentoPaymentsSmartButtonsCheckoutProductPageTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalSmartButtonsWithShippingCost"/>
+            <stories value="Magento Payments Smart Buttons Checkout from Product Page With Shipping Cost"/>
+            <title value="Main checkout flow with Magento Payments Smart Buttons from Product Page when shipping cost adds to order total"/>
+            <description value="Users are able to place order using Magento Payments from product page, payment action is authorization. Shipping cost adds to order total after user comes back from PayPal."/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="smart-buttons-order-total-changes"/>
+            <group value="magento-payments"/>
+        </annotations>
+        <before>
+            <remove keyForRemoval="enableFreeShipping"/>
+            <magentoCLI command="config:set {{EnableFlatRateConfigData.path}} {{EnableFlatRateConfigData.value}}" stepKey="enableFlatRate"/>
+            <magentoCLI command="config:set {{EnableFlatRateDefaultPriceConfigData.path}} {{EnableFlatRateDefaultPriceConfigData.value}}" stepKey="configureFlatRatePrice"/>
+        </before>
+        <after>
+            <remove keyForRemoval="disableFreeShipping"/>
+            <magentoCLI command="config:set {{DisableFlatRateConfigData.path}} {{DisableFlatRateConfigData.value}}" stepKey="disableFlatRate"/>
+        </after>
+        <actionGroup ref="StorefrontSelectShippingMethodOnOrderReviewPageActionGroup" stepKey="selectShippingMethod">
+            <argument name="shippingMethod" value="Fixed - $5.00"/>
+        </actionGroup>
+        <see selector="{{AdminOrderTotalSection.grandTotal}}" userInput="$128.00" stepKey="seeCorrectGrandTotal"/>
+    </test>
+</tests>

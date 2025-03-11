@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+
+/** @var SecureHtmlRenderer $secureRenderer */
+$scriptString = <<<SCRIPT
+    require([
+        'uiLayout',
+        'jquery'
+    ], function (layout, $) {
+        $(function () {
+            var paymentMethodData = {
+                method: 'braintree'
+            };
+            layout([
+                {
+                    component: 'PayPal_Braintree/js/view/payment/method-renderer/multishipping/hosted-fields',
+                    name: 'payment_method_braintree',
+                    method: paymentMethodData.method,
+                    item: paymentMethodData
+                }
+            ]);
+
+            $('body').trigger('contentUpdated');
+        })
+    })
+SCRIPT;
+echo $secureRenderer->renderTag('script', [], $scriptString, false);
+?>
+<!-- ko template: getTemplate() --><!-- /ko -->

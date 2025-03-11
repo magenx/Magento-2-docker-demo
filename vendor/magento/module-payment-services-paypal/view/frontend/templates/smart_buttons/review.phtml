@@ -1,0 +1,155 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+?>
+
+<?php
+// phpcs:disable Magento2.Files.LineLength, Generic.Files.LineLength
+/** @var \Magento\PaymentServicesPaypal\Block\SmartButtons\Review $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+
+<div class="magento-payments-review view">
+    <div class="block block-order-details-view">
+        <div class="block-content">
+            <?php if ($block->getShippingAddress()): ?>
+                <div class="box box-order-shipping-method">
+                    <strong class="box-title">
+                        <span><?= $escaper->escapeHtml(__('Shipping Method')) ?></span>
+                    </strong>
+                    <div class="box-content">
+                        <form method="post"
+                              id="shipping-method-form"
+                              action="<?= $escaper->escapeUrl($block->getShippingMethodSubmitUrl()) ?>"
+                              class="form"
+                        >
+                            <?php if ($block->canEditShippingMethod()): ?>
+                                <?php if ($groups = $block->getShippingRateGroups()): ?>
+                                    <?php $currentRate = $block->getCurrentShippingRate() ?>
+                                    <div class="field shipping required">
+                                        <select name="shipping_method" id="shipping-method" class="select">
+                                            <?php if (!$currentRate): ?>
+                                                <option value="">
+                                                    <?= $escaper->escapeHtml(__('Please select a shipping method...')) ?>
+                                                </option>
+                                            <?php endif ?>
+                                            <?php foreach ($groups as $code => $rates): ?>
+                                                <optgroup label="<?= $escaper->escapeHtml($block->getCarrierName($code)) ?>">
+                                                    <?php foreach ($rates as $rate): ?>
+                                                        <option
+                                                            value="<?= $escaper->escapeHtml($block->renderShippingRateValue($rate)) ?>"
+                                                            <?php if ($currentRate === $rate): ?>selected="selected"<?php endif ?>
+                                                        >
+                                                            <?= /* @noEscape */ $block->renderShippingRateOption($rate) ?>
+                                                        </option>
+                                                    <?php endforeach ?>
+                                                </optgroup>
+                                            <?php endforeach ?>
+                                        </select>
+                                    </div>
+                                <?php else: ?>
+                                    <p>
+                                        <?= $escaper->escapeHtml(
+                                            __('Sorry, no quotes are available for this order right now.')
+                                        ) ?>
+                                    </p>
+                                <?php endif ?>
+                            <?php else: ?>
+                                <p>
+                                    <?= /* @noEscape */ $block->renderShippingRateOption(
+                                        $block->getCurrentShippingRate()
+                                    ) ?>
+                                </p>
+                            <?php endif ?>
+                        </form>
+                    </div>
+                </div>
+                <div class="box box-order-shipping-address">
+                    <strong class="box-title">
+                        <span><?= $escaper->escapeHtml(__('Shipping Address')) ?></span>
+                    </strong>
+                    <div class="box-content">
+                        <address>
+                            <?= $escaper->escapeHtml(
+                                $block->renderAddress($block->getShippingAddress()),
+                                ['br']
+                            );?>
+                        </address>
+                    </div>
+                    <?php if ($block->getCanEditShippingAddress()): ?>
+                        <div class="box-actions">
+                            <a href="<?= $escaper->escapeUrl($block->getEditUrl()) ?>" class="action edit">
+                                <span><?= $escaper->escapeHtml(__('Edit')) ?></span>
+                            </a>
+                        </div>
+                    <?php endif ?>
+                </div>
+            <?php endif ?>
+            <div class="box box-order-billing-address">
+                <strong class="box-title"><span><?= $escaper->escapeHtml(__('Payment Method')) ?></span></strong>
+                <div class="box-content">
+                    <?= $escaper->escapeHtml($block->getPaymentMethodTitle()) ?><br>
+                    <?= $escaper->escapeHtml($block->getEmail()) ?> <br>
+                    <img class="payment-source-logo" src="<?= $escaper->escapeUrl($block->getPaymentIcon())?>" alt="<?= $escaper->escapeHtml($block->getPaymentSource()) ?>"/>
+                </div>
+            <?php if ($block->getEditUrl()): ?>
+                <div class="box-actions">
+                    <a href="<?= $escaper->escapeUrl($block->getEditUrl()) ?>" class="action edit">
+                        <span><?= $escaper->escapeHtml(__('Edit Payment Information')) ?></span>
+                    </a>
+                </div>
+            <?php endif ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="magento-payments-review-discount">
+        <?= $block->getChildHtml('paymentservicespaypal.additional.actions') ?>
+    </div>
+
+    <div class="magento-payments-review-items">
+        <div class="magento-payments-review-title">
+            <strong><?= $escaper->escapeHtml(__('Items in Your Shopping Cart')) ?></strong>
+            <a href="<?= $escaper->escapeUrl($block->getUrl('paymentservicespaypal/smartbuttons/cancel')) ?>" class="action edit">
+                <span><?= $escaper->escapeHtml(__('Edit Shopping Cart')) ?></span>
+            </a>
+        </div>
+
+        <?= $block->getChildHtml('details') ?>
+
+        <form method="post" id="order-review-form" action="<?= $escaper->escapeUrl($block->getPlaceOrderUrl()) ?>" class="form order-review-form">
+            <?= $block->getChildHtml('agreements') ?>
+            <div class="actions-toolbar" id="review-buttons-container">
+                <div class="primary">
+                    <button type="button" id="review-button" class="action checkout primary"
+                            value="<?= $escaper->escapeHtml(__('Place Order')) ?>">
+                        <span><?= $escaper->escapeHtml(__('Place Order')) ?></span>
+                    </button>
+                </div>
+                <span class="please-wait load indicator" id="review-please-wait"
+                      data-text="<?= $escaper->escapeHtml(__('Submitting order information...')) ?>">
+                   <span><?= $escaper->escapeHtml(__('Submitting order information...')) ?></span>
+                </span>
+                <?= /* @noEscape */ $secureRenderer->renderStyleAsTag("display: none;", 'span#review-please-wait')?>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#order-review-form": {
+            "validation": {},
+            "Magento_PaymentServicesPaypal/js/order-review": {
+                "updateShippingMethodUrl": "<?= $escaper->escapeUrl($block->getShippingMethodSubmitUrl()) ?>",
+                "canEditShippingMethod": "<?= (bool) $block->canEditShippingMethod() ?>",
+                "isVirtual": <?= /* @noEscape */ $block->getIsQuoteVirtual() ?>,
+                "editShoppingCartSelector": ".magento-payments-review-items .edit"
+            }
+        }
+    }
+</script>

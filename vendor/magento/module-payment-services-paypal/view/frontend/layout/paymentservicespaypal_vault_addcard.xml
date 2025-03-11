@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/************************************************************************
+ *
+ * Copyright 2024 Adobe
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ * ************************************************************************
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <referenceBlock name="customer-account-navigation-my-credit-cards-link">
+            <arguments>
+                <argument name="is_highlighted" xsi:type="boolean">true</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\PaymentServicesPaypal\Block\Customer\Vault\AddCardForm" name="paymentservicespaypal.vault.cards.add" cacheable="false" template="Magento_PaymentServicesPaypal::customer_account/vault/add_card/add_card_form.phtml">>
+                <block class="Magento\PaymentServicesPaypal\Block\Customer\Vault\AddCardForm" name="paymentservicespaypal.vault.cardfields.add" as="paypal_cardfields_form" template="Magento_PaymentServicesPaypal::customer_account/vault/add_card/paypal_cardfields_form.phtml" />
+                <block class="Magento\Customer\Block\Address\Edit" name="paymentservicespaypal.vault.address.add" as="address_form" template="Magento_PaymentServicesPaypal::customer_account/vault/add_card/address/edit.phtml">
+                    <arguments>
+                        <argument name="attribute_data" xsi:type="object">Magento\Customer\Block\DataProviders\AddressAttributeData</argument>
+                        <argument name="post_code_config" xsi:type="object">Magento\Customer\Block\DataProviders\PostCodesPatternsAttributeData</argument>
+                        <argument name="view_model" xsi:type="object">Magento\Customer\ViewModel\Address</argument>
+                        <argument name="region_provider" xsi:type="object">Magento\Customer\ViewModel\Address\RegionProvider</argument>
+                        <argument name="title" xsi:type="string" translate="true">Add New Card</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminServicesConnectorSettingsSection">
+        <element name="setupStartButton" type="button" selector=".saas-setup-view button" timeout="30" />
+        <element name="setupContainer" type="button" selector=".saas-setup-view" timeout="30" />
+        <element name="sandboxEnvironmentApiKey" type="input" selector="input[placeholder='Paste sandbox public API key']" timeout="30"/>
+        <element name="sandboxEnvironmentPrivateKey" type="input" selector="textarea[placeholder='Paste sandbox private API key']" timeout="30"/>
+        <element name="sandboxSetupNextButton" type="button" selector="section[role='dialog'] div[class^='spectrum-ButtonGroup'] button:nth-of-type(2)" timeout="300" />
+        <element name="productionEnvironmentApiKey" type="input" selector="input[placeholder='Paste production public API key']" timeout="30"/>
+        <element name="productionEnvironmentPrivateKey" type="input" selector="textarea[placeholder='Paste production private API key']" timeout="30"/>
+        <element name="productionSetupNextButton" type="button" selector="section[role='dialog'] div[class^='spectrum-ButtonGroup'] button:nth-of-type(3)" timeout="300" />
+        <element name="setupNextButton" type="button" selector="div[class^='spectrum-ButtonGroup'] button" timeout="300" />
+        <element name="productionKeysTab" type="button" selector="div[data-key='productionKey']" timeout="30"/>
+        <element name="saasTab" type="button" selector="div[data-key='saas']" timeout="30"/>
+    </section>
+</sections>

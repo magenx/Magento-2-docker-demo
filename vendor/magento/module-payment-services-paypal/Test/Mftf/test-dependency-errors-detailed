@@ -1,0 +1,137 @@
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsAuthorizeAndCaptureTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsCancelOrderTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsCheckoutInterruptedMinicartTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+	 Payer from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsCheckoutInterruptedProductPageTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+	 Payer from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsCheckoutPageTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsHostedFieldsGuestCheckoutTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsMultipleCreditMemosTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsPartialCaptureTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsPayLaterMessageChangesConfigurableProductTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsPayLaterMessageChangesSimpleProductTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsPayLaterMessageChangesWhenDiscountAppliedTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsPayLaterMessageTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsSmartButtonsAuthorizeAndCaptureTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+	 Payer from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsSmartButtonsCheckoutPageTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+	 Payer from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsSmartButtonsCheckoutProductPageTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+	 Payer from module(s): magento/module-paypal
+	 StorefrontSelectShippingMethodOnOrderReviewPageActionGroup from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsSmartButtonsCheckoutWithZeroTotalCartPageTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsSmartButtonsCheckoutWithZeroTotalProductPageTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsSmartButtonsGuestCheckoutTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 DisableFreeShippingMethod from module(s): magento/module-offline-shipping
+	 Payer from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/Test/StorefrontMagentoPaymentsSmartButtonsWithShippingCostTest.xml"
+contains entity references that violate dependency constraints:
+		
+	 StorefrontSelectShippingMethodOnOrderReviewPageActionGroup from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/ActionGroup/StorefrontClickPayPalButtonActionGroup.xml"
+contains entity references that violate dependency constraints:
+		
+	 SwitchToPayPalGroupBtnActionGroup from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/ActionGroup/StorefrontLoginToPaypalAccountActionGroup.xml"
+contains entity references that violate dependency constraints:
+		
+	 StorefrontLoginToPayPalPaymentAccountTwoStepActionGroup from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/ActionGroup/StorefrontPlaceOrderOnOrderReviewPageActionGroup.xml"
+contains entity references that violate dependency constraints:
+		
+	 StorefrontPayPalOrderReviewSection from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/ActionGroup/StorefrontSetPaymentInPaypalActionGroup.xml"
+contains entity references that violate dependency constraints:
+		
+	 StorefrontPaypalSwitchBackToMagentoActionGroup from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/ActionGroup/AdminOpenPayPalAdvancedFrontendExperienceFeaturesPageActionGroup.xml"
+contains entity references that violate dependency constraints:
+		
+	 PayPalExpressCheckoutConfigSection from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/ActionGroup/AdminPayPalExpressCheckoutEnableActionGroup.xml"
+contains entity references that violate dependency constraints:
+		
+	 PayPalExpressCheckoutConfigSection from module(s): magento/module-paypal
+
+File "/var/www/html/app/code/Magento/PaymentServicesPaypal/Test/Mftf/ActionGroup/ConfigPayPalExpressCheckoutActionGroup.xml"
+contains entity references that violate dependency constraints:
+		
+	 PayPalExpressCheckoutConfigSection from module(s): magento/module-paypal

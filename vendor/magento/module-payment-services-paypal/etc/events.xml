@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="payment_method_assign_data_payment_services_paypal_hosted_fields">
+        <observer name="payment_services_paypal_hosted_fields_data_assign" instance="Magento\PaymentServicesPaypal\Observer\SaveAdditionalData"/>
+    </event>
+    <event name="payment_method_assign_data_payment_services_paypal_smart_buttons">
+        <observer name="payment_services_paypal_smart_buttons_data_assign" instance="Magento\PaymentServicesPaypal\Observer\SaveAdditionalData"/>
+    </event>
+    <event name="payment_method_assign_data_payment_services_paypal_apple_pay">
+        <observer name="payment_services_paypal_smart_buttons_data_assign" instance="Magento\PaymentServicesPaypal\Observer\SaveAdditionalData"/>
+    </event>
+    <event name="payment_method_assign_data_payment_services_paypal_google_pay">
+        <observer name="payment_services_paypal_smart_buttons_data_assign" instance="Magento\PaymentServicesPaypal\Observer\SaveAdditionalData"/>
+    </event>
+    <event name="admin_system_config_save">
+        <observer name="paypal_sdk_params_cache_flush" instance="Magento\PaymentServicesPaypal\Observer\FlushSdkParamsCache"/>
+    </event>
+    <event name="sales_order_shipment_save_after">
+        <observer name="payment_services_paypal_send_tracking_information" instance="Magento\PaymentServicesPaypal\Observer\SendTrackingInformation" />
+    </event>
+</config>

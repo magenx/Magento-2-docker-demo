@@ -1,0 +1,42 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+?>
+
+<?php
+/** @var \Magento\PaymentServicesPaypal\Block\SmartButtons $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+
+<?php $serializedCheckoutConfig = /* @noEscape */ $block->getSerializedCheckoutConfig();
+
+$scriptString = <<<script
+            window.checkoutConfig = {$serializedCheckoutConfig};
+script;
+?>
+
+<?php if ($block->isLocationEnabled('minicart')): ?>
+    <div class="smart-buttons">
+        <div data-mage-init='{"Magento_PaymentServicesPaypal/js/view/payment/smart-buttons-cart":
+        <?= /* @noEscape */ json_encode($block->getComponentParams()) ?>}'></div>
+    </div>
+<?php endif ?>
+<?php if ($block->isApplePayLocationEnabled('minicart')): ?>
+    <div class="apple-pay">
+        <div data-mage-init='{"Magento_PaymentServicesPaypal/js/view/payment/apple-pay-cart":
+        <?= /* @noEscape */ json_encode($block->getComponentParams()) ?>}'></div>
+    </div>
+<?php endif ?>
+<?php if ($block->isGooglePayLocationEnabled('minicart')): ?>
+    <div class="google-pay">
+        <div data-mage-init='{"Magento_PaymentServicesPaypal/js/view/payment/google-pay-cart":
+        <?= /* @noEscape */ json_encode($block->getComponentParams()) ?>}'></div>
+    </div>
+<?php endif ?>
+
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>

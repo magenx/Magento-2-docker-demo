@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <services_connector>
+            <services_id>
+                <registry_api_path>/merchant-registry/v1/</registry_api_path>
+                <registration_api_path>/cabp-org/registration</registration_api_path>
+                <frontend_url>https://services-connector-ui.magento-ds.com/v1/index.js</frontend_url>
+                <content_security_policy/>
+                <project_id/>
+                <project_name/>
+                <environment/>
+                <environment_id/>
+                <environment_name/>
+                <ims_organization_id/>
+            </services_id>
+        </services_connector>
+    </default>
+</config>

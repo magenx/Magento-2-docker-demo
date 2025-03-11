@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * ADOBE CONFIDENTIAL
+ *
+ * Copyright 2023 Adobe
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!-- Get payment config -->
+    <route url="/V1/payments-config/:location" method="GET">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentConfigRequestInterface" method="getConfig"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <!-- Get payment config -->
+    <route url="/V1/payments-config/google-pay/:location" method="GET">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentConfigRequestInterface" method="getGooglePayConfig"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/payments-config/apple-pay/:location" method="GET">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentConfigRequestInterface" method="getApplePayConfig"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/payments-config/smart-buttons/:location" method="GET">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentConfigRequestInterface" method="getSmartButtonsConfig"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/payments-config/hosted-fields/:location" method="GET">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentConfigRequestInterface" method="getHostedFieldsConfig"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <!-- create payment order for guest -->
+    <route url="/V1/guest-carts/:cartId/payment-order" method="POST">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentOrderRequestInterface" method="createGuest"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <!-- create payment order -->
+    <route url="/V1/carts/mine/payment-order" method="POST">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentOrderRequestInterface" method="create"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+    <!-- Payments SDK -->
+    <route url="/V1/payments-sdk/:location" method="GET">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentSdkRequestInterface" method="getByLocation" />
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/payments-sdk/:location/:methodCode" method="GET">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentSdkRequestInterface" method="getByLocationAndMethodCode" />
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <!-- Get payment order for guest -->
+    <route url="/V1/guest-carts/:cartId/payment-order/:id" method="GET">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentOrderRequestInterface" method="getForGuest"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <!-- Get payment order -->
+    <route url="/V1/carts/mine/payment-order/:id" method="GET">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentOrderRequestInterface" method="get"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+    <!-- Sync payment order for guest -->
+    <route url="/V1/guest-carts/:cartId/payment-order/:id" method="POST">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentOrderRequestInterface" method="syncForGuest"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <!-- Sync payment order -->
+    <route url="/V1/carts/mine/payment-order/:id" method="POST">
+        <service class="Magento\PaymentServicesPaypal\Api\PaymentOrderRequestInterface" method="sync"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+</routes>

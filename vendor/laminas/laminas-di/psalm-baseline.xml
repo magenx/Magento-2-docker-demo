@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+  <file src="src/CodeGenerator/AbstractInjector.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->injector->create($name, $options)]]></code>
+    </InvalidReturnStatement>
+    <MixedInferredReturnType>
+      <code><![CDATA[T]]></code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->getFactory($name)->create($this->container, $options)]]></code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/CodeGenerator/FactoryGenerator.php">
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$namespace]]></code>
+      <code><![CDATA[$paramsCode]]></code>
+      <code><![CDATA[$paramsCode]]></code>
+      <code><![CDATA[$paramsCode]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/CodeGenerator/GeneratorTrait.php">
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[! $this->outputDirectory]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/CodeGenerator/InjectorGenerator.php">
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$definition]]></code>
+    </PossiblyUnusedProperty>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$namespace]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Config.php">
+    <MixedArrayAccess>
+      <code><![CDATA[$this->types[$context]['preferences'][$type]]]></code>
+    </MixedArrayAccess>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$context]]></code>
+      <code><![CDATA[$contextClass]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/ConfigInterface.php">
+    <PossiblyUnusedReturnValue>
+      <code><![CDATA[mixed]]></code>
+    </PossiblyUnusedReturnValue>
+  </file>
+  <file src="src/Container/AutowireFactory.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->create($container, (string) $requestedName, $options)]]></code>
+      <code><![CDATA[$this->getInjector($container)->create($requestedName, $options ?: [])]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[T]]></code>
+      <code><![CDATA[T]]></code>
+    </InvalidReturnType>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$options]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/DefaultContainer.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$name]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="src/Exception/InvalidParamNameException.php">
+    <UnusedClass>
+      <code><![CDATA[InvalidParamNameException]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Exception/InvalidPositionException.php">
+    <UnusedClass>
+      <code><![CDATA[InvalidPositionException]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/GeneratedInjectorDelegator.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$name]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Injector.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$instance]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[T]]></code>
+    </InvalidReturnType>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$params]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$foundParams[]]]></code>
+    </MixedAssignment>
+    <RedundantCast>
+      <code><![CDATA[(int) $containerException->getCode()]]></code>
+    </RedundantCast>
+  </file>
+  <file src="src/Resolver/AbstractInjection.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[export]]></code>
+      <code><![CDATA[getParameterName]]></code>
+      <code><![CDATA[isExportable]]></code>
+      <code><![CDATA[setParameterName]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Resolver/DependencyResolver.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$type]]></code>
+      <code><![CDATA[$type]]></code>
+    </ArgumentTypeCoercion>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[! $preference]]></code>
+      <code><![CDATA[! $requiredType]]></code>
+      <code><![CDATA[$context]]></code>
+      <code><![CDATA[$preference]]></code>
+      <code><![CDATA[$preference]]></code>
+      <code><![CDATA[$preference]]></code>
+      <code><![CDATA[$preference]]></code>
+      <code><![CDATA[$type]]></code>
+      <code><![CDATA[$type]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Resolver/DependencyResolverInterface.php">
+    <PossiblyUnusedReturnValue>
+      <code><![CDATA[self]]></code>
+    </PossiblyUnusedReturnValue>
+  </file>
+  <file src="src/Resolver/TypeInjection.php">
+    <PossiblyUnusedReturnValue>
+      <code><![CDATA[string]]></code>
+    </PossiblyUnusedReturnValue>
+  </file>
+  <file src="test/CodeGenerator/AbstractInjectorTest.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$provider]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidArgument>
+      <code><![CDATA[$invokable]]></code>
+    </InvalidArgument>
+    <UnusedMethodCall>
+      <code><![CDATA[setAccessible]]></code>
+      <code><![CDATA[setAccessible]]></code>
+    </UnusedMethodCall>
+  </file>
+  <file src="test/CodeGenerator/AutoloadGeneratorTest.php">
+    <MissingReturnType>
+      <code><![CDATA[testGenerateCreatesFiles]]></code>
+      <code><![CDATA[testGeneratedAutoloadFile]]></code>
+      <code><![CDATA[testGeneratedAutoloaderClass]]></code>
+    </MissingReturnType>
+  </file>
+  <file src="test/CodeGenerator/GeneratorTestTrait.php">
+    <MissingConstructor>
+      <code><![CDATA[$dir]]></code>
+      <code><![CDATA[$dir]]></code>
+      <code><![CDATA[$dir]]></code>
+      <code><![CDATA[$root]]></code>
+      <code><![CDATA[$root]]></code>
+      <code><![CDATA[$root]]></code>
+    </MissingConstructor>
+  </file>
+  <file src="test/CodeGenerator/InjectorGeneratorTest.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[[
+            'Bad.And.Undefined.ClassName',
+        ]]]></code>
+    </ArgumentTypeCoercion>
+    <UndefinedClass>
+      <code><![CDATA[[
+            'Bad.And.Undefined.ClassName',
+        ]]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="test/ConfigTest.php">
+    <MixedAssignment>
+      <code><![CDATA[$this->fixture]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="test/Container/AutowireFactoryTest.php">
+    <MissingReturnType>
+      <code><![CDATA[testCanCreateReturnsFalseWithoutInjector]]></code>
+      <code><![CDATA[testCanCreateUsesInjector]]></code>
+      <code><![CDATA[testCreateUsesInjector]]></code>
+      <code><![CDATA[testCreateWithInvalidInjectorThrowsException]]></code>
+      <code><![CDATA[testCreateWithoutInjectorThrowsException]]></code>
+      <code><![CDATA[testInstanceIsInvokable]]></code>
+    </MissingReturnType>
+  </file>
+  <file src="test/Container/ConfigFactoryTest.php">
+    <MissingReturnType>
+      <code><![CDATA[testCreateRequestsContainerForConfigServiceGracefully]]></code>
+      <code><![CDATA[testCreateUsesConfigFromContainer]]></code>
+      <code><![CDATA[testInvokeCreatesConfigInstance]]></code>
+      <code><![CDATA[testLegacyConfigIsRespected]]></code>
+    </MissingReturnType>
+    <PossiblyNullPropertyAssignmentValue>
+      <code><![CDATA[null]]></code>
+    </PossiblyNullPropertyAssignmentValue>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[! strstr($errstr, 'legacy DI config')]]></code>
+      <code><![CDATA[strstr($errstr, 'legacy DI config')]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="test/Container/GeneratorFactoryTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[setMethods]]></code>
+    </DeprecatedMethod>
+    <InvalidFunctionCall>
+      <code><![CDATA[$mock($container)]]></code>
+    </InvalidFunctionCall>
+    <MissingClosureParamType>
+      <code><![CDATA[$type]]></code>
+    </MissingClosureParamType>
+    <UnusedMethodCall>
+      <code><![CDATA[setAccessible]]></code>
+      <code><![CDATA[setAccessible]]></code>
+    </UnusedMethodCall>
+  </file>
+  <file src="test/Container/InjectorFactoryTest.php">
+    <MissingReturnType>
+      <code><![CDATA[testCreateWillReturnAnInjectorInstance]]></code>
+      <code><![CDATA[testFactoryIsInvokable]]></code>
+      <code><![CDATA[testInvokeWillReturnAnInjectorInstance]]></code>
+      <code><![CDATA[testUsesConfigServiceFromContainer]]></code>
+    </MissingReturnType>
+    <UnusedMethodCall>
+      <code><![CDATA[setAccessible]]></code>
+    </UnusedMethodCall>
+  </file>
+  <file src="test/Container/ServiceManager/AutowireFactoryTest.php">
+    <MissingReturnType>
+      <code><![CDATA[testCanCreateIsPassedToGenericFactory]]></code>
+      <code><![CDATA[testInvokeIsPassedToGenericFactory]]></code>
+    </MissingReturnType>
+  </file>
+  <file src="test/Definition/Reflection/ClassDefinitionTest.php">
+    <RedundantCondition>
+      <code><![CDATA[assertIsArray]]></code>
+      <code><![CDATA[assertIsArray]]></code>
+      <code><![CDATA[assertIsArray]]></code>
+      <code><![CDATA[assertIsArray]]></code>
+      <code><![CDATA[assertIsArray]]></code>
+      <code><![CDATA[assertIsArray]]></code>
+      <code><![CDATA[assertIsArray]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="test/Definition/Reflection/ParameterTest.php">
+    <MissingReturnType>
+      <code><![CDATA[testBuiltinTypehintedParameters]]></code>
+      <code><![CDATA[testIterablePseudoType]]></code>
+      <code><![CDATA[testParamterReflectedCorrectly]]></code>
+      <code><![CDATA[testScalarTypehintedParameters]]></code>
+      <code><![CDATA[testTypehintedParameter]]></code>
+      <code><![CDATA[testTypelessParamter]]></code>
+    </MissingReturnType>
+    <MixedInferredReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+    </MixedInferredReturnType>
+  </file>
+  <file src="test/Definition/Reflection/ParameterTestTrait.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$classname]]></code>
+    </ArgumentTypeCoercion>
+    <MixedInferredReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+    </MixedInferredReturnType>
+  </file>
+  <file src="test/Definition/RuntimeDefinitionTest.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$class]]></code>
+      <code><![CDATA[[$class]]]></code>
+    </ArgumentTypeCoercion>
+    <MissingReturnType>
+      <code><![CDATA[testAddExplicitClass]]></code>
+      <code><![CDATA[testAddInvalidExplicitClassThrowsException]]></code>
+      <code><![CDATA[testHasClassReturnsFalseForInvalidClasses]]></code>
+      <code><![CDATA[testSetExplicitClasses]]></code>
+      <code><![CDATA[testSetExplicitClassesViaConstructor]]></code>
+      <code><![CDATA[testSetInvalidExplicitClassThrowsException]]></code>
+    </MissingReturnType>
+    <MixedInferredReturnType>
+      <code><![CDATA[array]]></code>
+    </MixedInferredReturnType>
+  </file>
+  <file src="test/LegacyConfigTest.php">
+    <InvalidArgument>
+      <code><![CDATA[new stdClass()]]></code>
+    </InvalidArgument>
+    <UnresolvableInclude>
+      <code><![CDATA[include $file->getPathname()]]></code>
+    </UnresolvableInclude>
+  </file>
+  <file src="test/Resolver/DependencyResolverTest.php">
+    <InternalMethod>
+      <code><![CDATA[toValue]]></code>
+      <code><![CDATA[toValue]]></code>
+    </InternalMethod>
+    <InvalidCast>
+      <code><![CDATA[$result['p']]]></code>
+    </InvalidCast>
+    <MissingClosureParamType>
+      <code><![CDATA[$class]]></code>
+    </MissingClosureParamType>
+    <MissingReturnType>
+      <code><![CDATA[testConfiguredExtendedInterfaceParameterSatisfiesRequiredInterfaceType]]></code>
+      <code><![CDATA[testConfiguredInvokableAliasParameterSatisfiesCallable]]></code>
+      <code><![CDATA[testConfiguredInvokableTypeParameterSatisfiesCallable]]></code>
+      <code><![CDATA[testConfiguredTraversableTypeParameterSatisfiesIterable]]></code>
+      <code><![CDATA[testParametresResolverShouldNotCheckTheTypeForString]]></code>
+      <code><![CDATA[testResolvePreferenceFallsBackToGlobalPreferenceWhenNotSuitableForClassRequirement]]></code>
+      <code><![CDATA[testResolvePreferenceFallsBackToGlobalPreferenceWhenNotSuitableForInterfaceRequirement]]></code>
+      <code><![CDATA[testResolvePreferenceReturnsNullWhenNothingIsSuitableForClassRequirement]]></code>
+      <code><![CDATA[testResolvePreferenceReturnsNullWhenNothingIsSuitableForInterfaceRequirement]]></code>
+      <code><![CDATA[testResolvePreferenceUsesDefinedClassForInterfaceRequirements]]></code>
+      <code><![CDATA[testResolvePreferenceUsesInterfaces]]></code>
+      <code><![CDATA[testResolvePreferenceUsesSupertypes]]></code>
+      <code><![CDATA[testResolveSucceedsWithoutContainer]]></code>
+      <code><![CDATA[testResolveWithContainerFailsWhenMissing]]></code>
+      <code><![CDATA[testResolveWithoutConfig]]></code>
+      <code><![CDATA[testUsableConfigParametersAreAccepted]]></code>
+    </MissingReturnType>
+    <MissingTemplateParam>
+      <code><![CDATA[IteratorAggregate]]></code>
+    </MissingTemplateParam>
+    <MixedArgument>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$options]]></code>
+      <code><![CDATA[$options]]></code>
+      <code><![CDATA[$options['interfaces']]]></code>
+      <code><![CDATA[$options['parameters']]]></code>
+      <code><![CDATA[$options['supertypes']]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$class]]></code>
+      <code><![CDATA[$name]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess>
+      <code><![CDATA[$config['expect']]]></code>
+      <code><![CDATA[$context]]></code>
+      <code><![CDATA[$expectedResult]]></code>
+      <code><![CDATA[$requested]]></code>
+    </MixedArrayAccess>
+    <MixedArrayOffset>
+      <code><![CDATA[$definition[$class]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$expectation]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$options]]></code>
+      <code><![CDATA[$options]]></code>
+      <code><![CDATA[[$requested, $expectedResult, $context]]]></code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code><![CDATA[PHPUnit_Framework_MockObject_MockObject|ContainerInterface]]></code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$key]]></code>
+    </MixedOperand>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$this->getEmptyContainerMock()]]></code>
+    </PossiblyInvalidArgument>
+    <RedundantCondition>
+      <code><![CDATA[assertIsArray]]></code>
+      <code><![CDATA[assertIsArray]]></code>
+      <code><![CDATA[assertIsArray]]></code>
+      <code><![CDATA[assertIsArray]]></code>
+    </RedundantCondition>
+    <UndefinedDocblockClass>
+      <code><![CDATA[PHPUnit_Framework_MockObject_MockObject|ContainerInterface]]></code>
+    </UndefinedDocblockClass>
+    <UnresolvableInclude>
+      <code><![CDATA[include $configFile]]></code>
+    </UnresolvableInclude>
+  </file>
+  <file src="test/Resolver/TypeInjectionTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getType]]></code>
+    </DeprecatedMethod>
+    <MissingReturnType>
+      <code><![CDATA[testExport]]></code>
+      <code><![CDATA[testGetTypeIsDeprectaed]]></code>
+      <code><![CDATA[testImplementsContract]]></code>
+      <code><![CDATA[testIsExportableIsAlwaysTrue]]></code>
+      <code><![CDATA[testToValueUsesContainer]]></code>
+    </MissingReturnType>
+    <MixedInferredReturnType>
+      <code><![CDATA[iterable]]></code>
+    </MixedInferredReturnType>
+  </file>
+  <file src="test/Resolver/ValueInjectionTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getValue]]></code>
+    </DeprecatedMethod>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->streamFixture]]></code>
+    </InvalidPropertyAssignmentValue>
+    <MissingReturnType>
+      <code><![CDATA[testExportThrowsExceptionForUnexportable]]></code>
+      <code><![CDATA[testExportWithExportableValues]]></code>
+      <code><![CDATA[testGetValueTriggersDeprecatedNotice]]></code>
+      <code><![CDATA[testImplementsContract]]></code>
+      <code><![CDATA[testIsExportableReturnsFalseForUnexportable]]></code>
+      <code><![CDATA[testIsExportableReturnsTrueForExportableValues]]></code>
+      <code><![CDATA[testSetStateConstructsInstance]]></code>
+      <code><![CDATA[testToValueBypassesContainer]]></code>
+    </MissingReturnType>
+    <MixedInferredReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+    </MixedInferredReturnType>
+    <PossiblyNullPropertyAssignmentValue>
+      <code><![CDATA[null]]></code>
+    </PossiblyNullPropertyAssignmentValue>
+    <RedundantCondition>
+      <code><![CDATA[assertIsString]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="test/TestAsset/BuiltinTypehintParameters.php">
+    <MissingReturnType>
+      <code><![CDATA[arrayType]]></code>
+      <code><![CDATA[callableType]]></code>
+    </MissingReturnType>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$p]]></code>
+      <code><![CDATA[$r]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/CircularClasses/A.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$b]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/CircularClasses/B.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$a]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/CircularClasses/C.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$d]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/CircularClasses/D.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$e]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/CircularClasses/E.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$c]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/CircularClasses/X.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$x]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/CircularClasses/Y.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$y]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/ClassDefinitionRedundantUaSortTestDependency.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$first]]></code>
+      <code><![CDATA[$second]]></code>
+      <code><![CDATA[$third]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/Config/SomeClass.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$a]]></code>
+      <code><![CDATA[$b]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/Constructor/ManyArguments.php">
+    <MissingParamType>
+      <code><![CDATA[$a]]></code>
+      <code><![CDATA[$b]]></code>
+      <code><![CDATA[$c]]></code>
+      <code><![CDATA[$d]]></code>
+      <code><![CDATA[$e]]></code>
+      <code><![CDATA[$f]]></code>
+    </MissingParamType>
+    <MissingPropertyType>
+      <code><![CDATA[$result]]></code>
+    </MissingPropertyType>
+  </file>
+  <file src="test/TestAsset/Constructor/MixedArguments.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$anyDep]]></code>
+      <code><![CDATA[$objectDep]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/Constructor/OptionalArguments.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$bar]]></code>
+      <code><![CDATA[$foo]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/Constructor/Php7.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$callbacDep]]></code>
+      <code><![CDATA[$numDep]]></code>
+      <code><![CDATA[$stringDep]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/Constructor/RequiredArguments.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$anyDep]]></code>
+      <code><![CDATA[$internalClassDep]]></code>
+      <code><![CDATA[$objectDep]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/GeneratedInjector.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->injector->create($name, $options)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[T]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="test/TestAsset/InvokableInterface.php">
+    <MissingReturnType>
+      <code><![CDATA[__invoke]]></code>
+    </MissingReturnType>
+  </file>
+  <file src="test/TestAsset/IterableDependency.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$iterator]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/Parameters.php">
+    <MissingReturnType>
+      <code><![CDATA[general]]></code>
+      <code><![CDATA[typehintOptional]]></code>
+      <code><![CDATA[typehintRequired]]></code>
+      <code><![CDATA[typelessOptional]]></code>
+      <code><![CDATA[typelessRequired]]></code>
+    </MissingReturnType>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$a]]></code>
+      <code><![CDATA[$b]]></code>
+      <code><![CDATA[$bar]]></code>
+      <code><![CDATA[$c]]></code>
+      <code><![CDATA[$flag]]></code>
+      <code><![CDATA[$foo]]></code>
+      <code><![CDATA[$fooOpt]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/Pseudotypes/IteratorAggregateImplementation.php">
+    <InvalidReturnType>
+      <code><![CDATA[Traversable]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="test/TestAsset/Pseudotypes/IteratorImplementation.php">
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="test/TestAsset/RequiresA.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$p]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/Resolver/ExportableValue.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$data]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="test/TestAsset/ScalarTypehintParameters.php">
+    <MissingReturnType>
+      <code><![CDATA[boolType]]></code>
+      <code><![CDATA[floatType]]></code>
+      <code><![CDATA[intType]]></code>
+      <code><![CDATA[stringType]]></code>
+    </MissingReturnType>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$p]]></code>
+      <code><![CDATA[$p]]></code>
+      <code><![CDATA[$p]]></code>
+      <code><![CDATA[$p]]></code>
+    </PossiblyUnusedParam>
+  </file>
+</files>

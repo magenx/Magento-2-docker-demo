@@ -1,0 +1,66 @@
+{
+    "name": "laminas/laminas-permissions-acl",
+    "description": "Provides a lightweight and flexible access control list (ACL) implementation for privileges management",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "acl"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-permissions-acl/",
+        "issues": "https://github.com/laminas/laminas-permissions-acl/issues",
+        "source": "https://github.com/laminas/laminas-permissions-acl",
+        "rss": "https://github.com/laminas/laminas-permissions-acl/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "conflict": {
+        "laminas/laminas-servicemanager": "<3.0",
+        "zendframework/zend-permissions-acl": "*"
+    },
+    "require": {
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "^3.0.1",
+        "laminas/laminas-servicemanager": "^3.21",
+        "phpbench/phpbench": "^1.2.10",
+        "phpunit/phpunit": "^10.5.38",
+        "psalm/plugin-phpunit": "^0.19.0",
+        "vimeo/psalm": "^5.26.1"
+    },
+    "suggest": {
+        "laminas/laminas-servicemanager": "To support Laminas\\Permissions\\Acl\\Assertion\\AssertionManager plugin manager usage"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Permissions\\Acl\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Permissions\\Acl\\": "test/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "static-analysis": "psalm --shepherd --stats",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    }
+}

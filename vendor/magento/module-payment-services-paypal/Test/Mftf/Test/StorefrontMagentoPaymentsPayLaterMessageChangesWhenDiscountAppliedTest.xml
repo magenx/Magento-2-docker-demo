@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsPayLaterMessageChangesWhenDiscountAppliedTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalSmartButtons"/>
+            <stories value="Pay Later message changes when discount applied"/>
+            <title value="Pay Later message changes when discount applied"/>
+            <description value="Users can apply discount and see different Pay Later message"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="pay-later-message-discount"/>
+            <group value="magento-payments"/>
+        </annotations>
+        <before>
+            <magentoCLI command="config:set {{EnableFreeShippingConfigData.path}} {{EnableFreeShippingConfigData.value}}" stepKey="enableFreeShipping"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
+            <actionGroup ref="AdminConfigurePaymentMethodActionGroup" stepKey="configurePaymentMethod">
+                <argument name="methodName" value="payment_services_paypal_smart_buttons"/>
+                <argument name="methodAction" value="authorize_capture"/>
+            </actionGroup>
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <createData entity="Simple_US_Customer" stepKey="createCustomer"/>
+            <createData entity="ApiSalesRule" stepKey="createSalesRule">
+                <field key="discount_amount">90</field>
+            </createData>
+            <createData entity="ApiSalesRuleCoupon" stepKey="createSalesRuleCoupon">
+                <requiredEntity createDataKey="createSalesRule"/>
+            </createData>
+        </before>
+        <after>
+            <magentoCLI command="config:set {{DisableFreeShippingMethod.path}} {{DisableFreeShippingMethod.value}}" stepKey="disableFreeShipping"/>
+            <actionGroup ref="AdminDisablePaymentMethodActionGroup" stepKey="disablePaymentMethod">
+                <argument name="methodName" value="payment_services_paypal_smart_buttons"/>
+            </actionGroup>
+            <deleteData stepKey="deleteCategory" createDataKey="createCategory"/>
+            <deleteData stepKey="deleteProduct" createDataKey="createProduct"/>
+            <deleteData stepKey="deleteCustomer" createDataKey="createCustomer"/>
+            <deleteData stepKey="deleteSalesRuleCoupon" createDataKey="createSalesRuleCoupon"/>
+            <deleteData stepKey="deleteSalesRule" createDataKey="createSalesRule"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+        </after>
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginAsCustomer">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+        <amOnPage url="{{StorefrontCategoryPage.url($$createCategory.name$$)}}" stepKey="navigateToCategoryPage"/>
+        <actionGroup ref="StorefrontAddProductToCartFromCategoryActionGroup" stepKey="addProductToCart">
+            <argument name="productName" value="$$createProduct.name$$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontOpenCartFromMinicartActionGroup" stepKey="navigateToCartPage"/>
+        <actionGroup ref="StorefrontGrabPayLaterMessageTextActionGroup" stepKey="getPayLaterMessageBefore">
+            <argument name="selector" value="{{SmartButtonsCartSection.MessageIframe}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontApplyCouponActionGroup" stepKey="applyCoupon">
+            <argument name="coupon" value="$$createSalesRuleCoupon$$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontGrabPayLaterMessageTextActionGroup" stepKey="getPayLaterMessageAfter">
+            <argument name="selector" value="{{SmartButtonsCartSection.MessageIframe}}"/>
+        </actionGroup>
+        <assertNotEquals stepKey="assertNotEquals">
+            <actualResult type="string">{getPayLaterMessageAfter}</actualResult>
+            <expectedResult type="string">{getPayLaterMessageBefore}</expectedResult>
+        </assertNotEquals>
+        <actionGroup ref="StorefrontCancelCouponActionGroup" stepKey="cancelCoupon"/>
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+        <actionGroup ref="StorefrontSetShippingMethodActionGroup" stepKey="selectFreeShippingMethod">
+            <argument name="shippingMethodName" value="{{freeTitleDefault.value}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckoutClickNextButtonActionGroup" stepKey="clickNext"/>
+        <actionGroup ref="StorefrontSelectPaymentServicesPaymentMethodActionGroup" stepKey="selectPaymentMethod">
+            <argument name="selector" value="{{CheckoutPaymentSection.MagentoPaymentServicesSmartButtonsRadio}}"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontGrabPayLaterMessageTextActionGroup" stepKey="getPayLaterMessageBefore2">
+            <argument name="selector" value="{{SmartButtonsPaymentSection.MessageIframe}}"/>
+        </actionGroup>
+        <actionGroup ref="ApplyCouponOnPaymentPageActionGroup" stepKey="applyCoupon2">
+            <argument name="couponCode" value="$$createSalesRuleCoupon.code$$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontGrabPayLaterMessageTextActionGroup" stepKey="getPayLaterMessageAfter2">
+            <argument name="selector" value="{{SmartButtonsPaymentSection.MessageIframe}}"/>
+        </actionGroup>
+        <assertNotEquals stepKey="assertNotEquals2">
+            <actualResult type="string">{getPayLaterMessageAfter2}</actualResult>
+            <expectedResult type="string">{getPayLaterMessageBefore2}</expectedResult>
+        </assertNotEquals>
+    </test>
+</tests>

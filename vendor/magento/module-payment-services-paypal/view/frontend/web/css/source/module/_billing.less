@@ -1,0 +1,114 @@
+// /**
+//  * Copyright © Magento, Inc. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    @on-hover-grey: #757575;
+    @hover-grey: #bbb;
+
+    .payment-method {
+        .flex-center {
+            align-items: center;
+            display: flex;
+            gap: 5px;
+        }
+        .payment-type-icon {
+            height: 40px;
+        }
+    }
+    .card-grid {
+        display: grid;
+    }
+
+    .card-aux {
+        gap: 20px;
+        grid-template-columns: minmax(auto, 400px);
+        .actions-toolbar {
+            justify-self: start;
+        }
+    }
+
+    .card-container {
+        margin-top: 20px;
+        .card-layout {
+            column-gap: 10px;
+            display: grid;
+            grid-template-areas: 'card-number-field-area card-number-field-area' 'expiration-date-field-area cvv-field-area';
+            max-width: 400px;
+            row-gap: 10px;
+            .display-lock {
+                align-items: center;
+                display: flex;
+                flex-direction: row-reverse;
+                .lock-icon {
+                    &:hover::before {
+                        color: @on-hover-grey;
+                    }
+                    &:before {
+                        color: @hover-grey;
+                        content: '\e629';
+                        display: inline-block;
+                        font-family: 'luma-icons';
+                        font-size: 18px;
+                        font-weight: normal;
+                        line-height: inherit;
+                        overflow: hidden;
+                        speak: none;
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+                }
+            }
+            grid-template-columns: repeat(2, 1fr);
+            .card-number-field-area {
+                grid-area: card-number-field-area;
+            }
+            .expiration-date-field-area {
+                grid-area: expiration-date-field-area;
+            }
+            .cvv-field-area {
+                grid-area: cvv-field-area;
+            }
+        }
+        align-items: center;
+
+
+        .field {
+            div.error {
+                border-color: @checkout-field-validation__border-color;
+            }
+
+            .label {
+                display: block;
+                font-weight: 600;
+            }
+
+            .card-field {
+                border: 1px solid @color-gray76;
+                height: 32px;
+                padding: 8px 15px;
+            }
+
+            .field-wrapper {
+                position: relative;
+
+                .field-tooltip {
+                    cursor: pointer;
+                    position: absolute;
+                    right: 15px;
+                    top: 10px;
+                }
+            }
+        }
+    }
+    .checkout-index-index {
+        > .loading-mask {
+            z-index: 999;
+        }
+    }
+}

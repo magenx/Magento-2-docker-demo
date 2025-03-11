@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontMagentoPaymentsPayLaterMessageChangesConfigurableProductTest">
+        <annotations>
+            <features value="MagentoPaymentsPayPalSmartButtons"/>
+            <stories value="Pay Later message changes when price of the product change"/>
+            <title value="Pay Later message changes when QTY change on the configurable product page"/>
+            <description value="Users can update QTY and see different Pay Later message on the configurable product page"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="pay-later-message-simple-product"/>
+            <group value="magento-payments"/>
+        </annotations>
+        <before>
+            <magentoCLI command="config:set {{EnableFreeShippingConfigData.path}} {{EnableFreeShippingConfigData.value}}" stepKey="enableFreeShipping"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
+            <actionGroup ref="AdminConfigurePaymentMethodActionGroup" stepKey="configurePaymentMethod">
+                <argument name="methodName" value="payment_services_paypal_smart_buttons"/>
+                <argument name="methodAction" value="authorize_capture"/>
+            </actionGroup>
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="ApiConfigurableProduct" stepKey="createConfigurableProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <createData entity="productAttributeWithTwoOptions" stepKey="createConfigProductAttr"/>
+            <createData entity="productAttributeOption1" stepKey="createConfigProductAttributeOption">
+                <requiredEntity createDataKey="createConfigProductAttr"/>
+            </createData>
+            <createData entity="productAttributeOption2" stepKey="createConfigProductAttributeOption2">
+                <requiredEntity createDataKey="createConfigProductAttr"/>
+            </createData>
+            <createData entity="AddToDefaultSet" stepKey="createConfigAddToAttrSet">
+                <requiredEntity createDataKey="createConfigProductAttr"/>
+            </createData>
+            <getData entity="ProductAttributeOptionGetter" index="1" stepKey="getConfigAttributeOption">
+                <requiredEntity createDataKey="createConfigProductAttr"/>
+            </getData>
+            <getData entity="ProductAttributeOptionGetter" index="2" stepKey="getConfigAttributeOption2">
+                <requiredEntity createDataKey="createConfigProductAttr"/>
+            </getData>
+            <createData entity="ApiSimpleOne" stepKey="createConfigChildProduct">
+                <requiredEntity createDataKey="createConfigProductAttr"/>
+                <requiredEntity createDataKey="getConfigAttributeOption"/>
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <createData entity="ApiSimpleOne" stepKey="createConfigChildProduct2">
+                <requiredEntity createDataKey="createConfigProductAttr"/>
+                <requiredEntity createDataKey="getConfigAttributeOption2"/>
+                <requiredEntity createDataKey="createCategory"/>
+                <field key="price">500.00</field>
+            </createData>
+            <createData entity="ConfigurableProductTwoOptions" stepKey="createConfigProductOption">
+                <requiredEntity createDataKey="createConfigurableProduct"/>
+                <requiredEntity createDataKey="createConfigProductAttr"/>
+                <requiredEntity createDataKey="getConfigAttributeOption"/>
+                <requiredEntity createDataKey="getConfigAttributeOption2"/>
+            </createData>
+            <createData entity="ConfigurableProductAddChild" stepKey="addConfigurableProductChild">
+                <requiredEntity createDataKey="createConfigurableProduct"/>
+                <requiredEntity createDataKey="createConfigChildProduct"/>
+            </createData>
+            <createData entity="ConfigurableProductAddChild" stepKey="addConfigurableProductChild2">
+                <requiredEntity createDataKey="createConfigurableProduct"/>
+                <requiredEntity createDataKey="createConfigChildProduct2"/>
+            </createData>
+            <magentoCron stepKey="runCronIndex" groups="index"/>
+        </before>
+        <after>
+            <magentoCLI command="config:set {{DisableFreeShippingMethod.path}} {{DisableFreeShippingMethod.value}}" stepKey="disableFreeShipping"/>
+            <actionGroup ref="AdminDisablePaymentMethodActionGroup" stepKey="disablePaymentMethod">
+                <argument name="methodName" value="payment_services_paypal_smart_buttons"/>
+            </actionGroup>
+            <deleteData stepKey="deleteCategory" createDataKey="createCategory"/>
+            <deleteData stepKey="deleteSimpleProduct" createDataKey="createConfigChildProduct"/>
+            <deleteData stepKey="deleteSimpleProduct2" createDataKey="createConfigChildProduct2"/>
+            <deleteData stepKey="deleteConfigurableProduct" createDataKey="createConfigurableProduct"/>
+            <deleteData stepKey="deleteConfigProductAttribute" createDataKey="createConfigProductAttr"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+        </after>
+        <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="navigateToProductPage">
+            <argument name="productUrl" value="$createConfigurableProduct.custom_attributes[url_key]$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontGrabPayLaterMessageTextActionGroup" stepKey="getPayLaterMessageBefore">
+            <argument name="selector" value="{{SmartButtonsProductSection.MessageIframe}}"/>
+        </actionGroup>
+        <fillField selector="{{StorefrontProductInfoMainSection.qty}}" userInput="100" stepKey="changeQty"/>
+        <wait time="2" stepKey="waitForPayLaterMessageReady"/>
+        <actionGroup ref="StorefrontGrabPayLaterMessageTextActionGroup" stepKey="getPayLaterMessageAfter">
+            <argument name="selector" value="{{SmartButtonsProductSection.MessageIframe}}"/>
+        </actionGroup>
+        <assertNotEquals stepKey="assertNotEquals">
+            <actualResult type="string">{getPayLaterMessageAfter}</actualResult>
+            <expectedResult type="string">{getPayLaterMessageBefore}</expectedResult>
+        </assertNotEquals>
+        <selectOption userInput="$$getConfigAttributeOption2.value$$" selector="{{StorefrontProductInfoMainSection.productAttributeOptionsSelectButton}}" stepKey="selectOption"/>
+        <wait time="2" stepKey="waitForPayLaterMessageReady2"/>
+        <actionGroup ref="StorefrontGrabPayLaterMessageTextActionGroup" stepKey="getPayLaterMessageAfter2">
+            <argument name="selector" value="{{SmartButtonsProductSection.MessageIframe}}"/>
+        </actionGroup>
+        <assertNotEquals stepKey="assertNotEquals2">
+            <actualResult type="string">{getPayLaterMessageAfter2}</actualResult>
+            <expectedResult type="string">{getPayLaterMessageAfter}</expectedResult>
+        </assertNotEquals>
+    </test>
+</tests>

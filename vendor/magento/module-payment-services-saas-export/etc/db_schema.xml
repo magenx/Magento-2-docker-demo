@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="payment_services_order_data_production_submitted_hash" resource="default" engine="innodb" comment="Payment Services Order Feed Storage">
+        <column xsi:type="varchar"
+                name="identifier"
+                nullable="false"
+                length="64"
+                comment="Order identifier"/>
+        <column xsi:type="varchar"
+                name="feed_hash"
+                nullable="false"
+                length="64"
+                comment="feed_hash"/>
+        <column xsi:type="timestamp"
+                name="submitted_at"
+                on_update="true"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                comment="Submitted At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="identifier"/>
+        </constraint>
+    </table>
+    <table name="payment_services_order_data_sandbox_submitted_hash" resource="default" engine="innodb" comment="Payment Services Order Feed Storage">
+        <column xsi:type="varchar"
+                name="identifier"
+                nullable="false"
+                length="64"
+                comment="Order identifier"/>
+        <column xsi:type="varchar"
+                name="feed_hash"
+                nullable="false"
+                length="64"
+                comment="feed_hash"/>
+        <column xsi:type="timestamp"
+                name="submitted_at"
+                on_update="true"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                comment="Submitted At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="identifier"/>
+        </constraint>
+    </table>
+    <table name="payment_services_order_status_data_prod_submitted_hash" resource="default" engine="innodb" comment="Payment Services Order Status Feed Storage" onCreate="safeMigrateDataFromAnotherTable(payment_services_order_status_data_production_submitted_hash)">
+        <column xsi:type="varchar"
+                name="identifier"
+                nullable="false"
+                length="64"
+                comment="Order Status identifier"/>
+        <column xsi:type="varchar"
+                name="feed_hash"
+                nullable="false"
+                length="64"
+                comment="feed_hash"/>
+        <column xsi:type="timestamp"
+                name="submitted_at"
+                on_update="true"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                comment="Submitted At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="identifier"/>
+        </constraint>
+    </table>
+    <table name="payment_services_order_status_data_sandbox_submitted_hash" resource="default" engine="innodb" comment="Payment Services Order Status Feed Storage">
+        <column xsi:type="varchar"
+                name="identifier"
+                nullable="false"
+                length="64"
+                comment="Order Status identifier"/>
+        <column xsi:type="varchar"
+                name="feed_hash"
+                nullable="false"
+                length="64"
+                comment="feed_hash"/>
+        <column xsi:type="timestamp"
+                name="submitted_at"
+                on_update="true"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                comment="Submitted At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="identifier"/>
+        </constraint>
+    </table>
+    <table name="payment_services_store_data_production_submitted_hash" resource="default" engine="innodb" comment="Payment Services Store Feed Storage">
+        <column xsi:type="varchar"
+                name="identifier"
+                nullable="false"
+                length="64"
+                comment="Store identifier"/>
+        <column xsi:type="varchar"
+                name="feed_hash"
+                nullable="false"
+                length="64"
+                comment="feed_hash"/>
+        <column xsi:type="timestamp"
+                name="submitted_at"
+                on_update="true"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                comment="Submitted At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="identifier"/>
+        </constraint>
+    </table>
+    <table name="payment_services_store_data_sandbox_submitted_hash" resource="default" engine="innodb" comment="Payment Services Store Feed Storage">
+        <column xsi:type="varchar"
+                name="identifier"
+                nullable="false"
+                length="64"
+                comment="Store identifier"/>
+        <column xsi:type="varchar"
+                name="feed_hash"
+                nullable="false"
+                length="64"
+                comment="feed_hash"/>
+        <column xsi:type="timestamp"
+                name="submitted_at"
+                on_update="true"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                comment="Submitted At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="identifier"/>
+        </constraint>
+    </table>
+</schema>

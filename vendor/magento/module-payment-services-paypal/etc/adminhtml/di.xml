@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ServiceProxy\Controller\Adminhtml\Config\Index">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="payments" xsi:type="array">
+                    <item name="payment_services_soft_descriptor" xsi:type="string">payment/payment_services/soft_descriptor</item>
+                    <item name="payment_services_async_status_updates" xsi:type="string">payment/payment_services/async_status_updates</item>
+                    <item name="payment_services_paypal_hosted_fields_title" xsi:type="string">payment/payment_services_paypal_hosted_fields/title</item>
+                    <item name="payment_services_paypal_hosted_fields_payment_action" xsi:type="string">payment/payment_services_paypal_hosted_fields/payment_action</item>
+                    <item name="payment_services_paypal_hosted_fields_show_on_checkout" xsi:type="string">payment/payment_services_paypal_hosted_fields/display_on_checkout</item>
+                    <item name="payment_services_paypal_hosted_fields_sort_order" xsi:type="string">payment/payment_services_paypal_hosted_fields/sort_order</item>
+                    <item name="payment_services_paypal_hosted_fields_three_ds" xsi:type="string">payment/payment_services_paypal_hosted_fields/three_ds</item>
+                    <item name="payment_services_paypal_hosted_fields_debug" xsi:type="string">payment/payment_services_paypal_hosted_fields/debug</item>
+                    <item name="payment_services_paypal_smart_buttons_title" xsi:type="string">payment/payment_services_paypal_smart_buttons/title</item>
+                    <item name="payment_services_paypal_smart_buttons_payment_action" xsi:type="string">payment/payment_services_paypal_smart_buttons/payment_action</item>
+                    <item name="payment_services_paypal_smart_buttons_display_later_message" xsi:type="string">payment/payment_services_paypal_smart_buttons/display_paylater_message</item>
+                    <item name="payment_services_paypal_smart_buttons_funding_venmo" xsi:type="string">payment/payment_services_paypal_smart_buttons/funding_venmo</item>
+                    <item name="payment_services_paypal_smart_buttons_funding_paypal_credit" xsi:type="string">payment/payment_services_paypal_smart_buttons/funding_paypal_credit</item>
+                    <item name="payment_services_paypal_smart_buttons_funding_card" xsi:type="string">payment/payment_services_paypal_smart_buttons/funding_card</item>
+                    <item name="payment_services_paypal_smart_buttons_debug" xsi:type="string">payment/payment_services_paypal_smart_buttons/debug</item>
+                    <item name="payment_services_paypal_smart_buttons_display_buttons_product_detail" xsi:type="string">payment/payment_services_paypal_smart_buttons/display_buttons_product_detail</item>
+                    <item name="payment_services_paypal_smart_buttons_display_buttons_minicart" xsi:type="string">payment/payment_services_paypal_smart_buttons/display_buttons_minicart</item>
+                    <item name="payment_services_paypal_smart_buttons_display_buttons_cart" xsi:type="string">payment/payment_services_paypal_smart_buttons/display_buttons_cart</item>
+                    <item name="payment_services_paypal_smart_buttons_display_buttons_checkout" xsi:type="string">payment/payment_services_paypal_smart_buttons/display_buttons_checkout</item>
+                    <item name="payment_services_paypal_smart_buttons_sort_order" xsi:type="string">payment/payment_services_paypal_apple_pay/sort_order</item>
+                    <item name="payment_services_paypal_smart_buttons_style_layout" xsi:type="string">payment/payment_services_paypal_smart_buttons/style_layout</item>
+                    <item name="payment_services_paypal_smart_buttons_style_color" xsi:type="string">payment/payment_services_paypal_smart_buttons/style_color</item>
+                    <item name="payment_services_paypal_smart_buttons_style_shape" xsi:type="string">payment/payment_services_paypal_smart_buttons/style_shape</item>
+                    <item name="payment_services_paypal_smart_buttons_style_height" xsi:type="string">payment/payment_services_paypal_smart_buttons/style_height</item>
+                    <item name="payment_services_paypal_smart_buttons_style_height_use_default" xsi:type="string">payment/payment_services_paypal_smart_buttons/style_height_use_default</item>
+                    <item name="payment_services_paypal_smart_buttons_style_label" xsi:type="string">payment/payment_services_paypal_smart_buttons/style_label</item>
+                    <item name="payment_services_paypal_smart_buttons_style_tagline" xsi:type="string">payment/payment_services_paypal_smart_buttons/style_tagline</item>
+                    <item name="payment_services_paypal_vault_is_enabled" xsi:type="string">payment/payment_services_paypal_vault/active</item>
+                    <item name="payment_services_admin_paypal_vault_is_enabled" xsi:type="string">payment/payment_services_paypal_vault/active_admin</item>
+                    <item name="payment_services_paypal_apple_pay_title" xsi:type="string">payment/payment_services_paypal_apple_pay/title</item>
+                    <item name="payment_services_paypal_apple_pay_payment_action" xsi:type="string">payment/payment_services_paypal_apple_pay/payment_action</item>
+                    <item name="payment_services_paypal_apple_pay_display_product_detail" xsi:type="string">payment/payment_services_paypal_apple_pay/display_product_detail</item>
+                    <item name="payment_services_paypal_apple_pay_display_minicart" xsi:type="string">payment/payment_services_paypal_apple_pay/display_minicart</item>
+                    <item name="payment_services_paypal_apple_pay_display_cart" xsi:type="string">payment/payment_services_paypal_apple_pay/display_cart</item>
+                    <item name="payment_services_paypal_apple_pay_display_checkout" xsi:type="string">payment/payment_services_paypal_apple_pay/display_checkout</item>
+                    <item name="payment_services_paypal_apple_pay_sort_order" xsi:type="string">payment/payment_services_paypal_smart_buttons/sort_order</item>
+                    <item name="payment_services_paypal_apple_pay_debug" xsi:type="string">payment/payment_services_paypal_apple_pay/debug</item>
+                    <item name="payment_services_paypal_google_pay_title" xsi:type="string">payment/payment_services_paypal_google_pay/title</item>
+                    <item name="payment_services_paypal_google_pay_payment_action" xsi:type="string">payment/payment_services_paypal_google_pay/payment_action</item>
+                    <item name="payment_services_paypal_google_pay_three_ds" xsi:type="string">payment/payment_services_paypal_google_pay/three_ds</item>
+                    <item name="payment_services_paypal_google_pay_display_product_detail" xsi:type="string">payment/payment_services_paypal_google_pay/display_product_detail</item>
+                    <item name="payment_services_paypal_google_pay_display_minicart" xsi:type="string">payment/payment_services_paypal_google_pay/display_minicart</item>
+                    <item name="payment_services_paypal_google_pay_display_cart" xsi:type="string">payment/payment_services_paypal_google_pay/display_cart</item>
+                    <item name="payment_services_paypal_google_pay_display_checkout" xsi:type="string">payment/payment_services_paypal_google_pay/display_checkout</item>
+                    <item name="payment_services_paypal_google_pay_sort_order" xsi:type="string">payment/payment_services_paypal_google_pay/sort_order</item>
+                    <item name="payment_services_paypal_google_pay_debug" xsi:type="string">payment/payment_services_paypal_google_pay/debug</item>
+                    <item name="payment_services_paypal_google_pay_style_color" xsi:type="string">payment/payment_services_paypal_google_pay/button_color</item>
+                    <item name="payment_services_paypal_google_pay_style_type" xsi:type="string">payment/payment_services_paypal_google_pay/button_type</item>
+                    <item name="payment_services_paypal_l2_l3_send_data" xsi:type="string">payment/payment_services_paypal_l2_l3/send_data</item>
+                </item>
+            </argument>
+            <argument name="cacheInvalidationPatterns" xsi:type="array">
+                <item name="full_page" xsi:type="array">
+                    <item name="payment_services_paypal_smart_buttons_style" xsi:type="string">payment/payment_services_paypal_smart_buttons/style</item>
+                    <item name="payment_services_paypal_smart_buttons_display" xsi:type="string">payment/payment_services_paypal_smart_buttons/display</item>
+                    <item name="payment_services_paypal_apple_pay_display" xsi:type="string">payment/payment_services_paypal_apple_pay/display</item>
+                    <item name="payment_services_paypal_google_pay_display" xsi:type="string">payment/payment_services_paypal_google_pay/display</item>
+                    <item name="payment_services_paypal_google_pay_button_style" xsi:type="string">payment/payment_services_paypal_google_pay/button</item>
+                </item>
+                <item name="paypal_sdk_params" xsi:type="array">
+                    <item name="payment_services_paypal_smart_buttons_display_later_message" xsi:type="string">payment/payment_services_paypal_smart_buttons/display_paylater_message</item>
+                    <item name="payment_services_paypal_smart_buttons_funding_venmo" xsi:type="string">payment/payment_services_paypal_smart_buttons/funding_venmo</item>
+                    <item name="payment_services_paypal_smart_buttons_funding_paypal_credit" xsi:type="string">payment/payment_services_paypal_smart_buttons/funding_paypal_credit</item>
+                    <item name="payment_services_paypal_smart_buttons_funding_cart" xsi:type="string">payment/payment_services_paypal_smart_buttons/funding_card</item>
+                    <item name="payment/payment_services_paypal_smart_buttons/display_buttons_checkout" xsi:type="string">payment/payment_services_paypal_smart_buttons/display_buttons_checkout</item>
+                    <item name="payment_services_paypal_hosted_fields_show_on_checkout" xsi:type="string">payment/payment_services_paypal_hosted_fields/display_on_checkout</item>
+                    <item name="payment_services_paypal_google_pay_title" xsi:type="string">payment/payment_services_paypal_google_pay/title</item>
+                    <item name="payment_services_paypal_google_pay_payment_action" xsi:type="string">payment/payment_services_paypal_google_pay/payment_action</item>
+                    <item name="payment_services_paypal_google_pay_display_product_detail" xsi:type="string">payment/payment_services_paypal_google_pay/display_product_detail</item>
+                    <item name="payment_services_paypal_google_pay_display_minicart" xsi:type="string">payment/payment_services_paypal_google_pay/display_minicart</item>
+                    <item name="payment_services_paypal_google_pay_display_cart" xsi:type="string">payment/payment_services_paypal_google_pay/display_cart</item>
+                    <item name="payment_services_paypal_google_pay_display_checkout" xsi:type="string">payment/payment_services_paypal_google_pay/display_checkout</item>
+                    <item name="payment_services_paypal_google_pay_sort_order" xsi:type="string">payment/payment_services_paypal_google_pay/sort_order</item>
+                    <item name="payment_services_paypal_google_pay_debug" xsi:type="string">payment/payment_services_paypal_google_pay/debug</item>
+                    <item name="payment_services_paypal_google_pay_style_color" xsi:type="string">payment/payment_services_paypal_google_pay/button_color</item>
+                    <item name="payment_services_paypal_google_pay_style_type" xsi:type="string">payment/payment_services_paypal_google_pay/button_type</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\View">
+        <plugin name="payments_services_environment_message" type="Magento\PaymentServicesPaypal\Plugin\OrderViewEnvironmentMessage"/>
+    </type>
+    <type name="Magento\Vault\Model\Ui\Adminhtml\TokensConfigProvider">
+        <arguments>
+            <argument name="tokenUiComponentProviders" xsi:type="array">
+                <item name="payment_services_paypal_hosted_fields" xsi:type="object">Magento\PaymentServicesPaypal\Model\Ui\Adminhtml\TokenUiComponentProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Sales\Model\AdminOrder\Create">
+        <plugin name="order_cancellation" type="Magento\PaymentServicesPaypal\Plugin\AdminOrderCancellation"/>
+    </type>
+</config>

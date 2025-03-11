@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="StorefrontFillPaymentServicesCreditCardFormActionGroup">
+        <annotations>
+            <description>Fill credit card form on checkout payments page</description>
+        </annotations>
+        <arguments>
+            <argument name="section" defaultValue="CheckoutPaymentSection"/>
+            <argument name="creditCard" defaultValue="PaymentsCreditCardVisaValid"/>
+        </arguments>
+        <!-- Fill credit card number -->
+        <waitForElement selector="[name='{{section.MagentoPaymentServicesHostedFieldsCardNumberIframe}}']" stepKey="waitForCardNumberIFrame"/>
+        <switchToIFrame selector="{{section.MagentoPaymentServicesHostedFieldsCardNumberIframe}}" stepKey="switchToCardNumberIFrame"/>
+        <waitForElement selector="{{section.MagentoPaymentServicesHostedFieldsCardNumber}}" stepKey="waitForCardNumberInput"/>
+        <pressKey selector="{{section.MagentoPaymentServicesHostedFieldsCardNumber}}" parameterArray="[\Facebook\WebDriver\WebDriverKeys::BACKSPACE]" stepKey="triggerPressKeyEventOnCardNumber"/>
+        <fillField userInput="{{creditCard.number}}" selector="{{section.MagentoPaymentServicesHostedFieldsCardNumber}}" stepKey="appendCardNumber"/>
+        <switchToPreviousTab stepKey="switchToPreviousTab"/>
+
+        <!-- Fill credit card expiration date -->
+        <waitForElement selector="[name='{{section.MagentoPaymentServicesHostedFieldsExpirationIframe}}']" stepKey="waitForExpirationDateIFrame"/>
+        <switchToIFrame selector="{{section.MagentoPaymentServicesHostedFieldsExpirationIframe}}" stepKey="switchToExpirationDateIFrame"/>
+        <waitForElement selector="{{section.MagentoPaymentServicesHostedFieldsExpiration}}" stepKey="waitForExpirationDateInput"/>
+        <pressKey selector="{{section.MagentoPaymentServicesHostedFieldsExpiration}}" parameterArray="[\Facebook\WebDriver\WebDriverKeys::BACKSPACE]" stepKey="triggerPressKeyEventOnExpirationDate"/>
+        <fillField userInput="{{creditCard.expirationDate}}" selector="{{section.MagentoPaymentServicesHostedFieldsExpiration}}" stepKey="appendExpirationDate"/>
+        <switchToPreviousTab stepKey="switchToPreviousTab2"/>
+
+        <!-- Fill credit card cvv code -->
+        <waitForElement selector="[name='{{section.MagentoPaymentServicesHostedFieldsExpirationIframe}}']" stepKey="waitForCVVIFrame"/>
+        <switchToIFrame selector="{{section.MagentoPaymentServicesHostedFieldsCVVIframe}}" stepKey="switchToCVVIFrame"/>
+        <waitForElement selector="{{section.MagentoPaymentServicesHostedFieldsCVV}}" stepKey="waitForCVVIFrameInput"/>
+        <pressKey selector="{{section.MagentoPaymentServicesHostedFieldsCVV}}" parameterArray="[\Facebook\WebDriver\WebDriverKeys::BACKSPACE]" stepKey="triggerPressKeyEventOnCVV"/>
+        <fillField userInput="{{creditCard.cvv}}" selector="{{section.MagentoPaymentServicesHostedFieldsCVV}}" stepKey="appendCVV"/>
+        <switchToPreviousTab stepKey="switchToMainForm"/>
+
+        <!-- Focus out from cvv field-->
+        <click selector="{{section.MagentoPaymentServicesHostedFieldsCVVFieldTooltipToggle}}" stepKey="openTooltip"/>
+    </actionGroup>
+</actionGroups>

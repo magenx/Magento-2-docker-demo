@@ -1,0 +1,74 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Magento\PaymentServicesPaypal\Block\Customer\Vault\AddCardForm;
+
+/** @var AddCardForm|Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+
+?>
+
+<legend class="legend"><span><?= $escaper->escapeHtml(__('Card Information')) ?></span></legend>
+<div id="card-vault-container" data-bind="scope: 'add-card-form'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <fieldset class="fieldset">
+        <!-- ko -->
+        <div class="field">
+            <label class="label">
+                <span><?= $escaper->escapeHtml(__('Card Description')) ?></span>
+            </label>
+            <div id="vault-card-description" style="height:32px" class="control"></div>
+        </div>
+
+        <div class="field required">
+            <label class="label">
+                <span><?= $escaper->escapeHtml(__('Card Number')) ?></span>
+            </label>
+            <div id="vault-card-number" class="control"></div>
+            <div id="vault-card-number-error" class="mage-error" data-bind="if: !isFieldValid('number')">
+                <span data-bind="text: getFieldErrorMessage('number')"></span>
+            </div>
+        </div>
+
+        <div class="field required">
+            <label class="label">
+                <span><?= $escaper->escapeHtml(__('Card Expiration Date')) ?></span>
+            </label>
+            <div id="vault-expiration-date" class="control"></div>
+            <div id="vault-expiration-error" class="mage-error" data-bind="if: !isFieldValid('expirationDate')">
+                <span data-bind="text: getFieldErrorMessage('expirationDate')"></span>
+            </div>
+        </div>
+
+        <div class="field required">
+            <label class="label">
+                <span><?= $escaper->escapeHtml(__('Card Security Number')) ?></span>
+            </label>
+            <div id="vault-cvv" class="control"></div>
+            <div id="vault-cvv-error" class="mage-error" data-bind="if: !isFieldValid('cvv')">
+                <span data-bind="text: getFieldErrorMessage('cvv')"></span>
+            </div>
+        </div>
+        <!-- /ko -->
+    </fieldset>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "add-card-form": {
+                        "component": "Magento_PaymentServicesPaypal/js/view/customer_account/vault/add-card-form",
+                        "componentParams": <?= /* @noEscape */ json_encode($block->getComponentParams()) ?>
+                    }
+                }
+            }
+        }
+    }
+</script>

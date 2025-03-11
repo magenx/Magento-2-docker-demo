@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var \PayPal\Braintree\Block\GooglePay\Shortcut\Button $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+try {
+    $id = sprintf('%s%s', $block->getContainerId(), random_int(PHP_INT_MIN, PHP_INT_MAX));
+} catch (Exception $e) {
+    /**
+     * Exception only thrown if an appropriate source of randomness cannot be found.
+     * https://www.php.net/manual/en/function.random-int.php
+     */
+    $id = 0;
+}
+
+$config = [
+    'PayPal_Braintree/js/googlepay/implementations/shortcut' => [
+        'id' => $id,
+        'environment' => $block->getEnvironment(),
+        'clientToken' => $block->getClientToken(),
+        'merchantId' => $block->getMerchantId(),
+        'actionSuccess' => $block->getActionSuccess(),
+        'currencyCode' => $block->getCurrencyCode(),
+        'amount' => $block->getAmount(),
+        'cardTypes' => $block->getAvailableCardTypes(),
+        'btnColor' => $block->getBtnColor(),
+        'threeDSecure' => $block->get3DSecureConfigData()
+    ]
+];
+?>
+<div id="<?= $escaper->escapeHtmlAttr($id) ?>"
+     data-mage-init="<?= $escaper->escapeHtmlAttr(json_encode($config)) ?>"
+     class="googlepay-minicart-logo <?= $escaper->escapeHtmlAttr($block->getExtraClassname()) ?>">
+</div>

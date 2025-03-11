@@ -1,0 +1,19 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+?>
+
+<?php
+/** @var \Magento\PaymentServicesPaypal\Block\Message $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<?php if ($block->isEnabled('product_detail')): ?>
+    <div data-mage-init='{"Magento_PaymentServicesPaypal/js/view/payment/message-product":
+    <?= /* @noEscape */ json_encode($block->getComponentParams()) ?>}'></div>
+    <div class="pay-later-message"></div>
+<?php endif ?>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="img-src">
+            <values>
+                <value id="paypal_widgets" type="host">*.paypal.com</value>
+                <value id="typekit_fonts" type="host">*.typekit.net</value>
+                <value id="google_pay_sdk_1" type="host">*.gstatic.com</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="paypal_widgets" type="host">*.paypal.com</value>
+                <value id="google_pay_sdk_1" type="host">google.com</value>
+                <value id="google_pay_sdk_2" type="host">*.google.com</value>
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="braintreegateway_widgets" type="host">*.braintreegateway.com</value>
+                <value id="paypal_widgets" type="host">*.paypal.com</value>
+                <value id="google_pay_sdk_1" type="host">google.com</value>
+                <value id="google_pay_sdk_2" type="host">*.google.com</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="typekit_fonts" type="host">*.typekit.net</value>
+                <value id="google_pay_sdk_1" type="host">google.com</value>
+                <value id="google_pay_sdk_2" type="host">*.google.com</value>
+                <value id="apple_pay_sdk" type="host">*.cdn-apple.com</value>
+            </values>
+        </policy>
+        <policy id="font-src">
+            <values>
+                <value id="typekit_fonts" type="host">*.typekit.net</value>
+                <value id="google_pay_sdk_1" type="host">*.gstatic.com</value>
+            </values>
+        </policy>
+        <policy id="form-action">
+            <values>
+                <value id="paypal" type="host">*.paypal.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>
+

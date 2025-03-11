@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="CheckoutPaymentSection">
+        <element name="MagentoPaymentServicesHostedFieldsRadio" type="radio" selector="input#payment_services_paypal_hosted_fields" timeout="30"/>
+        <element name="MagentoPaymentServicesHostedFieldsForm" type="block" selector="#hosted-fields-form"/>
+        <element name="MagentoPaymentServicesPaymentOptionsHostedFieldsLockIcon" type="block" selector="#card-number .lock-icon title"/>
+        <element name="MagentoPaymentServicesHostedFieldsCardNumberIframe" type="iframe" selector="braintree-hosted-field-number"/>
+        <element name="MagentoPaymentServicesHostedFieldsCardNumber" type="input" selector="input#credit-card-number"/>
+        <element name="MagentoPaymentServicesHostedFieldsCardNumberFieldElement" type="block" selector="[data-field-name='number']"/>
+        <element name="MagentoPaymentServicesHostedFieldsExpirationIframe" type="iframe" selector="braintree-hosted-field-expirationDate"/>
+        <element name="MagentoPaymentServicesHostedFieldsExpiration" type="input" selector="input#expiration"/>
+        <element name="MagentoPaymentServicesHostedFieldsExpirationFieldElement" type="block" selector="[data-field-name='expirationDate']"/>
+        <element name="MagentoPaymentServicesHostedFieldsCVVIframe" type="iframe" selector="braintree-hosted-field-cvv"/>
+        <element name="MagentoPaymentServicesHostedFieldsCVV" type="input" selector="input#cvv"/>
+        <element name="MagentoPaymentServicesHostedFieldsCVVFieldElement" type="block" selector="[data-field-name='cvv']"/>
+        <element name="MagentoPaymentServicesHostedFieldsCVVFieldTooltipToggle" type="block" selector="[data-field-name='cvv'] .toggle"/>
+        <element name="MagentoPaymentServicesHostedFieldsPlaceOrderButton" type="button" selector="div._active div.payment-method-content button.checkout"/>
+        <element name="MagentoPaymentServicesHostedFieldsPlaceOrderButtonDisabled" type="button" selector="div._active div.payment-method-content button.checkout:disabled"/>
+        <element name="MagentoPaymentServicesSmartButtonsRadio" type="radio" selector="input#payment_services_paypal_smart_buttons" timeout="30"/>
+        <element name="MagentoPaymentServicesGooglePaySmartButtonRadio" type="radio" selector="input#payment_services_paypal_google_pay" timeout="30"/>
+        <element name="MagentoPaymentServicesHostedFieldsErrorElement" type="block" selector=".field-error span"/>
+        <element name="MagentoPaymentServicesHostedFieldsActiveCreditCardType" type="block" selector=".payment_services_paypal_hosted_fields .credit-card-types .item._active img[alt='{{type}}']" parameterized="true"/>
+        <element name="MagentoPaymentServicesGooglePayButtonOnProductPage" type="button" selector=".product-info-main .google-pay button"/>
+        <element name="MagentoPaymentServicesGooglePayButtonOnMiniCart" type="button" selector=".minicart-wrapper .google-pay button"/>
+        <element name="MagentoPaymentServicesGooglePayButtonOnCartPage" type="button" selector=".cart-summary .google-pay button"/>
+        <element name="MagentoPaymentServicesGooglePayButtonOnCheckoutPage" type="button" selector=".payment-method .google-pay button"/>
+    </section>
+</sections>

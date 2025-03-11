@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminCheckNewCreditMemoTotalsForFranceTest">
+        <actionGroup ref="AssertAdminCreditMemoViewPageTotalsForFranceActionGroup" stepKey="assertCreditMemoViewPageTotals">
+            <argument name="subtotal" value="560,00"/>
+            <argument name="adjustmentRefund" value="5,31"/>
+            <argument name="adjustmentFee" value="10,31"/>
+            <argument name="grandTotal" value="555,00"/>
+        </actionGroup>
+    </test>
+</tests>

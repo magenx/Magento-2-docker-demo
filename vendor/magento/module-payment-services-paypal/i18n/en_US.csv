@@ -1,0 +1,166 @@
+"Incl. Tax","Incl. Tax"
+"Your session has expired. Please refresh the page and try again.","Your session has expired. Please refresh the page and try again."
+"Product is out of stock. Please try again later.","Product is out of stock. Please try again later."
+"To check out, please sign in with your email address.","To check out, please sign in with your email address."
+"We can't add this item to your shopping cart right now. Please try again later.","We can't add this item to your shopping cart right now. Please try again later."
+"Can't create PayPal order. Please try again.","Can't create PayPal order. Please try again."
+"We can't process the order right now. Please try again later.","We can't process the order right now. Please try again later."
+"Can't update shipping method. Please try again.","Can't update shipping method. Please try again."
+"Can't update quote. Please try again.","Can't update quote. Please try again."
+"Not logged in","Not logged in"
+"No token found.","No token found."
+message,message
+"Deletion failure. Please try again.","Deletion failure. Please try again."
+"Stored Payment Method was successfully removed","Stored Payment Method was successfully removed"
+"Your payment was not successful. Ensure you have entered your details correctly and try again, or try a different payment method. If you have continued problems, contact the issuing bank for your payment method.","Your payment was not successful. Ensure you have entered your details correctly and try again, or try a different payment method. If you have continued problems, contact the issuing bank for your payment method."
+"Error happened when processing the request. Please try again later.","Error happened when processing the request. Please try again later."
+Authorize,Authorize
+"Authorize and Capture","Authorize and Capture"
+blue,blue
+gold,gold
+silver,silver
+white,white
+black,black
+vertical,vertical
+horizontal,horizontal
+rectangular,rectangular
+pill,pill
+Off,Off
+"When Required","When Required"
+Always,Always
+"Configuration not found","Configuration not found"
+"Order auto-canceled due to technical issues.","Order auto-canceled due to technical issues."
+"Credit Card","Credit Card"
+ending,ending
+expires,expires
+"Invalid methodCode","Invalid methodCode"
+"Can't initialize checkout. Please try again.","Can't initialize checkout. Please try again."
+"Payment Services can't process orders with a zero balance due. To finish your purchase, please go through the standard checkout process.","Payment Services can't process orders with a zero balance due. To finish your purchase, please go through the standard checkout process."
+"Your payment was not successful. Try again.","Your payment was not successful. Try again."
+"Credit Card Number","Credit Card Number"
+"Secure transaction","Secure transaction"
+"Expiration Date","Expiration Date"
+"Card Security Code","Card Security Code"
+"Your credit card will be charged for","Your credit card will be charged for"
+"Shipping Method","Shipping Method"
+"Please select a shipping method...","Please select a shipping method..."
+"Sorry, no quotes are available for this order right now.","Sorry, no quotes are available for this order right now."
+"Shipping Address","Shipping Address"
+Edit,Edit
+"Payment Method","Payment Method"
+"Buy now with PayPal","Buy now with PayPal"
+"Edit Payment Information","Edit Payment Information"
+"Items in Your Shopping Cart","Items in Your Shopping Cart"
+"Edit Shopping Cart","Edit Shopping Cart"
+"Place Order","Place Order"
+"Submitting order information...","Submitting order information..."
+Item,Item
+Price,Price
+Qty,Qty
+Subtotal,Subtotal
+"Please update order data to get shipping methods and rates","Please update order data to get shipping methods and rates"
+"Card Number","Card Number"
+Type,Type
+Actions,Actions
+Delete,Delete
+"Save for later use.","Save for later use."
+"What is this?","What is this?"
+"Securely store your credit card information for future use.","Securely store your credit card information for future use."
+"An error occurred. Refresh the page and try again.","An error occurred. Refresh the page and try again."
+"This payment option is currently unavailable.","This payment option is currently unavailable."
+"Failed to place order. Try again or refresh the page if that does not resolve the issue.","Failed to place order. Try again or refresh the page if that does not resolve the issue."
+"Postal code is required.","Postal code is required."
+"City is required.","City is required."
+"Pay with Apple Pay","Pay with Apple Pay"
+"Please enter a valid credit card number.","Please enter a valid credit card number."
+"Incorrect credit card expiration date.","Incorrect credit card expiration date."
+"Please enter a valid credit card security code.","Please enter a valid credit card security code."
+"This is a required field.","This is a required field."
+"Pay with credit card","Pay with credit card"
+"The card security code is a three or four digit number printed on a credit card. Visa, Mastercard, and Discover cards have a three digit code on the card back. American Express cards have a four digit code on the card front.","The card security code is a three or four digit number printed on a credit card. Visa, Mastercard, and Discover cards have a three digit code on the card back. American Express cards have a four digit code on the card front."
+"Pay with PayPal","Pay with PayPal"
+"Something went wrong with your request. Please try again later.","Something went wrong with your request. Please try again later."
+"Stored Cards","Stored Cards"
+"Pay with Payment Services","Pay with Payment Services"
+"Soft Descriptor","Soft Descriptor"
+"Credit Card Fields","Credit Card Fields"
+Title,Title
+"Payment Action","Payment Action"
+"Show on checkout page","Show on checkout page"
+"Sort Order","Sort Order"
+"Vault Enabled","Vault Enabled"
+"Vault Enabled in Admin","Vault Enabled in Admin"
+"3D Secure authentication","3D Secure authentication"
+"Use <b>When Required</b> to comply with EU regulations. Use <b>Always</b> for extra fraud protection. <a href=""https://experienceleague.adobe.com/docs/commerce-merchant-services/payment-services/security.html#3ds"" target=""_blank"">More information</a>","Use <b>When Required</b> to comply with EU regulations. Use <b>Always</b> for extra fraud protection. <a href=""https://experienceleague.adobe.com/docs/commerce-merchant-services/payment-services/security.html#3ds"" target=""_blank"">More information</a>"
+"Debug Mode","Debug Mode"
+"Apple Pay","Apple Pay"
+"Show Apple Pay on checkout page","Show Apple Pay on checkout page"
+"Show Apple Pay in mini cart preview","Show Apple Pay in mini cart preview"
+"Show Apple Pay on cart page","Show Apple Pay on cart page"
+"PayPal Smart Buttons","PayPal Smart Buttons"
+"Venmo Enabled","Venmo Enabled"
+"Credit and Debit Card Enabled","Credit and Debit Card Enabled"
+"PayPal Pay Later Enabled","PayPal Pay Later Enabled"
+"Display Pay Later Message","Display Pay Later Message"
+"Displays Pay Later messaging for available offers. Restrictions apply. <a href=""https://developer.paypal.com/docs/business/pay-later/us/"" target=""_blank"">Learn more</a>","Displays Pay Later messaging for available offers. Restrictions apply. <a href=""https://developer.paypal.com/docs/business/pay-later/us/"" target=""_blank"">Learn more</a>"
+"Buttons Group","Buttons Group"
+"Show Apple Pay on product detail page","Show Apple Pay on product detail page"
+"Show buttons in mini cart preview","Show buttons in mini cart preview"
+"Show buttons on cart page","Show buttons on cart page"
+"Show buttons on checkout page","Show buttons on checkout page"
+Venmo,Venmo
+"Show Venmo on product detail page","Show Venmo on product detail page"
+"Show Venmo on minicart page","Show Venmo on minicart page"
+"Show Venmo on cart page","Show Venmo on cart page"
+"Show Venmo on checkout page","Show Venmo on checkout page"
+"PayPal Credit","PayPal Credit"
+"Show PayPal Credit on product detail page","Show PayPal Credit on product detail page"
+"Show PayPal Credit on minicart page","Show PayPal Credit on minicart page"
+"Show PayPal Credit on cart page","Show PayPal Credit on cart page"
+"Show PayPal Credit on checkout page","Show PayPal Credit on checkout page"
+"PayPal Pay Later Message","PayPal Pay Later Message"
+"Display Pay Later Message on product detail page","Display Pay Later Message on product detail page"
+"Display Pay Later Message on minicart page","Display Pay Later Message on minicart page"
+"Display Pay Later Message on cart page","Display Pay Later Message on cart page"
+"Display Pay Later Message on checkout page","Display Pay Later Message on checkout page"
+"Button Style","Button Style"
+"Apple Pay","Apple Pay"
+Layout,Layout
+Color,Color
+Shape,Shape
+Height,Height
+"Use Default Height","Use Default Height"
+Label,Label
+Tagline,Tagline
+"Authorization has already been captured.","Authorization has already been captured."
+"Currency code should be a three-character currency code.","Currency code should be a three-character currency code."
+"Must be greater than zero. If the currency supports decimals, only two decimal place precision is supported.","Must be greater than zero. If the currency supports decimals, only two decimal place precision is supported."
+"The value of the field should not be more than two decimal places.","The value of the field should not be more than two decimal places."
+"Currency does not support decimals.","Currency does not support decimals."
+"PayPal's internal controls prevent authorization from being captured.","PayPal's internal controls prevent authorization from being captured."
+"A voided authorization cannot be captured or reauthorized.","A voided authorization cannot be captured or reauthorized."
+"Maximum number of allowable captures has been reached. No additional captures are possible for this authorization. Please contact customer service or your account manager to change the number of captures that be made for a given authorization.","Maximum number of allowable captures has been reached. No additional captures are possible for this authorization. Please contact customer service or your account manager to change the number of captures that be made for a given authorization."
+"Requested invoice number has been previously captured. Possible duplicate transaction.","Requested invoice number has been previously captured. Possible duplicate transaction."
+"Currency of capture must be the same as currency of authorization.","Currency of capture must be the same as currency of authorization."
+"Authorization has already been captured.","Authorization has already been captured."
+"Payer cannot pay for this transaction.","Payer cannot pay for this transaction."
+"An expired authorization cannot be captured.","An expired authorization cannot be captured."
+"Capture amount exceeds allowable limit.","Capture amount exceeds allowable limit."
+"Transaction could not complete because payee account is locked or closed.","Transaction could not complete because payee account is locked or closed."
+"The payer account cannot be used for this transaction.","The payer account cannot be used for this transaction."
+"Order auto-canceled due to technical issues.","Order auto-canceled due to technical issues."
+"Credit and Debit Card Enabled","Credit and Debit Card Enabled"
+"Pay with Payment Services","Pay with Payment Services"
+"Stored Credit Card","Stored Credit Card"
+PayPal,PayPal
+PayLater,PayLater
+"Review Order","Review Order"
+"cc_type","Payment Type"
+"cc_last_4","Card Ending in"
+"cc_exp_month/cc_exp_year","Card Expiration Date"
+"cc_exp_month","Card Expiration Month"
+"cc_exp_year","Card Expiration Year"
+"payment_source","Payment Type"
+"payments_order_id","Payment Order ID"
+"paypal_order_id","Payment Provider Reference"
+"Show buttons on product detail page","Show buttons on product detail page"

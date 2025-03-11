@@ -1,0 +1,881 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\PaymentServicesPaypal\Api\PaymentOrderManagementInterface" type="Magento\PaymentServicesPaypal\Model\PaymentOrderManagement" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentOrderInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentOrder" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentOrderDetailsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentOrderDetails" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentSourceDetailsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentSourceDetails" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentCardDetailsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentCardDetails" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentCardBinDetailsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentCardBinDetails" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentAddressInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentAddress" />
+    <preference for="Magento\PaymentServicesPaypal\Api\PaymentOrderRequestInterface" type="Magento\PaymentServicesPaypal\Model\Api\PaymentOrderRequest" />
+    <preference for="Magento\PaymentServicesPaypal\Api\PaymentConfigRequestInterface" type="Magento\PaymentServicesPaypal\Model\Api\PaymentConfigRequest" />
+    <preference for="Magento\PaymentServicesPaypal\Api\PaymentConfigResponseInterface" type="Magento\PaymentServicesPaypal\Model\Api\PaymentConfigResponse" />
+    <preference for="Magento\PaymentServicesPaypal\Api\PaymentSdkManagementInterface" type="Magento\PaymentServicesPaypal\Model\Api\PaymentSdkManagement" />
+    <preference for="Magento\PaymentServicesPaypal\Api\PaymentConfigManagementInterface" type="Magento\PaymentServicesPaypal\Model\Api\PaymentConfigManagement" />
+    <preference for="Magento\PaymentServicesPaypal\Api\VaultConfigManagementInterface" type="Magento\PaymentServicesPaypal\Model\Api\VaultConfigManagement" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigItemInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigItem" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigSmartButtonsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigSmartButtons" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigHostedFieldsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigHostedFields" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigApplePayInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigApplePay" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigGooglePayInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigGooglePay" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigSmartButtonsMessageStylesInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigSmartButtonsMessageStyles" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigSmartButtonsLogoInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigSmartButtonsLogo" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigButtonStylesInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigButtonStyles" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigGooglePayButtonStylesInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigGooglePayButtonStyles" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentConfigSdkParamsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigSdkParams" />
+    <preference for="Magento\PaymentServicesPaypal\Api\PaymentSdkRequestInterface" type="Magento\PaymentServicesPaypal\Model\Api\PaymentSdkRequest" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\PaymentSdkParamsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentSdkParams" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\VaultCardBillingAddressInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\VaultCardBillingAddress" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\VaultCardDetailsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\VaultCardDetails" />
+    <preference for="Magento\PaymentServicesPaypal\Api\Data\VaultPaymentSourceDetailsInterface" type="Magento\PaymentServicesPaypal\Model\Api\Data\VaultPaymentSourceDetails" />
+
+    <type name="Magento\PaymentServicesPaypal\Plugin\OrderUpdate">
+        <arguments>
+            <argument name="orderUpdateLocations" xsi:type="array">
+                <item name="productDetail" xsi:type="string">PRODUCT_DETAIL</item>
+                <item name="miniCart" xsi:type="string">MINICART</item>
+                <item name="cart" xsi:type="string">CART</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\PaymentServicesPaypal\Model\Api\PaymentConfigManagement">
+        <arguments>
+            <argument name="locations" xsi:type="array">
+                <item name="productDetail" xsi:type="string">PRODUCT_DETAIL</item>
+                <item name="miniCart" xsi:type="string">MINICART</item>
+                <item name="cart" xsi:type="string">CART</item>
+                <item name="checkout" xsi:type="string">CHECKOUT</item>
+                <item name="admin" xsi:type="string">ADMIN</item>
+            </argument>
+            <argument name="buttonsLocations" xsi:type="array">
+                <item name="productDetail" xsi:type="string">PRODUCT_DETAIL</item>
+                <item name="miniCart" xsi:type="string">MINICART</item>
+                <item name="cart" xsi:type="string">CART</item>
+                <item name="checkout" xsi:type="string">CHECKOUT</item>
+            </argument>
+            <argument name="ccLocations" xsi:type="array">
+                <item name="checkout" xsi:type="string">CHECKOUT</item>
+                <item name="admin" xsi:type="string">ADMIN</item>
+            </argument>
+            <argument name="messageStyles" xsi:type="array">
+                <item name="layout" xsi:type="string">text</item>
+                <item name="logo" xsi:type="object">MessageStylesLogo</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="MessageStylesLogo" type="Magento\PaymentServicesPaypal\Model\Api\Data\PaymentConfigSmartButtonsLogo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="string">inline</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Hosted Fields payment method facade configuration -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Magento\PaymentServicesPaypal\Model\HostedFieldsConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\PaymentServicesPaypal\Block\Adminhtml\Form\AdminHostedFields</argument>
+            <argument name="infoBlockType" xsi:type="string">Magento\PaymentServicesPaypal\Block\HostedFieldsInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PaymentServicesPaypalHostedFieldsValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PaymentServicesPaypalHostedFieldsCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons payment method facade configuration -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Magento\PaymentServicesPaypal\Model\SmartButtonsConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Magento\PaymentServicesPaypal\Block\SmartButtonsInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PaymentServicesPaypalSmartButtonsValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PaymentServicesPaypalSmartButtonsCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <!-- Apple Pay payment method facade configuration -->
+    <virtualType name="PaymentServicesPaypalApplePayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Magento\PaymentServicesPaypal\Model\ApplePayConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Magento\PaymentServicesPaypal\Block\ApplePayInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PaymentServicesPaypalApplePayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PaymentServicesPaypalApplePayCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <!-- Google Pay payment method facade configuration -->
+    <virtualType name="PaymentServicesPaypalGooglePayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Magento\PaymentServicesPaypal\Model\GooglePayConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Magento\PaymentServicesPaypal\Block\GooglePayInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PaymentServicesPaypalGooglePayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PaymentServicesPaypalGooglePayCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <!-- Vault payment method facade configuration-->
+    <virtualType name="PaymentServicesPaypalVaultFacade" type="Magento\Vault\Model\Method\Vault">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentServicesPaypalVaultConfig</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PaymentServicesPaypalVaultValueHandlerPool</argument>
+            <argument name="vaultProvider" xsi:type="object">PaymentServicesPaypalHostedFieldsFacade</argument>
+            <argument name="code" xsi:type="const">Magento\PaymentServicesPaypal\Model\Ui\ConfigProvider::CC_VAULT_CODE</argument>
+        </arguments>
+    </virtualType>
+    <!-- Configuration for Vault payments -->
+    <virtualType name="PaymentServicesPaypalVaultConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\Ui\ConfigProvider::CC_VAULT_CODE</argument>
+        </arguments>
+    </virtualType>
+    <!-- Hosted Fields configuration reader -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\HostedFieldsConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons configuration reader -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\SmartButtonsConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+    <!-- Apple Pay configuration reader -->
+    <virtualType name="PaymentServicesApplePayButtonsConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\ApplePayConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+    <!-- Google Pay configuration reader -->
+    <virtualType name="PaymentServicesGooglePayButtonsConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\GooglePayConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+    <!-- Hosted Fields logger -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentServicesPaypalHostedFieldsConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Smart Buttons logger -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentServicesPaypalSmartButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Apple Pay logger -->
+    <virtualType name="PaymentServicesPaypalApplePayLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentServicesApplePayButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Google Pay logger -->
+    <virtualType name="PaymentServicesPaypalGooglePayLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentServicesGooglePayButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Hosted Fields commands -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PaymentServicesPaypalHostedFieldsAuthorizeCommand</item>
+                <item name="vault_authorize" xsi:type="string">PaymentServicesPaypalHostedFieldsAuthorizeCommand</item>
+                <item name="vault_sale" xsi:type="string">PaymentServicesPaypalHostedFieldsAuthorizeAndCaptureCommand</item>
+                <item name="sale" xsi:type="string">PaymentServicesPaypalHostedFieldsAuthorizeAndCaptureCommand</item>
+                <item name="capture" xsi:type="string">PaymentServicesPaypalHostedFieldsCaptureCommand</item>
+                <item name="refund" xsi:type="string">PaymentServicesPaypalHostedFieldsRefundCommand</item>
+                <item name="cancel" xsi:type="string">PaymentServicesPaypalHostedFieldsVoidCommand</item>
+                <item name="void" xsi:type="string">PaymentServicesPaypalHostedFieldsVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons commands -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PaymentServicesPaypalSmartButtonsAuthorizeCommand</item>
+                <item name="sale" xsi:type="string">PaymentServicesPaypalSmartButtonsAuthorizeAndCaptureCommand</item>
+                <item name="capture" xsi:type="string">PaymentServicesPaypalSmartButtonsCaptureCommand</item>
+                <item name="refund" xsi:type="string">PaymentServicesPaypalSmartButtonsRefundCommand</item>
+                <item name="cancel" xsi:type="string">PaymentServicesPaypalSmartButtonsVoidCommand</item>
+                <item name="void" xsi:type="string">PaymentServicesPaypalSmartButtonsVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Apple Pay commands -->
+    <virtualType name="PaymentServicesPaypalApplePayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PaymentServicesPaypalApplePayAuthorizeCommand</item>
+                <item name="sale" xsi:type="string">PaymentServicesPaypalApplePayAuthorizeAndCaptureCommand</item>
+                <item name="capture" xsi:type="string">PaymentServicesPaypalApplePayCaptureCommand</item>
+                <item name="refund" xsi:type="string">PaymentServicesPaypalApplePayRefundCommand</item>
+                <item name="cancel" xsi:type="string">PaymentServicesPaypalApplePayVoidCommand</item>
+                <item name="void" xsi:type="string">PaymentServicesPaypalApplePayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Google Pay commands -->
+    <virtualType name="PaymentServicesPaypalGooglePayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PaymentServicesPaypalGooglePayAuthorizeCommand</item>
+                <item name="sale" xsi:type="string">PaymentServicesPaypalGooglePayAuthorizeAndCaptureCommand</item>
+                <item name="capture" xsi:type="string">PaymentServicesPaypalGooglePayCaptureCommand</item>
+                <item name="refund" xsi:type="string">PaymentServicesPaypalGooglePayRefundCommand</item>
+                <item name="cancel" xsi:type="string">PaymentServicesPaypalGooglePayVoidCommand</item>
+                <item name="void" xsi:type="string">PaymentServicesPaypalGooglePayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HostedFieldsVaultCommandManager" type="Magento\Payment\Gateway\Command\CommandManager">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">PaymentServicesPaypalHostedFieldsCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Payment\Gateway\Command\CommandManagerPool">
+        <arguments>
+            <argument name="executors" xsi:type="array">
+                <item name="payment_services_paypal_hosted_fields" xsi:type="string">HostedFieldsVaultCommandManager</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- Vault commands -->
+    <virtualType name="PaymentServicesPaypalVaultValueHandlerPool" type="VaultPaymentValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PaymentServicesPayPalVaultPaymentValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PaymentServicesPayPalVaultPaymentValueHandler" type="VaultPaymentDefaultValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PaymentServicesPaypalVaultConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Hosted Fields authorize command -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHostedFieldsHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\HostedFieldsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons authorize command -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\SmartButtonsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Apple Pay authorize command -->
+    <virtualType name="PaymentServicesPaypalApplePayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseApplePayHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\ApplePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Google Pay authorize command -->
+    <virtualType name="PaymentServicesPaypalGooglePayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseGooglePayHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\GooglePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Hosted Fields authorize and capture command -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsAuthorizeAndCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalAuthorizationAndCaptureRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalCaptureResponseHostedFieldsHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\HostedFieldsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons authorize and capture command -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsAuthorizeAndCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalAuthorizationAndCaptureRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalCaptureResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\SmartButtonsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Google Pay authorize and capture command -->
+    <virtualType name="PaymentServicesPaypalGooglePayAuthorizeAndCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalAuthorizationAndCaptureRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalCaptureResponseGooglePayHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\GooglePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons authorize and capture command -->
+    <virtualType name="PaymentServicesPaypalApplePayAuthorizeAndCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalAuthorizationAndCaptureRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalCaptureResponseApplePayHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\ApplePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Hosted Fields capture command -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalCaptureRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalCaptureResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\HostedFieldsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons capture command -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalCaptureRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalCaptureResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\SmartButtonsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Google Pay capture command -->
+    <virtualType name="PaymentServicesPaypalGooglePayCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalCaptureRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalCaptureResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\GooglePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons capture command -->
+    <virtualType name="PaymentServicesPaypalApplePayCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalCaptureRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalCaptureResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\ApplePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Hosted Fields refund command -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalRefundRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\HostedFieldsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons refund command -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalRefundRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\SmartButtonsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Google Pay refund command -->
+    <virtualType name="PaymentServicesPaypalGooglePayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalRefundRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\GooglePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Apple Pay refund command -->
+    <virtualType name="PaymentServicesPaypalApplePayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalRefundRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\ApplePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Hosted Fields void command -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalVoidRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\HostedFieldsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons void command -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalVoidRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\SmartButtonsServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Google Pay void command -->
+    <virtualType name="PaymentServicesPaypalGooglePayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalVoidRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\GooglePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Apple Pay void command -->
+    <virtualType name="PaymentServicesPaypalApplePayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaymentServicesPaypalVoidRequest</argument>
+            <argument name="handler" xsi:type="object">PaymentServicesPaypalResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Http\ApplePayServiceClient</argument>
+            <argument name="validator" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Magento\PaymentServicesPaypal\Gateway\Response\ErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <!-- Authorization request -->
+    <virtualType name="PaymentServicesPaypalAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Request\AuthorizationRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Authorization and capture request -->
+    <virtualType name="PaymentServicesPaypalAuthorizationAndCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Request\AuthorizationAndCaptureRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Capture request -->
+    <virtualType name="PaymentServicesPaypalCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Request\CaptureRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Refund request -->
+    <virtualType name="PaymentServicesPaypalRefundRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Request\RefundRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Void request -->
+    <virtualType name="PaymentServicesPaypalVoidRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Request\VoidRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Response handlers -->
+    <virtualType name="PaymentServicesPaypalResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txnid" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\TxnIdHandler</item>
+                <item name="vault" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\VaultDetailsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PaymentServicesPaypalCaptureResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txnid" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\TxnIdHandler</item>
+                <item name="vault" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\VaultDetailsHandler</item>
+                <item name="pendingTxn" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PendingTransactionsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Apple Pay Response handlers -->
+    <virtualType name="PaymentServicesPaypalResponseApplePayHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="paymentSourceResponse" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PaymentSourceResponseHandler</item>
+                <item name="txnid" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\TxnIdHandler</item>
+                <item name="vault" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\VaultDetailsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PaymentServicesPaypalCaptureResponseApplePayHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="paymentSourceResponse" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PaymentSourceResponseHandler</item>
+                <item name="txnid" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\TxnIdHandler</item>
+                <item name="vault" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\VaultDetailsHandler</item>
+                <item name="pendingTxn" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PendingTransactionsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Response Handlers only for Hosted Fields -->
+    <virtualType name="PaymentServicesPaypalResponseHostedFieldsHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="paymentSourceResponse" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PaymentSourceResponseHandler</item>
+                <item name="txnid" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\TxnIdHandler</item>
+                <item name="vault" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\VaultDetailsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PaymentServicesPaypalCaptureResponseHostedFieldsHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="paymentSourceResponse" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PaymentSourceResponseHandler</item>
+                <item name="txnid" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\TxnIdHandler</item>
+                <item name="vault" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\VaultDetailsHandler</item>
+                <item name="pendingTxn" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PendingTransactionsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Response Handlers only for Google Pay -->
+    <virtualType name="PaymentServicesPaypalResponseGooglePayHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="paymentSourceResponse" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PaymentSourceResponseHandler</item>
+                <item name="txnid" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\TxnIdHandler</item>
+                <item name="vault" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\VaultDetailsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PaymentServicesPaypalCaptureResponseGooglePayHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="paymentSourceResponse" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PaymentSourceResponseHandler</item>
+                <item name="txnid" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\TxnIdHandler</item>
+                <item name="vault" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\VaultDetailsHandler</item>
+                <item name="pendingTxn" xsi:type="string">Magento\PaymentServicesPaypal\Gateway\Response\PendingTransactionsHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Hosted Fields value handlers -->
+    <virtualType name="PaymentServicesPaypalHostedFieldsValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PaymentServicesPaypalHostedFieldsConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PaymentServicesPaypalHostedFieldsConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PaymentServicesPaypalHostedFieldsConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Smart Buttons value handlers -->
+    <virtualType name="PaymentServicesPaypalSmartButtonsValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PaymentServicesPaypalSmartButtonsConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PaymentServicesPaypalSmartButtonsConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PaymentServicesPaypalSmartButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- ApplePay value handlers -->
+    <virtualType name="PaymentServicesPaypalApplePayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PaymentServicesPaypalApplePayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PaymentServicesPaypalApplePayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PaymentServicesApplePayButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- GooglePay value handlers -->
+    <virtualType name="PaymentServicesPaypalGooglePayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PaymentServicesPaypalGooglePayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PaymentServicesPaypalGooglePayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PaymentServicesGooglePayButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!--  Payment info block  -->
+    <type name="Magento\PaymentServicesPaypal\Block\Info">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="valueMapper" xsi:type="array">
+                    <item name="payment_source" xsi:type="array">
+                        <item name="cc" xsi:type="string" translatable="true">Credit Card</item>
+                        <item name="vault" xsi:type="string" translatable="true">Stored Credit Card</item>
+                        <item name="paypal" xsi:type="string" translatable="true">PayPal</item>
+                        <item name="paylater" xsi:type="string" translatable="true">PayLater</item>
+                        <item name="venmo" xsi:type="string" translatable="true">Venmo</item>
+                        <item name="applepay" xsi:type="string" translatable="true">Apple Pay</item>
+                        <item name="googlepay" xsi:type="string" translatable="true">Google Pay</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\PaymentServicesPaypal\Block\HostedFieldsInfo" type="Magento\PaymentServicesPaypal\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentServicesPaypalHostedFieldsConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesPaypal\Block\SmartButtonsInfo" type="Magento\PaymentServicesPaypal\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentServicesPaypalSmartButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesPaypal\Block\ApplePayInfo" type="Magento\PaymentServicesPaypal\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentServicesApplePayButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesPaypal\Block\GooglePayInfo" type="Magento\PaymentServicesPaypal\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentServicesGooglePayButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesPaypal\Gateway\Http\HostedFieldsServiceClient" type="Magento\PaymentServicesPaypal\Gateway\Http\ServiceClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">PaymentServicesPaypalHostedFieldsLogger</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesPaypal\Gateway\Http\SmartButtonsServiceClient" type="Magento\PaymentServicesPaypal\Gateway\Http\ServiceClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">PaymentServicesPaypalSmartButtonsLogger</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesPaypal\Gateway\Http\GooglePayServiceClient" type="Magento\PaymentServicesPaypal\Gateway\Http\ServiceClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">PaymentServicesPaypalGooglePayLogger</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PaymentServicesPaypal\Gateway\Http\ApplePayServiceClient" type="Magento\PaymentServicesPaypal\Gateway\Http\ServiceClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">PaymentServicesPaypalApplePayLogger</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Config\Model\Config\Structure">
+        <plugin name="magpay_payments_config_structure" type="Magento\PaymentServicesPaypal\Plugin\Config\Structure"/>
+    </type>
+    <type name="Magento\Payment\Model\Method\Adapter">
+        <plugin name="magpay_payments_model_adapter" type="Magento\PaymentServicesPaypal\Plugin\Config\Adapter"/>
+    </type>
+    <type name="Magento\Vault\Model\Method\Vault">
+        <plugin name="magpay_payments_vault_method" type="Magento\PaymentServicesPaypal\Plugin\Vault\Method"/>
+    </type>
+    <type name="Magento\Vault\Model\PaymentTokenRepository">
+        <plugin name="magpay_payments_vault_payment_token_repository" type="Magento\PaymentServicesPaypal\Plugin\Vault\PaymentTokenRepository"/>
+    </type>
+    <type name="Magento\PaymentServicesPaypal\Block\SmartButtons">
+        <arguments>
+            <argument name="componentConfig" xsi:type="array">
+                <item name="product" xsi:type="array">
+                    <item name="template" xsi:type="string">Magento_PaymentServicesPaypal::smart_buttons_product.phtml</item>
+                </item>
+                <item name="cart" xsi:type="array">
+                    <item name="template" xsi:type="string">Magento_PaymentServicesPaypal::smart_buttons_cart.phtml</item>
+                </item>
+                <item name="minicart" xsi:type="array">
+                    <item name="template" xsi:type="string">Magento_PaymentServicesPaypal::smart_buttons_minicart.phtml</item>
+                </item>
+            </argument>
+            <argument name="compositeConfigProvider" xsi:type="object">Magento\Checkout\Model\CompositeConfigProvider</argument>
+        </arguments>
+    </type>
+    <type name="Magento\PaymentServicesPaypal\Block\Message">
+        <arguments>
+            <argument name="componentConfig" xsi:type="array">
+                <item name="product" xsi:type="array">
+                    <item name="template" xsi:type="string">Magento_PaymentServicesPaypal::message_product.phtml</item>
+                    <item name="renderContainer" xsi:type="string">.product-add-form .pay-later-message</item>
+                    <item name="placement" xsi:type="string">cart</item>
+                    <item name="styles" xsi:type="array">
+                        <item name="layout" xsi:type="string">text</item>
+                        <item name="logo" xsi:type="array">
+                            <item name="type" xsi:type="string">inline</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="cart" xsi:type="array">
+                    <item name="template" xsi:type="string">Magento_PaymentServicesPaypal::message_cart.phtml</item>
+                    <item name="renderContainer" xsi:type="string">.checkout-methods-items .pay-later-message</item>
+                    <item name="placement" xsi:type="string">cart</item>
+                    <item name="styles" xsi:type="array">
+                        <item name="layout" xsi:type="string">text</item>
+                        <item name="logo" xsi:type="array">
+                            <item name="type" xsi:type="string">inline</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="minicart" xsi:type="array">
+                    <item name="template" xsi:type="string">Magento_PaymentServicesPaypal::message_minicart.phtml</item>
+                    <item name="renderContainer" xsi:type="string">.block-minicart .pay-later-message</item>
+                    <item name="placement" xsi:type="string">cart</item>
+                    <item name="styles" xsi:type="array">
+                        <item name="layout" xsi:type="string">text</item>
+                        <item name="logo" xsi:type="array">
+                            <item name="type" xsi:type="string">inline</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\PaymentServicesPaypal\Model\SmartButtonsConfigProvider">
+        <arguments>
+            <argument name="messageStyles" xsi:type="array">
+                <item name="layout" xsi:type="string">text</item>
+                <item name="logo" xsi:type="array">
+                    <item name="type" xsi:type="string">inline</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\PaymentServicesPaypal\Observer\AddCheckoutComponents">
+        <arguments>
+            <argument name="blocks" xsi:type="array">
+                <item name="product" xsi:type="string">Magento\PaymentServicesPaypal\Block\SmartButtonsProduct</item>
+                <item name="cart" xsi:type="string">Magento\PaymentServicesPaypal\Block\SmartButtonsCart</item>
+                <item name="minicart" xsi:type="string">Magento\PaymentServicesPaypal\Block\SmartButtons</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\PaymentServicesBase\Observer\UpdateOrder">
+        <arguments>
+            <argument name="methods" xsi:type="array">
+                <item name="smart_buttons" xsi:type="string">payment_services_paypal_smart_buttons</item>
+                <item name="hosted_fields" xsi:type="string">payment_services_paypal_hosted_fields</item>
+                <item name="apple_pay" xsi:type="string">payment_services_paypal_apple_pay</item>
+                <item name="google_pay" xsi:type="string">payment_services_paypal_google_pay</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\PaymentServicesPaypal\Model\CancellationService">
+        <arguments>
+            <argument name="methods" xsi:type="array">
+                <item name="vault" xsi:type="string">payment_services_paypal_vault</item>
+                <item name="smart_buttons" xsi:type="string">payment_services_paypal_smart_buttons</item>
+                <item name="hosted_fields" xsi:type="string">payment_services_paypal_hosted_fields</item>
+                <item name="apple_pay" xsi:type="string">payment_services_paypal_apple_pay</item>
+                <item name="google_pay" xsi:type="string">payment_services_paypal_google_pay</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Payment\Model\Checks\SpecificationFactory">
+        <arguments>
+            <argument name="mapping" xsi:type="array">
+                <item name="payment_services_acl" xsi:type="object">Magento\PaymentServicesPaypal\Model\Payment\Checks\CanUseForUser</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Billing\Method\Form">
+        <arguments>
+            <argument name="additionalChecks" xsi:type="array">
+                <item name="payment_services_acl" xsi:type="string">payment_services_acl</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\PaymentServicesPaypal\Model\Payment\Checks\CanUseForUser">
+        <arguments>
+            <argument name="methods" xsi:type="array">
+                <item name="vault" xsi:type="string">payment_services_paypal_vault</item>
+                <item name="hosted_fields" xsi:type="string">payment_services_paypal_hosted_fields</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Quote\Api\CartManagementInterface">
+        <plugin name="order_cancellation" type="Magento\PaymentServicesPaypal\Plugin\OrderCancellation"/>
+        <plugin name="order_update" type="Magento\PaymentServicesPaypal\Plugin\OrderUpdate"/>
+    </type>
+    <type name="Magento\PaymentServicesPaypal\Model\PaymentOrderManagement">
+        <arguments>
+            <argument name="validMethodCodes" xsi:type="array">
+                <item name="hostedFieldsCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\HostedFieldsConfigProvider::CODE</item>
+                <item name="hostedFieldsVaultCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\HostedFieldsConfigProvider::CC_VAULT_CODE</item>
+                <item name="smartButtonsCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\SmartButtonsConfigProvider::CODE</item>
+                <item name="applePayCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\ApplePayConfigProvider::CODE</item>
+                <item name="googlePayCode" xsi:type="const">Magento\PaymentServicesPaypal\Model\GooglePayConfigProvider::CODE</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\PaymentServicesPaypal\Model\Provider\OrdersWithPaymentReview">
+        <arguments>
+            <argument name="methods" xsi:type="array">
+                <item name="smart_buttons" xsi:type="string">payment_services_paypal_smart_buttons</item>
+                <item name="hosted_fields" xsi:type="string">payment_services_paypal_hosted_fields</item>
+                <item name="apple_pay" xsi:type="string">payment_services_paypal_apple_pay</item>
+                <item name="google_pay" xsi:type="string">payment_services_paypal_google_pay</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\PaymentServicesPaypal\Model\Vault\ConfigProviderPool">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="credit_card" xsi:type="object">Magento\PaymentServicesPaypal\Model\Vault\CreditCardConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Quote\Model\CustomerManagement">
+        <plugin name="payment_services_skip_address_validation" type="Magento\PaymentServicesPaypal\Plugin\CustomerManagementPlugin" sortOrder="2"/>
+    </type>
+</config>
