@@ -1,7 +1,0 @@
-/build
-/vendor/
-/composer.lock
-/phpunit.xml
-/phpcs.xml
-/psalm.xml
-.phpunit.result.cache

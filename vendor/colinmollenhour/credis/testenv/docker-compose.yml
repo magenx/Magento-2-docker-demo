@@ -1,7 +1,0 @@
-version: '2'
-services:
-  
-  php-74:
-    build: env/php-7.4/
-    volumes:
-      - ../:/src/

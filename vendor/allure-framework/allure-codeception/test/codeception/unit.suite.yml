@@ -1,6 +1,0 @@
-
-actor: UnitTester
-coverage:
-  enabled: true
-  include:
-    - src/*
