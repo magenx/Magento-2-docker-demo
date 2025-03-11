@@ -1,3 +1,0 @@
-# CODEOWNERS file for /docs/ folder.
-# Forces a review from other writers for anything within /docs/.
-/docs/ @magento/devdocs-admins
