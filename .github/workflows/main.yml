@@ -31,3 +31,12 @@ jobs:
           composer update -W  --ignore-platform-reqs
           composer require-commerce magento/product-community-edition=2.4.7-p4 --no-update --ignore-platform-reqs
           composer update -W  --ignore-platform-reqs
+          
+      # Commit and push changes to the dev branch
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Updated Magento to 2.4.7-p4 with PHP 8.3"
+          git push origin dev
