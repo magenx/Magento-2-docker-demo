@@ -1,0 +1,32 @@
+name: Update Magento to 2.4.7-p4
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-magento:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: dev 
+
+      # Set up PHP 8.3
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      # Configure Magento authentication keys
+      - name: Configure Magento authentication
+        run: |
+          composer config --global http-basic.repo.magento.com 8c681734f22763b50ea0c29dff9e7af2 02dfee497e669b5db1fe1c8d481d6974
+
+      # Update Magento to 2.4.7-p4 and ignore platform requirements
+      - name: Update Magento
+        run: |
+          composer require-commerce magento/product-community-edition=2.4.7-p4 --no-update --ignore-platform-reqs
+          composer update --prefer-dist --no-dev --optimize-autoloader --ignore-platform-reqs
