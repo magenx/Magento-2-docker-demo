@@ -17,9 +17,9 @@
     },
     "version": "2.4.4",
     "require": {
-        "magento/product-community-edition": "2.4.4",
         "magento/composer-dependency-version-audit-plugin": "~0.1",
-        "magento/composer-root-update-plugin": "~2.0"
+        "magento/composer-root-update-plugin": "^2.0.4",
+        "magento/product-community-edition": "2.4.7-p4"
     },
     "autoload": {
         "exclude-from-classmap": [
@@ -37,27 +37,25 @@
             ]
         },
         "psr-4": {
-            "Magento\\": "app/code/Magento/",
-            "Magento\\Framework\\": "lib/internal/Magento/Framework/",
             "Magento\\Setup\\": "setup/src/Magento/Setup/"
         }
     },
     "require-dev": {
-        "allure-framework/allure-phpunit": "~1.5.0",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-        "friendsofphp/php-cs-fixer": "~3.3.0",
-        "lusitanian/oauth": "~0.8.10",
+        "allure-framework/allure-phpunit": "^2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7 || ^1.0",
+        "dg/bypass-finals": "^1.4",
+        "friendsofphp/php-cs-fixer": "^3.22",
+        "lusitanian/oauth": "^0.8",
         "magento/magento-coding-standard": "*",
-        "magento/magento2-functional-testing-framework": "^3.7",
-        "pdepend/pdepend": "~2.10.0",
-        "phpmd/phpmd": "^2.9.1",
-        "phpstan/phpstan": "~1.2.0",
-        "phpunit/phpunit": "~9.5.0",
-        "sebastian/phpcpd": "^6.0.3",
-        "squizlabs/php_codesniffer": "~3.6.0",
-        "symfony/finder": "^5.2"
+        "magento/magento2-functional-testing-framework": "^4.7",
+        "pdepend/pdepend": "^2.10",
+        "phpmd/phpmd": "^2.12",
+        "phpstan/phpstan": "^1.9",
+        "phpunit/phpunit": "^9.5",
+        "sebastian/phpcpd": "^6.0",
+        "symfony/finder": "^6.4"
     },
-"replace": {
+    "replace": {
         "amzn/amazon-pay-and-login-magento-2-module": "*",
         "amzn/amazon-pay-and-login-with-amazon-core-module": "*",
         "amzn/amazon-pay-module": "*",
@@ -290,4 +288,3 @@
         "magento-force": "override"
     }
 }
-
