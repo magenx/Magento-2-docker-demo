@@ -28,5 +28,5 @@ jobs:
       # Update Magento to 2.4.7-p4 and ignore platform requirements
       - name: Update Magento
         run: |
-          composer require-commerce magento/product-community-edition=2.4.7-p4 --no-update --ignore-platform-reqs
+          composer require magento/product-community-edition=2.4.7-p4 --no-update --ignore-platform-reqs
           composer update --prefer-dist --no-dev --optimize-autoloader --ignore-platform-reqs
