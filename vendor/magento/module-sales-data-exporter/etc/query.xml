@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_QueryXml:etc/query.xsd">
+    <query name="salesOrder">
+        <source name="sales_order">
+            <attribute name="entity_id" alias="id"/>
+            <attribute name="increment_id"/>
+            <attribute name="created_at"/>
+            <attribute name="updated_at"/>
+            <attribute name="status"/>
+            <attribute name="state"/>
+            <attribute name="base_total_invoiced" alias="total_invoiced"/>
+            <attribute name="base_total_qty_ordered" alias="total_qty_ordered"/>
+            <attribute name="is_virtual"/>
+            <attribute name="store_id"/>
+            <attribute name="base_grand_total" alias="grand_total"/>
+            <attribute name="order_currency_code" alias="currency"/>
+            <filter glue="and">
+                <condition attribute="entity_id" operator="in" type="placeholder">entityIds</condition>
+            </filter>
+            <link-source name="sales_order_payment" link-type="inner">
+                <attribute name="additional_information"/>
+                <attribute name="method" alias="payment_method"/>
+                <attribute name="base_amount_paid_online" alias="amount_captured_online"/>
+                <attribute name="base_amount_refunded_online" alias="amount_refunded_online"/>
+                <attribute name="base_amount_authorized" alias="amount_authorized"/>
+                <attribute name="base_amount_paid" alias="amount_paid"/>
+                <attribute name="base_amount_refunded" alias="amount_refunded"/>
+                <attribute name="base_amount_canceled" alias="amount_canceled"/>
+                <using glue="and">
+                    <condition attribute="parent_id" operator="eq" type="identifier">entity_id</condition>
+                    <condition attribute="method" operator="in" type="placeholder">methods</condition>
+                </using>
+            </link-source>
+        </source>
+    </query>
+    <query name="salesOrderItems">
+        <source name="sales_order_item">
+            <attribute name="item_id" alias="id"/>
+            <attribute name="order_id"/>
+            <attribute name="parent_item_id"/>
+            <attribute name="product_type"/>
+            <attribute name="product_options"/>
+            <attribute name="is_virtual"/>
+            <attribute name="qty_invoiced"/>
+            <attribute name="qty_invoiced"/>
+            <attribute name="qty_shipped"/>
+            <attribute name="qty_backordered"/>
+            <attribute name="qty_ordered"/>
+            <attribute name="qty_refunded"/>
+            <attribute name="qty_canceled"/>
+            <filter glue="and">
+                <condition attribute="order_id" operator="in" type="placeholder">entityIds</condition>
+            </filter>
+        </source>
+    </query>
+    <query name="salesInvoices">
+        <source name="sales_invoice">
+            <attribute name="entity_id" alias="id"/>
+            <attribute name="order_id"/>
+            <attribute name="is_used_for_refund"/>
+            <attribute name="base_grand_total" alias="grand_total"/>
+            <filter glue="and">
+                <condition attribute="order_id" operator="in" type="placeholder">entityIds</condition>
+            </filter>
+        </source>
+    </query>
+    <query name="salesCreditMemos">
+        <source name="sales_creditmemo">
+            <attribute name="entity_id" alias="id"/>
+            <attribute name="order_id"/>
+            <attribute name="state"/>
+            <filter glue="and">
+                <condition attribute="order_id" operator="in" type="placeholder">entityIds</condition>
+            </filter>
+        </source>
+    </query>
+    <query name="salesTransactions">
+        <source name="sales_payment_transaction">
+            <attribute name="transaction_id" alias="id"/>
+            <attribute name="order_id"/>
+            <attribute name="txn_id"/>
+            <attribute name="txn_type" alias="type"/>
+            <attribute name="created_at" alias="created_at"/>
+            <filter glue="and">
+                <condition attribute="order_id" operator="in" type="placeholder">entityIds</condition>
+            </filter>
+        </source>
+    </query>
+    <query name="salesOrderStatuses">
+        <source name="sales_order_status">
+            <attribute name="status"/>
+            <attribute name="label"/>
+            <filter glue="and">
+                <condition attribute="status" operator="in" type="placeholder">statuses</condition>
+            </filter>
+        </source>
+    </query>
+</config>

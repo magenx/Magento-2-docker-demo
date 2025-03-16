@@ -1,0 +1,68 @@
+{
+    "name": "laminas/laminas-recaptcha",
+    "description": "OOP wrapper for the ReCaptcha web service",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "recaptcha"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "issues": "https://github.com/laminas/laminas-recaptcha/issues",
+        "forum": "https://discourse.laminas.dev",
+        "chat": "https://laminas.dev/chat",
+        "source": "https://github.com/laminas/laminas-recaptcha",
+        "docs": "https://docs.laminas.dev/laminas-recaptcha/",
+        "rss": "https://github.com/laminas/laminas-recaptcha/releases.atom"
+    },
+    "require": {
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+        "ext-json": "*",
+        "laminas/laminas-http": "^2.15",
+        "laminas/laminas-stdlib": "^3.10.1"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "~2.5.0",
+        "laminas/laminas-config": "^3.9",
+        "laminas/laminas-validator": "^2.30.1",
+        "phpunit/phpunit": "^9.6.15",
+        "psalm/plugin-phpunit": "^0.19.0",
+        "vimeo/psalm": "^5.19"
+    },
+    "conflict": {
+        "zendframework/zendservice-recaptcha": "*"
+    },
+    "suggest": {
+        "laminas/laminas-validator": "~2.0, if using ReCaptcha's Mailhide API"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\ReCaptcha\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\ReCaptcha\\": "test/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "platform": {
+            "php": "8.1.99"
+        },
+        "sort-packages": true
+    },
+    "extra": {},
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    }
+}

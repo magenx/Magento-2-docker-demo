@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright 2024 Adobe
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\DataExporter\Config\SchemaLocator" type="Magento\Framework\Config\SchemaLocator">
+        <arguments>
+            <argument name="realPath" xsi:type="string">urn:magento:module:Magento_DataExporter:etc/et_schema.xsd</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\DataExporter\Config\Reader" type="Magento\Framework\Config\Reader\Filesystem">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\DataExporter\Config\Converter</argument>
+            <argument name="schemaLocator" xsi:type="object">Magento\DataExporter\Config\SchemaLocator</argument>
+            <argument name="fileName" xsi:type="string">et_schema.xml</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/config/record" xsi:type="string">name</item>
+                <item name="/config/record/field" xsi:type="string">name</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\DataExporter\Config\Data" type="Magento\Framework\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\DataExporter\Config\Reader</argument>
+            <argument name="cacheId" xsi:type="string">Magento_Et_Config_CacheId</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\DataExporter\Config\Converter">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\Analytics\ReportXml\Config\Converter\Xml</argument>
+        </arguments>
+    </type>
+    <type name="Magento\DataExporter\Config\Config">
+        <arguments>
+            <argument name="data" xsi:type="object">Magento\DataExporter\Config\Data</argument>
+        </arguments>
+    </type>
+    <type name="Magento\DataExporter\Model\Provider\ChangelogQueryProvider">
+        <arguments>
+            <argument name="changeLogQuery" xsi:type="array">
+                <item name="default_view" xsi:type="object">Magento\DataExporter\Model\Query\ChangelogSelectQuery</item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="Magento\DataExporter\Config\ConfigInterface" type="Magento\DataExporter\Config\Config" />
+
+    <preference for="Magento\DataExporter\Model\Indexer\MarkRemovedEntitiesInterface"
+                type="Magento\DataExporter\Model\Indexer\MarkRemovedEntities" />
+    <preference for="Magento\DataExporter\Model\Indexer\EntityIdsProviderInterface"
+                type="Magento\DataExporter\Model\Indexer\EntityIdsProvider" />
+    <preference for="Magento\DataExporter\Model\Indexer\FeedIndexProcessorInterface"
+                type="Magento\DataExporter\Model\Indexer\FeedIndexProcessorCreateUpdateDelete" />
+    <preference for="Magento\DataExporter\Model\Indexer\DeletedEntitiesProviderInterface"
+                type="Magento\DataExporter\Model\Indexer\DeletedEntitiesProvider"/>
+    <preference for="Magento\DataExporter\Model\Indexer\DataSerializerInterface"
+                type="Magento\DataExporter\Model\Indexer\DataSerializer"/>
+
+    <!-- Logger -->
+    <virtualType name="CommerceDataExportLogger" type="Magento\DataExporter\Model\Logging\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="error" xsi:type="object">Magento\DataExporter\Model\Logging\Error</item>
+                <item name="system" xsi:type="object">Magento\DataExporter\Model\Logging\Base</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <preference for="Magento\DataExporter\Model\Logging\CommerceDataExportLoggerInterface" type="CommerceDataExportLogger"/>
+
+    <type name="Magento\DataExporter\Export\Extractor">
+        <arguments>
+            <argument name="profiler" xsi:type="init_parameter">Magento\DataExporter\Model\Logging\CommerceDataExportLoggerInterface::EXPORTER_PROFILER</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\DataExporter\Model\Logging\LogRegistry">
+        <arguments>
+            <argument name="logProgressInterval" xsi:type="init_parameter">Magento\DataExporter\Model\Logging\CommerceDataExportLoggerInterface::LOG_PROGRESS_INTERVAL</argument>
+        </arguments>
+    </type>
+    <preference for="Magento\DataExporter\Model\ExportFeedInterface" type="Magento\DataExporter\Model\ExportFeedDummy"/>
+    <type name="Magento\Framework\Mview\Processor">
+        <plugin name="exporter-mview-update" type="Magento\DataExporter\Plugin\MviewUpdatePlugin"/>
+    </type>
+
+    <type name="Magento\DataExporter\Model\Indexer\FeedIndexProcessorCreateUpdateDelete">
+        <arguments>
+            <argument name="batchGenerator" xsi:type="object">Magento\DataExporter\Model\Batch\FeedSource\Generator</argument>
+        </arguments>
+    </type>
+    <type name="Magento\DataExporter\Model\Indexer\FeedIndexProcessorCreateUpdate">
+        <arguments>
+            <argument name="batchGenerator" xsi:type="object">Magento\DataExporter\Model\Batch\FeedSource\Generator</argument>
+        </arguments>
+    </type>
+    <type name="Magento\DataExporter\Model\Indexer\ViewMaterializer">
+        <arguments>
+            <argument name="batchGenerator" xsi:type="object">Magento\DataExporter\Model\Batch\FeedChangeLog\Generator</argument>
+        </arguments>
+    </type>
+
+    <!-- Plugin to force all exporter indexer to be on schedule mode -->
+    <type name="Magento\Framework\Indexer\IndexerInterface">
+        <plugin name="force_exporter_indexer_mode_on_schedule"
+                type="Magento\DataExporter\Plugin\ForceExporterIndexerModeOnSchedule"/>
+    </type>
+</config>

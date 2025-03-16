@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_DataExporter:etc/et_schema.xsd">
+    <record name="Export">
+        <field name="salesOrders" type="Order" repeated="true" provider="Magento\SalesDataExporter\Model\Provider\Orders">
+            <using field="id"/>
+        </field>
+        <field name="salesOrderStatuses" type="OrderStatus" repeated="true" provider="Magento\SalesDataExporter\Model\Provider\OrderStatuses">
+            <using field="status"/>
+        </field>
+    </record>
+    <record name="Order">
+        <field name="id" type="ID"/>
+        <field name="increment_id" type="String"/>
+        <field name="created_at" type="String"/>
+        <field name="updated_at" type="String"/>
+        <field name="additional_information" type="String"/>
+        <field name="state" type="String"/>
+        <field name="status" type="String"/>
+        <field name="total_invoiced" type="Int"/>
+        <field name="total_qty_ordered" type="Int"/>
+        <field name="is_virtual" type="Int"/>
+        <field name="payment_method" type="String"/>
+        <field name="store_id" type="Int"/>
+        <field name="grand_total" type="Float"/>
+        <field name="currency" type="String"/>
+        <field name="amount_captured_online" type="Float"/>
+        <field name="amount_refunded_online" type="Float"/>
+        <field name="amount_authorized" type="Float"/>
+        <field name="amount_paid" type="Float"/>
+        <field name="amount_refunded" type="Float"/>
+        <field name="amount_canceled" type="Float"/>
+        <field name="items" type="OrderItem" repeated="true" provider="Magento\SalesDataExporter\Model\Provider\OrderItems">
+            <using field="id"/>
+        </field>
+        <field name="invoices" type="Invoice" repeated="true" provider="Magento\SalesDataExporter\Model\Provider\Invoices">
+            <using field="id"/>
+        </field>
+        <field name="credit_memos" type="CreditMemo" repeated="true" provider="Magento\SalesDataExporter\Model\Provider\CreditMemos">
+            <using field="id"/>
+        </field>
+        <field name="transactions" type="Transaction" repeated="true" provider="Magento\SalesDataExporter\Model\Provider\Transactions">
+            <using field="id"/>
+        </field>
+    </record>
+    <record name="OrderItem">
+        <field name="id" type="ID"/>
+        <field name="parent_item_id" type="String"/>
+        <field name="product_type" type="String"/>
+        <field name="items_shipped_together" type="Boolean"/>
+        <field name="is_virtual" type="Int"/>
+        <field name="qty_invoiced" type="Int"/>
+        <field name="qty_shipped" type="Int"/>
+        <field name="qty_backordered" type="Int"/>
+        <field name="qty_ordered" type="Int"/>
+        <field name="qty_refunded" type="Int"/>
+        <field name="qty_canceled" type="Int"/>
+    </record>
+    <record name="Invoice">
+        <field name="id" type="ID"/>
+        <field name="is_used_for_refund" type="Int"/>
+        <field name="grand_total" type="Float"/>
+    </record>
+    <record name="CreditMemo">
+        <field name="id" type="ID"/>
+        <field name="state" type="Int"/>
+    </record>
+    <record name="Transaction">
+        <field name="id" type="ID"/>
+        <field name="txn_id" type="String"/>
+        <field name="type" type="String"/>
+        <field name="created_at" type="String"/>
+    </record>
+    <record name="OrderStatus">
+        <field name="status" type="String"/>
+        <field name="state" type="String"/>
+        <field name="label" type="String"/>
+    </record>
+</config>

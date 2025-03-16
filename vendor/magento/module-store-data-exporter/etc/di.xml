@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Indexer & metadata declaration -->
+    <!-- Stores Feed -->
+    <virtualType name="Magento\StoreDataExporter\Model\Indexer\StoresFeedIndexMetadata" type="Magento\DataExporter\Model\Indexer\FeedIndexMetadata">
+        <arguments>
+            <argument name="feedName" xsi:type="string">stores</argument>
+            <argument name="feedIdentity" xsi:type="string">store_view_id</argument>
+            <argument name="sourceTableName" xsi:type="string">store</argument>
+            <argument name="sourceTableField" xsi:type="string">website_id</argument>
+            <argument name="feedTableName" xsi:type="string">stores_data_exporter</argument>
+            <argument name="feedTableField" xsi:type="string">id</argument>
+            <argument name="feedTableMutableColumns" xsi:type="array">
+                <item name="feed_data" xsi:type="string">feed_data</item>
+            </argument>
+            <argument name="entitiesRemovable" xsi:type="boolean">false</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\StoreDataExporter\Model\Indexer\StoresFeedIndexer" type="Magento\DataExporter\Model\Indexer\FeedIndexer">
+        <arguments>
+            <argument name="processor" xsi:type="object">Magento\DataExporter\Model\Indexer\FeedIndexProcessorCreateUpdate</argument>
+            <argument name="feedIndexMetadata" xsi:type="object">Magento\StoreDataExporter\Model\Indexer\StoresFeedIndexMetadata</argument>
+            <argument name="serializer" xsi:type="object">Magento\StoreDataExporter\Model\Indexer\StoresDataSerializer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\StoreDataExporter\Model\StoresFeed" type="Magento\DataExporter\Model\Feed">
+        <arguments>
+            <argument name="feedIndexMetadata" xsi:type="object">Magento\StoreDataExporter\Model\Indexer\StoresFeedIndexMetadata</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\StoreDataExporter\Model\Indexer\StoresDataSerializer" type="Magento\DataExporter\Model\Indexer\DataSerializer">
+        <arguments>
+            <argument name="mapping" xsi:type="array">
+                <item name="id" xsi:type="string">store_view_id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\StoreDataExporter\Observer\ReindexStoreFeedOnStoreSave" type="Magento\StoreDataExporter\Observer\ReindexStoreFeed">
+        <arguments>
+            <argument name="entityName" xsi:type="string">store</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\StoreDataExporter\Observer\ReindexStoreFeedOnStoreGroupSave" type="Magento\StoreDataExporter\Observer\ReindexStoreFeed">
+        <arguments>
+            <argument name="entityName" xsi:type="string">store_group</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\StoreDataExporter\Observer\ReindexStoreFeedOnWebsiteSave" type="Magento\StoreDataExporter\Observer\ReindexStoreFeed">
+        <arguments>
+            <argument name="entityName" xsi:type="string">website</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Data feeds registration -->
+    <type name="Magento\DataExporter\Model\FeedPool">
+        <arguments>
+            <argument name="classMap" xsi:type="array">
+                <item name="stores" xsi:type="string">Magento\StoreDataExporter\Model\StoresFeed</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>
