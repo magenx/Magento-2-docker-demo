@@ -1,0 +1,19 @@
+# Copyright © Magento, Inc. All rights reserved.
+# See COPYING.txt for license details.
+
+type Query {
+    commerce: Commerce
+    @resolver(class: "Magento\\AdminGraphQlServer\\Resolver\\Query\\CommerceResolver")
+}
+
+type Commerce {
+    config: CommerceConfig
+    version: String
+    catalog: CommerceCatalog
+}
+
+type CommerceConfig {
+}
+
+type CommerceCatalog {
+}

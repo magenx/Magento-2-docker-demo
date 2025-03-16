@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="stores_data_exporter" resource="default" engine="innodb" comment="Stores Feed Storage">
+        <column xsi:type="int"
+                name="id"
+                padding="10"
+                unsigned="true"
+                nullable="false"
+                comment="ID"/>
+        <column xsi:type="mediumtext"
+                name="feed_data"
+                nullable="false"
+                comment="Feed Data"/>
+        <column xsi:type="timestamp"
+                name="modified_at"
+                on_update="true"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                comment="Modified At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="stores_data_exporter_modified_at" indexType="btree">
+            <column name="modified_at"/>
+        </index>
+    </table>
+</schema>

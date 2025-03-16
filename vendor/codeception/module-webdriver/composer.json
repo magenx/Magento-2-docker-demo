@@ -1,0 +1,48 @@
+{
+    "name":"codeception/module-webdriver",
+    "description":"WebDriver module for Codeception",
+    "keywords":["codeception", "browser-testing", "acceptance-testing"],
+    "homepage":"https://codeception.com/",
+    "type":"library",
+    "license":"MIT",
+    "authors":[
+        {
+            "name": "Michael Bodnarchuk"
+        },
+        {
+            "name": "Gintautas Miselis"
+        },
+        {
+            "name": "Zaahid Bateson"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "codeception/codeception": "^5.0.0",
+        "codeception/lib-web": "^1.0.1",
+        "codeception/stub": "^4.0",
+        "php-webdriver/webdriver": "^1.14.0",
+        "phpunit/phpunit": "^9.5"
+    },
+    "suggest": {
+        "codeception/phpbuiltinserver": "Start and stop PHP built-in web server for your tests"
+    },
+    "autoload":{
+        "classmap": ["src/"]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/data/app/data.php",
+            "tests/unit/Codeception/Constraints/TestedWebElement.php"
+        ],
+        "psr-4": {
+            "Tests\\Web\\": "tests/web/"
+        }
+    },
+    "config": {
+        "classmap-authoritative": true
+    }
+}

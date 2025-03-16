@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_DataExporter:etc/et_schema.xsd">
+    <record name="Export">
+        <field name="stores" type="Store" repeated="true" provider="Magento\StoreDataExporter\Model\Provider\Stores">
+            <using field="website_id"/>
+        </field>
+    </record>
+    <record name="Store">
+        <field name="store_view_id" type="ID"/>
+        <field name="store_id" type="Int"/>
+        <field name="website_id" type="Int"/>
+        <field name="store_view_name" type="String"/>
+        <field name="store_name" type="String"/>
+        <field name="website_name" type="String"/>
+    </record>
+</config>

@@ -1,0 +1,82 @@
+{
+    "name": "laminas/laminas-di",
+    "description": "Automated dependency injection for PSR-11 containers",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "di",
+        "psr-11"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-di/",
+        "issues": "https://github.com/laminas/laminas-di/issues",
+        "source": "https://github.com/laminas/laminas-di",
+        "rss": "https://github.com/laminas/laminas-di/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "extra": {
+        "laminas": {
+            "component": "Laminas\\Di",
+            "config-provider": "Laminas\\Di\\ConfigProvider"
+        }
+    },
+    "require": {
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+        "laminas/laminas-stdlib": "^3.18.0",
+        "psr/container": "^1.1.1",
+        "psr/log": "^1.1.4 || ^2.0.0 ||  ^3.0.0"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "~2.5.0",
+        "laminas/laminas-servicemanager": "^3.22",
+        "mikey179/vfsstream": "^1.6.12",
+        "phpbench/phpbench": "^1.2.7",
+        "phpunit/phpunit": "^9.6.22",
+        "psalm/plugin-phpunit": "^0.18.0",
+        "squizlabs/php_codesniffer": "^3.7.1",
+        "vimeo/psalm": "^5.0"
+    },
+    "conflict": {
+        "zendframework/zend-di": "*",
+        "laminas/laminas-servicemanager-di": "*",
+        "laminas/laminas-servicemanager": "<3.13.0 || >=4.0.0",
+        "amphp/amp": "<2.6.4"
+    },
+    "suggest": {
+        "laminas/laminas-servicemanager": "An IoC container without auto wiring capabilities"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Di\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Di\\": "test/",
+            "LaminasBench\\Di\\": "benchmarks/"
+        }
+    },
+    "scripts": {
+        "benchmark": "phpbench run --revs=2 --iterations=2 --report=aggregate",
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "analyse": "psalm --shepherd --stats",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    }
+}

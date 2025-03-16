@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Indexer/etc/indexer.xsd">
+    <indexer id="store_data_exporter"
+            view_id="store_data_exporter"
+            class="Magento\StoreDataExporter\Model\Indexer\StoresFeedIndexer">
+        <title translate="true">Stores Feed</title>
+        <description translate="true">Collects data for a Stores Feed</description>
+    </indexer>
+</config>

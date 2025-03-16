@@ -1,0 +1,25 @@
+{
+    "name":"codeception/module-sequence",
+    "description":"Sequence module for Codeception",
+    "keywords":["codeception"],
+    "homepage":"https://codeception.com/",
+    "type":"library",
+    "license":"MIT",
+    "authors":[
+        {
+            "name":"Michael Bodnarchuk"
+        }
+    ],
+    "minimum-stability": "RC",
+    "require": {
+        "php": "^8.0",
+        "codeception/codeception": "^5.0"
+    },
+    "autoload":{
+        "classmap": ["src/"],
+        "files": ["src/Codeception/Util/sq.php"]
+    },
+    "config": {
+        "classmap-authoritative": true
+    }
+}

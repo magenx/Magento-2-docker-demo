@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="store_save_commit_after">
+        <observer name="reindex_store_feed_on_store_save" instance="Magento\StoreDataExporter\Observer\ReindexStoreFeedOnStoreSave" />
+    </event>
+    <event name="store_group_save_commit_after">
+        <observer name="reindex_store_feed_on_store_group_save" instance="Magento\StoreDataExporter\Observer\ReindexStoreFeedOnStoreGroupSave" />
+    </event>
+    <event name="website_save_commit_after">
+        <observer name="\reindex_store_feed_on_website_save" instance="Magento\StoreDataExporter\Observer\ReindexStoreFeedOnWebsiteSave" />
+    </event>
+</config>
