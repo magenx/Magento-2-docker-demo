@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f4b72a7a42b64edd8e60e5bebfafc91",
+    "content-hash": "c024d9c21fa06b8954e976ef16ec8ac2",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -5975,6 +5975,37 @@
                 ],
                 "psr-4": {
                     "Magento\\Amqp\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-analytics",
+            "version": "100.4.7",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-analytics/magento-module-analytics-100.4.7.0.zip",
+                "shasum": "02c663458ffcac3aeb00da4c14cf3ba6ce202895"
+            },
+            "require": {
+                "magento/framework": "103.0.*",
+                "magento/module-backend": "102.0.*",
+                "magento/module-config": "101.2.*",
+                "magento/module-integration": "100.4.*",
+                "magento/module-store": "101.1.*",
+                "php": "~8.1.0||~8.2.0||~8.3.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\Analytics\\": ""
                 }
             },
             "license": [

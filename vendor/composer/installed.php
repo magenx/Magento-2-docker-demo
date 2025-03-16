@@ -1298,10 +1298,13 @@
             'dev_requirement' => false,
         ),
         'magento/module-analytics' => array(
+            'pretty_version' => '100.4.7',
+            'version' => '100.4.7.0',
+            'reference' => null,
+            'type' => 'magento2-module',
+            'install_path' => __DIR__ . '/../magento/module-analytics',
+            'aliases' => array(),
             'dev_requirement' => false,
-            'replaced' => array(
-                0 => '*',
-            ),
         ),
         'magento/module-application-performance-monitor' => array(
             'dev_requirement' => false,

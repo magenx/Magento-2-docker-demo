@@ -79,6 +79,7 @@ return array(
     'c7e1128e2a1afd8d28d3f93d8e2e3019' => $vendorDir . '/magento/module-re-captcha-webapi-api/registration.php',
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     'ec07570ca5a812141189b1fa81503674' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+    'a8c41acf1bcf2c8c39616ad2b1e630fb' => $vendorDir . '/magento/module-analytics/registration.php',
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
     '1873ae6446634b40bf25026005067303' => $vendorDir . '/magento/module-re-captcha-frontend-ui/registration.php',
     '4e49f9b77cfaca5ecee9e68485c07e5a' => $vendorDir . '/magento/module-contact/registration.php',

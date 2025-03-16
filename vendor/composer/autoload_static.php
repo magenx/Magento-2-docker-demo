@@ -80,6 +80,7 @@ class ComposerStaticInit0f4b72a7a42b64edd8e60e5bebfafc91
         'c7e1128e2a1afd8d28d3f93d8e2e3019' => __DIR__ . '/..' . '/magento/module-re-captcha-webapi-api/registration.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+        'a8c41acf1bcf2c8c39616ad2b1e630fb' => __DIR__ . '/..' . '/magento/module-analytics/registration.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '1873ae6446634b40bf25026005067303' => __DIR__ . '/..' . '/magento/module-re-captcha-frontend-ui/registration.php',
         '4e49f9b77cfaca5ecee9e68485c07e5a' => __DIR__ . '/..' . '/magento/module-contact/registration.php',
@@ -502,6 +503,7 @@ class ComposerStaticInit0f4b72a7a42b64edd8e60e5bebfafc91
             'Magento\\Authorization\\' => 22,
             'Magento\\AsynchronousOperations\\' => 31,
             'Magento\\AsyncConfig\\' => 20,
+            'Magento\\Analytics\\' => 18,
             'Magento\\Amqp\\' => 13,
             'Magento\\AdvancedSearch\\' => 23,
             'Magento\\AdvancedPricingImportExport\\' => 36,
@@ -1602,6 +1604,10 @@ class ComposerStaticInit0f4b72a7a42b64edd8e60e5bebfafc91
         'Magento\\AsyncConfig\\' => 
         array (
             0 => __DIR__ . '/..' . '/magento/module-async-config',
+        ),
+        'Magento\\Analytics\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/magento/module-analytics',
         ),
         'Magento\\Amqp\\' => 
         array (

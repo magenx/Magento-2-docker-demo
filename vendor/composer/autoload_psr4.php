@@ -250,6 +250,7 @@ return array(
     'Magento\\Authorization\\' => array($vendorDir . '/magento/module-authorization'),
     'Magento\\AsynchronousOperations\\' => array($vendorDir . '/magento/module-asynchronous-operations'),
     'Magento\\AsyncConfig\\' => array($vendorDir . '/magento/module-async-config'),
+    'Magento\\Analytics\\' => array($vendorDir . '/magento/module-analytics'),
     'Magento\\Amqp\\' => array($vendorDir . '/magento/module-amqp'),
     'Magento\\AdvancedSearch\\' => array($vendorDir . '/magento/module-advanced-search'),
     'Magento\\AdvancedPricingImportExport\\' => array($vendorDir . '/magento/module-advanced-pricing-import-export'),
