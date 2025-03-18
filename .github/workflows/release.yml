@@ -103,7 +103,10 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             ref: 'refs/tags/${{env.release_version}}',
-            sha: context.sha
+            sha: context.sha,
+            headers: {
+               'X-GitHub-Api-Version': '2022-11-28'
+            }
           })
 
     # CREATE RELEASE FROM LATEST APPROVED BUILD
@@ -119,5 +122,10 @@ jobs:
             tag_name: '${{env.release_version}}',
             target_commitish: '${{github.ref_name}}',
             name: '${{github.head_ref}}',
-            generate_release_notes: true
+            draft: false,
+            prerelease: false,
+            generate_release_notes: true,
+            headers: {
+               'X-GitHub-Api-Version': '2022-11-28'
+            }
           })
