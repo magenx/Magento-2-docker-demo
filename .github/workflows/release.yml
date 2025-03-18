@@ -96,6 +96,7 @@ jobs:
     # CREATE TAG FOR THE LATEST BUILD
     - name: Create tag for the latest release
       id: tag
+      if: ${{success()}}
       uses: actions/github-script@v7
       with:
         script: |
