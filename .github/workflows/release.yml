@@ -15,8 +15,6 @@ jobs:
     # if: ${{(github.event.pull_request.merged == true) && (contains(github.event.pull_request.labels.*.name, 'release'))}}
     runs-on: ubuntu-latest
     env:
-      COMPOSER_USER: ${{secrets.COMPOSER_USER}}
-      COMPOSER_PASSWORD: ${{secrets.COMPOSER_PASSWORD}}
       GITHUB_TOKEN: ${{secrets.TOKEN}}
     
     steps:
@@ -87,6 +85,7 @@ jobs:
       id: push_to_release_version_branch
       if: ${{success()}}
       run: |
+        git checkout -b ${{env.release_version}}
         git switch ${{env.release_version}}
         git add . -A
         git commit -m "${{github.sha}}"
