@@ -15,9 +15,9 @@ jobs:
     # if: ${{(github.event.pull_request.merged == true) && (contains(github.event.pull_request.labels.*.name, 'release'))}}
     runs-on: ubuntu-latest
     env:
-      composer_user: ${{secrets.composer_user}}
-      composer_password: ${{secrets.composer_password}}
-      github_token: ${{secrets.token}}
+      COMPOSER_USER: ${{secrets.COMPOSER_USER}}
+      COMPOSER_PASSWORD: ${{secrets.COMPOSER_PASSWORD}}
+      GITHUB_TOKEN: ${{secrets.TOKEN}}
     
     steps:
     - uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
     - name: Install modules and updates
       id: composer_install
       run: |
-        composer -n -q config -g http-basic.repo.magento.com  ${{secrets.composer_user}} ${{secrets.composer_password}}
+        composer -n -q config -g http-basic.repo.magento.com  ${{secrets.COMPOSER_USER}} ${{secrets.COMPOSER_PASSWORD}}
         composer update -W
         composer install --no-cache --no-interaction
         if [[ $? -ne 0 ]]; then
