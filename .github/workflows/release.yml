@@ -17,7 +17,7 @@ jobs:
     env:
       composer_user: ${{secrets.composer_user}}
       composer_password: ${{secrets.composer_password}}
-      github_token: ${{secrets.github_token}}
+      github_token: ${{secrets.token}}
     
     steps:
     - uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
     - name: Install modules and updates
       id: composer_install
       run: |
-        composer -n -q config -g http-basic.repo.magento.com 8c681734f22763b50ea0c29dff9e7af2 02dfee497e669b5db1fe1c8d481d6974
+        composer -n -q config -g http-basic.repo.magento.com  ${{secrets.composer_user}} ${{secrets.composer_password}}
         composer update -W
         composer install --no-cache --no-interaction
         if [[ $? -ne 0 ]]; then
