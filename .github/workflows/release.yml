@@ -14,13 +14,12 @@ jobs:
     # check if PR merged and has label: release
     # if: ${{(github.event.pull_request.merged == true) && (contains(github.event.pull_request.labels.*.name, 'release'))}}
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{secrets.TOKEN}}
     
     steps:
     - uses: actions/checkout@v4
       with:
         ref: ${{github.ref_name}}
+        token: ${{secrets.TOKEN}}
         
     - name: Github Actions workflow identification
       run: |
@@ -82,17 +81,6 @@ jobs:
       run: |
         echo "release_version=release_$(date +%d%m%Y_%H%M%S)" >> ${GITHUB_ENV}
 
-    # PUSH COMPILED CODE TO BRANCH NAMED "release_version"
-    - name: Push compiled code to ${{env.release_version}} branch
-      id: push_to_release_version_branch
-      if: ${{success()}}
-      run: |
-        git checkout -b ${{env.release_version}}
-        git switch ${{env.release_version}}
-        git add . -A
-        git commit -m "${{github.sha}}"
-        git push origin HEAD:${{env.release_version}} --force
-
     # CREATE TAG FOR THE LATEST BUILD
     - name: Create tag for the latest release
       id: tag
@@ -130,3 +118,14 @@ jobs:
                'X-GitHub-Api-Version': '2022-11-28'
             }
           })
+          
+    # PUSH COMPILED CODE TO BRANCH NAMED "release_version"
+    - name: Push compiled code to ${{env.release_version}} branch
+      id: push_to_release_version_branch
+      if: ${{success()}}
+      run: |
+        git checkout -b ${{env.release_version}}
+        git switch ${{env.release_version}}
+        git add . -A
+        git commit -m "${{github.sha}}"
+        git push origin HEAD:${{env.release_version}} --force
