@@ -63,7 +63,8 @@ jobs:
       id: build_tar_archive
       if: ${{ success() }}
       run: | 
-        tar -czf "${{ env.BUILD_FILE }}" \
+        tar --ignore-failed-read --warning=no-file-changed \
+          -czf "${{ env.BUILD_FILE }}" \
           --exclude=".git" \
           --exclude=".github" \
           --exclude="${{ env.BUILD_FILE }}" \
