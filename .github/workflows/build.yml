@@ -25,8 +25,9 @@ jobs:
 
     - name: Install modules and updates
       id: composer_install
+      env:
+        COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
       run: |
-        composer -n -q config -g http-basic.repo.magento.com  ${{ secrets.COMPOSER_USER }} ${{ secrets.COMPOSER_PASSWORD }}
         composer install --no-dev --no-cache --no-interaction  --optimize-autoloader --apcu-autoloader
 
     - name: Run setup:di:compile
