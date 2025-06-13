@@ -1,0 +1,68 @@
+name: Build
+
+on:
+  create:
+    tags:
+      - 'v[0-9].+'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        ref: ${{ github.ref }}
+        fetch-depth: 0
+        
+    - name: Github Actions workflow identification
+      id: github_user
+      run: |
+         git config --global user.name "Magenx CI/CD"
+         git config --global user.email "admin@magenx.com"
+
+    - name: Install modules and updates
+      id: composer_install
+      run: |
+        composer -n -q config -g http-basic.repo.magento.com  ${{ secrets.COMPOSER_USER }} ${{ secrets.COMPOSER_PASSWORD }}
+        composer install --no-dev --no-cache --no-interaction  --optimize-autoloader --apcu-autoloader
+
+    - name: Run setup:di:compile
+      id: setup_di_compile
+      if: ${{ success() }}
+      run: bin/magento setup:di:compile -n
+
+    - name: Deploy static files
+      id: setup_static_content_deploy
+      run: bin/magento setup:static-content:deploy -f -n
+
+    - name: Debug with custom output
+      id: debug
+      run: bin/magento
+
+    - name: Set version for complete build
+      id: set_build_version
+      if: ${{ success() }}
+      run: | 
+        echo "BUILD_FILE=build_$(date +%Y%m%d_%H%M)_${GITHUB_REF#refs/tags/}.tar.gz" >> ${GITHUB_ENV}
+
+    - name: Package build into tar
+      id: build_tar_archive
+      if: ${{ success() }}
+      run: | 
+        tar -czf "${{ env.BUILD_FILE }}" \
+          --exclude=".git" \
+          --exclude=".github" \
+          .
+
+    - name: Attach build to release tag
+      id: attach_build_to_release
+      if: ${{ success() }}
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${GITHUB_REF#refs/tags/}
+        files: ${{ env.BUILD_FILE }}
