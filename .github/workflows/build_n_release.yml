@@ -1,6 +1,7 @@
-name: Build n Release
+name: Build and Release
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -15,7 +16,7 @@ on:
       - 'composer.lock'
       
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
     
     steps:
@@ -56,7 +57,7 @@ jobs:
       id: set_build_version
       if: ${{ success() }}
       run: | 
-        echo "BUILD_FILE=build_$(date +%Y%m%d_%H%M)_${GITHUB_REF#refs/tags/}.tar.gz" >> ${GITHUB_ENV}
+        echo "BUILD_FILE=build_$(date +%Y%m%d_%H%M).tar.gz" >> ${GITHUB_ENV}
 
     - name: Package build into tar
       id: build_tar_archive
@@ -66,12 +67,16 @@ jobs:
           --exclude=".git" \
           --exclude=".github" \
           .
-
-    - name: Attach build to release tag
-      id: attach_build_to_release
-      if: ${{ success() }}
-      uses: softprops/action-gh-release@v2
+          
+    - name: Release
+      id: create_release
+      uses: cycjimmy/semantic-release-action@v4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: ${{ env.BUILD_FILE }}
+        semantic_version: 19.0.5
+        extra_plugins: |
+          @semantic-release/changelog
+          @semantic-release/git
+          conventional-changelog-conventionalcommits
+
