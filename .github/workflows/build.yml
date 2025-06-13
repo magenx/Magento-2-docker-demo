@@ -1,10 +1,19 @@
-name: Build
+name: Build n Release
 
 on:
-  create:
-    tags:
-      - 'v[0-9].+'
-
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.php'
+      - '**/*.xml'
+      - '**/*.phtml'
+      - 'app/design/**'
+      - 'app/code/**'
+      - 'app/etc/**'
+      - 'composer.json'
+      - 'composer.lock'
+      
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -65,5 +74,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${GITHUB_REF#refs/tags/}
         files: ${{ env.BUILD_FILE }}
