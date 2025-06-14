@@ -26,6 +26,7 @@ jobs:
       with:
         ref: ${{ github.ref }}
         fetch-depth: 0
+        persist-credentials: false
         
     - name: Github Actions workflow identification
       id: github_user
