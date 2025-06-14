@@ -60,7 +60,7 @@ jobs:
       run: | 
         echo "BUILD_FILE=build_$(date +%Y%m%d_%H%M).tar.gz" >> ${GITHUB_ENV}
 
-    - name: Package build into tar
+    - name: Package build into tar archive
       id: build_tar_archive
       if: ${{ success() }}
       run: | 
@@ -68,10 +68,13 @@ jobs:
           -czf "${{ env.BUILD_FILE }}" \
           --exclude=".git" \
           --exclude=".github" \
+          --exclude="app/etc/env.php" \
+          --exclude="CHANGELOG.md" \
+          --exclude=".releaserc" \
           --exclude="${{ env.BUILD_FILE }}" \
           .
           
-    - name: Release
+    - name: Create release and attache build archive
       id: create_release
       uses: cycjimmy/semantic-release-action@v4
       env:
