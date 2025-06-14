@@ -2,26 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## 1.0.0 (2025-06-14)
+## 1.1.0 (2025-06-14)
 
-* add workflows ([581ba88](https://github.com/magenx/Magento-2-docker-demo/commit/581ba88))
-* Create .releaserc ([bf9d4e9](https://github.com/magenx/Magento-2-docker-demo/commit/bf9d4e9))
-* Create release.yml ([56d96d6](https://github.com/magenx/Magento-2-docker-demo/commit/56d96d6))
-* Delete .github/workflows/release.yml ([95c771b](https://github.com/magenx/Magento-2-docker-demo/commit/95c771b))
-* Delete .github/workflows/release.yml ([740bfc9](https://github.com/magenx/Magento-2-docker-demo/commit/740bfc9))
-* init ([5e9ecf7](https://github.com/magenx/Magento-2-docker-demo/commit/5e9ecf7))
-* Rename build.yml to build_n_release.yml ([07c104f](https://github.com/magenx/Magento-2-docker-demo/commit/07c104f))
-* Update build_n_release.yml ([3b01fc8](https://github.com/magenx/Magento-2-docker-demo/commit/3b01fc8))
-* Update build_n_release.yml ([f590ef9](https://github.com/magenx/Magento-2-docker-demo/commit/f590ef9))
-* Update build_n_release.yml ([e597587](https://github.com/magenx/Magento-2-docker-demo/commit/e597587))
-* Update build_n_release.yml ([46ef1d4](https://github.com/magenx/Magento-2-docker-demo/commit/46ef1d4))
-* Update build.yml ([bd56445](https://github.com/magenx/Magento-2-docker-demo/commit/bd56445))
-* Update build.yml ([d1e1e63](https://github.com/magenx/Magento-2-docker-demo/commit/d1e1e63))
-* Update build.yml ([436094a](https://github.com/magenx/Magento-2-docker-demo/commit/436094a))
-* fix: Composer file ending whitespace removed (#4) ([4325945](https://github.com/magenx/Magento-2-docker-demo/commit/4325945)), closes [#4](https://github.com/magenx/Magento-2-docker-demo/issues/4)
-* fix: Rewrite config file workflow test (#1) ([9a42d5b](https://github.com/magenx/Magento-2-docker-demo/commit/9a42d5b)), closes [#1](https://github.com/magenx/Magento-2-docker-demo/issues/1)
-* fix: Rewrite config file workflow white space (#3) ([7df504f](https://github.com/magenx/Magento-2-docker-demo/commit/7df504f)), closes [#3](https://github.com/magenx/Magento-2-docker-demo/issues/3)
-* chore(main): release 1.0.0 (#2) ([25120cc](https://github.com/magenx/Magento-2-docker-demo/commit/25120cc)), closes [#2](https://github.com/magenx/Magento-2-docker-demo/issues/2)
+* feat: Pipeline protected branch ci rule test (#5) ([1c7c2a0](https://github.com/magenx/Magento-2-docker-demo/commit/1c7c2a0)), closes [#5](https://github.com/magenx/Magento-2-docker-demo/issues/5)
+* Update and rename build_n_release.yml to build_and_release.yml ([0db77ba](https://github.com/magenx/Magento-2-docker-demo/commit/0db77ba))
+* Update build_and_release.yml ([3216976](https://github.com/magenx/Magento-2-docker-demo/commit/3216976))
+* Update pr_title_validate.yml ([3284cf7](https://github.com/magenx/Magento-2-docker-demo/commit/3284cf7))
 
 2.4.0
 =============
