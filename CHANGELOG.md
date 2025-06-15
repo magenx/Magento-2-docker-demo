@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/magenx/Magento-2-docker-demo/compare/v1.2.1...v1.2.2) (2025-06-15)
+
+
+### Bug Fixes
+
+* Edit new file extension to test workflow ([#23](https://github.com/magenx/Magento-2-docker-demo/issues/23)) ([d93f97b](https://github.com/magenx/Magento-2-docker-demo/commit/d93f97b3f8000094ec9176b16b41898498be35ff))
+
 ## [1.2.1](https://github.com/magenx/Magento-2-docker-demo/compare/v1.2.0...v1.2.1) (2025-06-15)
 
 
