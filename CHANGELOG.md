@@ -2,12 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## 1.1.0 (2025-06-14)
+## <small>1.1.1 (2025-06-15)</small>
 
-* feat: Pipeline protected branch ci rule test (#5) ([1c7c2a0](https://github.com/magenx/Magento-2-docker-demo/commit/1c7c2a0)), closes [#5](https://github.com/magenx/Magento-2-docker-demo/issues/5)
-* Update and rename build_n_release.yml to build_and_release.yml ([0db77ba](https://github.com/magenx/Magento-2-docker-demo/commit/0db77ba))
-* Update build_and_release.yml ([3216976](https://github.com/magenx/Magento-2-docker-demo/commit/3216976))
-* Update pr_title_validate.yml ([3284cf7](https://github.com/magenx/Magento-2-docker-demo/commit/3284cf7))
+* fix: Changelog format test with update (#6) ([76633b7](https://github.com/magenx/Magento-2-docker-demo/commit/76633b7)), closes [#6](https://github.com/magenx/Magento-2-docker-demo/issues/6)
 
 2.4.0
 =============
