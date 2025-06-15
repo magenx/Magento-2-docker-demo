@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.1.0](https://github.com/magenx/Magento-2-docker-demo/compare/v1.0.0...v1.1.0) (2025-06-15)
+
+
+### Features
+
+* Create release please manifest file ([#13](https://github.com/magenx/Magento-2-docker-demo/issues/13)) ([1c91898](https://github.com/magenx/Magento-2-docker-demo/commit/1c91898b889dbb8ab1d9e73eaa8ba9884cec4a97))
+* Delete release please manifest file ([#14](https://github.com/magenx/Magento-2-docker-demo/issues/14)) ([c29a6a8](https://github.com/magenx/Magento-2-docker-demo/commit/c29a6a8f2de20a77c1fce9f5f28a57cc7fb13fe7))
+* Pipeline protected branch ci rule test ([#5](https://github.com/magenx/Magento-2-docker-demo/issues/5)) ([1c7c2a0](https://github.com/magenx/Magento-2-docker-demo/commit/1c7c2a01012b455327fad5426393dc81da77fd13))
+
+
+### Bug Fixes
+
+* Add release please manifest config ([#12](https://github.com/magenx/Magento-2-docker-demo/issues/12)) ([2035b0f](https://github.com/magenx/Magento-2-docker-demo/commit/2035b0f297c6b3a248568ac8fded559500339d12))
+* Change github token to test rules ([#9](https://github.com/magenx/Magento-2-docker-demo/issues/9)) ([554c614](https://github.com/magenx/Magento-2-docker-demo/commit/554c61424ae382d46c8ed49f5724ea952fdb6ba5))
+* Changelog format test with update ([#6](https://github.com/magenx/Magento-2-docker-demo/issues/6)) ([76633b7](https://github.com/magenx/Magento-2-docker-demo/commit/76633b7ea93f46f2f08a03e186e2385276a80636))
+* Composer file ending whitespace removed ([#4](https://github.com/magenx/Magento-2-docker-demo/issues/4)) ([4325945](https://github.com/magenx/Magento-2-docker-demo/commit/43259452da8443feeb602ad103d0c74acea44793))
+* Lets change release action and test ([#8](https://github.com/magenx/Magento-2-docker-demo/issues/8)) ([b8fb7fa](https://github.com/magenx/Magento-2-docker-demo/commit/b8fb7fafd50d5d5d24c4ed541534207993fa25dc))
+* Rewrite config file workflow permissions ([#10](https://github.com/magenx/Magento-2-docker-demo/issues/10)) ([3f6506d](https://github.com/magenx/Magento-2-docker-demo/commit/3f6506da8eb9472bed368b740c33a7a391f46e3f))
+* Rewrite config file workflow test ([#1](https://github.com/magenx/Magento-2-docker-demo/issues/1)) ([9a42d5b](https://github.com/magenx/Magento-2-docker-demo/commit/9a42d5b92a4b4362d678b8b2d3071ae56b0e189d))
+* Rewrite config file workflow white space ([#3](https://github.com/magenx/Magento-2-docker-demo/issues/3)) ([7df504f](https://github.com/magenx/Magento-2-docker-demo/commit/7df504f8e60d89cc3205e80a09b0a6e7a276c37b))
+* Testing release please with next upload ([#11](https://github.com/magenx/Magento-2-docker-demo/issues/11)) ([b5eb182](https://github.com/magenx/Magento-2-docker-demo/commit/b5eb182a6087d4ca687e361a7a80e59807f3e104))
+* Update build and release file ([#15](https://github.com/magenx/Magento-2-docker-demo/issues/15)) ([7ec9d43](https://github.com/magenx/Magento-2-docker-demo/commit/7ec9d43f9f42b40609cddf1ca840dec447998b7b))
+* Update build and release workflow steps ([#7](https://github.com/magenx/Magento-2-docker-demo/issues/7)) ([7e665a5](https://github.com/magenx/Magento-2-docker-demo/commit/7e665a5db181b8aebf136e40cde7da0943ec10bc))
+
+## Changelog
+
 All notable changes to this project will be documented in this file.
 
 ## <small>1.1.1 (2025-06-15)</small>
