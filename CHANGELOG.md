@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.3](https://github.com/magenx/Magento-2-docker-demo/compare/v1.2.2...v1.2.3) (2025-06-15)
+
+
+### Bug Fixes
+
+* Delete whitespace to test workflow ([#26](https://github.com/magenx/Magento-2-docker-demo/issues/26)) ([2a3230a](https://github.com/magenx/Magento-2-docker-demo/commit/2a3230a390b7e4aedd0f7cd752152c5634a06fc9))
+* Try to use the same with PAT ([#25](https://github.com/magenx/Magento-2-docker-demo/issues/25)) ([97b5e8c](https://github.com/magenx/Magento-2-docker-demo/commit/97b5e8c06271defff76b040d82987411242c9f18))
+
 ## [1.2.2](https://github.com/magenx/Magento-2-docker-demo/compare/v1.2.1...v1.2.2) (2025-06-15)
 
 
