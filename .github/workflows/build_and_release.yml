@@ -90,7 +90,7 @@ jobs:
       id: release
       uses: googleapis/release-please-action@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.CI_DEMO_GITHUB_TOKEN }}
         release-type: simple
 
     - name: Release validation
@@ -104,7 +104,7 @@ jobs:
       if: steps.release.outputs.release_created == 'true'
       uses: softprops/action-gh-release@v2
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.CI_DEMO_GITHUB_TOKEN }}
       with:
         files: ${{ env.BUILD_FILE }}
         tag_name: ${{ steps.release.outputs.tag_name }}
