@@ -96,7 +96,6 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         release-type: simple
-        manifest-file: .release-please-manifest.json
 
     - name: Release validation
       id: release_validation
