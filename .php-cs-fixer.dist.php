@@ -45,4 +45,3 @@ $config->setFinder($finder)
         'ternary_operator_spaces' => true,
     ]);
 return $config;
-
