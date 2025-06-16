@@ -1,3 +1,4 @@
 {
-  "skip-changelog": true
+  "skip-changelog": true,
+  ".": "5.0.0"
 }
