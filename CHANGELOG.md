@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.0.7](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.6...v5.0.7) (2025-06-16)
+
+
+### Bug Fixes
+
+* Create release please config json ([#63](https://github.com/magenx/Magento-2-docker-demo/issues/63)) ([5875954](https://github.com/magenx/Magento-2-docker-demo/commit/5875954a1a0c48b99ff89ae71c33517418b6c524))
+* Update magenx cicd release yml ([#62](https://github.com/magenx/Magento-2-docker-demo/issues/62)) ([25ea65e](https://github.com/magenx/Magento-2-docker-demo/commit/25ea65ee1a7520332e178534efbf8e5fcd23a3d3))
+
 ## [5.0.6](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.5...v5.0.6) (2025-06-16)
 
 
