@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.0.1](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.0...v5.0.1) (2025-06-16)
+
+
+### Bug Fixes
+
+* Rewrite config file workflow for tags ([#40](https://github.com/magenx/Magento-2-docker-demo/issues/40)) ([6071947](https://github.com/magenx/Magento-2-docker-demo/commit/60719471ea6b58a156f2c9366e4ba98b23c00dce))
+* Update build and release workflow steps 2 ([#41](https://github.com/magenx/Magento-2-docker-demo/issues/41)) ([14f6942](https://github.com/magenx/Magento-2-docker-demo/commit/14f69421b601c694951d9c43df09499b87b180f8))
+
 ## [5.0.0](https://github.com/magenx/Magento-2-docker-demo/compare/v4.0.0...v5.0.0) (2025-06-16)
 
 
