@@ -1,20 +1,14 @@
 {
+  "include-v-in-tag": true,
+  "include-component-in-tag": true,
+  "tag-separator": "-",
   "packages": {
     ".": {
+      "component": "main",
+      "release-type": "simple",
       "branches": [
         {
-          "branch": "main",
-          "package-name": "main",
-          "include-component-in-tag": true,
-          "release-type": "simple",
-          "tag-separator": "-"
-        },
-        {
-          "branch": "staging",
-          "package-name": "staging",
-          "include-component-in-tag": true,
-          "release-type": "simple",
-          "tag-separator": "-"
+          "branch": "main"
         }
       ]
     }
