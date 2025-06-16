@@ -25,9 +25,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         target-branch: ${{ github.ref_name }}
-        monorepo-tags: true
-        tag-separator: "-"
-        package-name: ${{ github.ref_name }}
+        include-component-in-tag: true
         release-type: simple
         manifest-file: .release-please-manifest.json
 
