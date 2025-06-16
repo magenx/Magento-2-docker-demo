@@ -15,12 +15,12 @@ jobs:
     
     steps:    
     - name: Release
-      uses: googleapis/release-please-action@v4
       id: release
+      uses: googleapis/release-please-action@v4
       with:
-        release-type: node
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        release-type: simple
+        manifest-file: .release-please-manifest.json
 
     - name: Release validation
       id: release_validation
