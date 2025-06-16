@@ -4,7 +4,6 @@ on:
     branches:
       - main
     paths-ignore:
-      - '.release*'
       - '**.md'
       - '**.txt'
       - '.github/**'
@@ -79,7 +78,7 @@ jobs:
     - name: Set version for complete build
       id: set_build_version
       run: | 
-        echo "BUILD_FILE=build_$(date +%Y%m%d_%H%M).tar.gz" >> ${GITHUB_ENV}
+        echo "BUILD_FILE=build_$(date +%Y%m%d_%H%M)_${{ steps.release.outputs.tag_name }}.tar.gz" >> ${GITHUB_ENV}
 
     - name: Package build into tar archive
       id: build_tar_archive
