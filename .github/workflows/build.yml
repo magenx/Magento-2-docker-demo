@@ -1,8 +1,13 @@
-name: Build and Attach Artifact
+name: Magenx CI/CD - Release PR and Build
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '.release*'
+      - '**.md'
+      - '**.txt'
+      - '.github/**'
 
 permissions:
   contents: write
@@ -26,16 +31,19 @@ jobs:
       id: release_validation
       if: ${{ !steps.release.outputs.release_created }}
       run: |
-        echo "No release was created. Stopping workflow."
+        echo "No release was created."
+        echo "Release PR created: ${{ steps.release.outputs.prs_created }}"
+        echo "Stopping workflow."
         exit 1        
 
-    - name: Released - show tag
-      if: ${{ steps.release.outputs.release_created }}
+    - name: Release created - show tag
       id: tag_name
       run: |
         echo "Tag created: ${{ steps.release.outputs.tag_name }}"
-
-    - uses: actions/checkout@v4
+        
+    - name: Checkout latest tag ${{ steps.release.outputs.tag_name }}
+      id: checkout_latest_tag
+      uses: actions/checkout@v4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -49,7 +57,7 @@ jobs:
          git config --global user.name "Magenx CI/CD"
          git config --global user.email "admin@magenx.com"
 
-    - name: Install modules and updates
+    - name: Composer install modules and updates
       id: composer_install
       env:
         COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
