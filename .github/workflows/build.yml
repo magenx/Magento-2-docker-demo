@@ -1,5 +1,8 @@
 name: Build and Attach Artifact
 on:
+  push:
+    tags:
+      - "*"
   release:
     types: [published]
     
@@ -67,19 +70,33 @@ jobs:
           --exclude="${{ env.BUILD_FILE }}" \
           .
 
+#    - name: Release validation
+#      id: release_validation
+#      if: ${{ github.event.release.tag_name }}
+#      run: |
+#        echo "Tag created: ${{ steps.release.outputs.tag_name }}"
+#
+#    - name: Attach build archive
+#      id: attach_build_archive
+#      if: ${{ github.event.release.tag_name }}
+#      uses: softprops/action-gh-release@v2
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      with:
+#        files: ${{ env.BUILD_FILE }}
+#        tag_name: ${{ github.event.release.tag_name }}
+
     - name: Release validation
       id: release_validation
-      if: ${{ github.event.release.tag_name }}
       run: |
-        echo "Tag created: ${{ steps.release.outputs.tag_name }}"
+        echo "Tag created: ${{ github.ref_name }}"
 
     - name: Attach build archive
       id: attach_build_archive
-      if: ${{ github.event.release.tag_name }}
       uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         files: ${{ env.BUILD_FILE }}
-        tag_name: ${{ github.event.release.tag_name }}
+        tag_name: ${{ github.ref_name }}
 
