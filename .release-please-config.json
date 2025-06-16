@@ -5,11 +5,13 @@
         {
           "branch": "main",
           "package-name": "main",
+          "include-component-in-tag": true,
           "tag-separator": "-"
         },
         {
           "branch": "staging",
           "package-name": "staging",
+          "include-component-in-tag": true,
           "tag-separator": "-"
         }
       ]
