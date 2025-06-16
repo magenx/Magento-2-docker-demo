@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.0.6](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.5...v5.0.6) (2025-06-16)
+
+
+### Bug Fixes
+
+* Remove spaces in composer file ([#60](https://github.com/magenx/Magento-2-docker-demo/issues/60)) ([c5c2c81](https://github.com/magenx/Magento-2-docker-demo/commit/c5c2c8162cd31e3219f427e7704d9252bbb2018d))
+* Update magenx cicd release yml ([#59](https://github.com/magenx/Magento-2-docker-demo/issues/59)) ([3b897e4](https://github.com/magenx/Magento-2-docker-demo/commit/3b897e480dc1cde5b87f219ea79b5aed0a518798))
+
 ## [5.0.5](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.4...v5.0.5) (2025-06-16)
 
 
