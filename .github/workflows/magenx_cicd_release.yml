@@ -28,6 +28,7 @@ jobs:
         include-component-in-tag: true
         release-type: simple
         manifest-file: .release-please-manifest.json
+        config-file: .release-please-config.json
 
     - name: Release validation
       id: release_validation
