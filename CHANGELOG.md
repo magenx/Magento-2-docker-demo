@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.4](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.3...v5.0.4) (2025-06-16)
+
+
+### Bug Fixes
+
+* Rewrite config file workflow to test component ([#54](https://github.com/magenx/Magento-2-docker-demo/issues/54)) ([9c567d2](https://github.com/magenx/Magento-2-docker-demo/commit/9c567d231503424d3f1188fb294449ad85147c32))
+* Rewrite upgrade workflow to create PR ([#51](https://github.com/magenx/Magento-2-docker-demo/issues/51)) ([dbcbe80](https://github.com/magenx/Magento-2-docker-demo/commit/dbcbe801458ed36eca0c7bcbce60b0fff8d34ff0))
+* Update and rename build to magenx_cicd_release ([#50](https://github.com/magenx/Magento-2-docker-demo/issues/50)) ([e9a6070](https://github.com/magenx/Magento-2-docker-demo/commit/e9a6070f6bc8034fa4c76b1c5bf8c87d7019b79b))
+* Update magenx cicd release yml ([#53](https://github.com/magenx/Magento-2-docker-demo/issues/53)) ([8cc3d64](https://github.com/magenx/Magento-2-docker-demo/commit/8cc3d6406f7d1bfdb3803915d5dc201e36811d62))
+
 ## [5.0.3](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.2...v5.0.3) (2025-06-16)
 
 
