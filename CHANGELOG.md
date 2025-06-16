@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.3](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.2...v5.0.3) (2025-06-16)
+
+
+### Bug Fixes
+
+* Change composer file for test ([#48](https://github.com/magenx/Magento-2-docker-demo/issues/48)) ([0ccce07](https://github.com/magenx/Magento-2-docker-demo/commit/0ccce07a9ba20082852cc768bd1a5fc9d0195b34))
+* Create cicd workflow to make release and attach build ([#46](https://github.com/magenx/Magento-2-docker-demo/issues/46)) ([8911188](https://github.com/magenx/Magento-2-docker-demo/commit/89111884442cf1842a26fb3b5b7c456121e29c30))
+* Create cidi workflow to make release and attach build ([8911188](https://github.com/magenx/Magento-2-docker-demo/commit/89111884442cf1842a26fb3b5b7c456121e29c30))
+* Delete github workflow release file ([#47](https://github.com/magenx/Magento-2-docker-demo/issues/47)) ([2691545](https://github.com/magenx/Magento-2-docker-demo/commit/269154531ca05d78879cc9e4d22b1f5ad104ac52))
+
 ## [5.0.2](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.1...v5.0.2) (2025-06-16)
 
 
