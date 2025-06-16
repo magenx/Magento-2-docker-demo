@@ -1,8 +1,6 @@
 name: Magenx CI/CD - Release PR and Build
 on:
   push:
-    branches-ignore:
-      - developer
     branches:
       - main
       - staging
