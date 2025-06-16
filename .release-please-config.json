@@ -1,0 +1,18 @@
+{
+  "packages": {
+    ".": {
+      "branches": [
+        {
+          "branch": "main",
+          "package-name": "main",
+          "tag-separator": "-"
+        },
+        {
+          "branch": "staging",
+          "package-name": "staging",
+          "tag-separator": "-"
+        }
+      ]
+    }
+  }
+}
