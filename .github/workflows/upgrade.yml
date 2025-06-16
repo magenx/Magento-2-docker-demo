@@ -3,40 +3,45 @@ name: Update Magento 2 to latest version
 on:
   workflow_dispatch:
 
+env:
+  MAGENTO_VERSION: 2.4.8-p1
+  PHP_VERSION: 8.4
+
 jobs:
   update-magento:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           ref: main 
 
-      # Set up PHP
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '${{ env.PHP_VERSION }}'
 
-      # Configure Magento authentication keys
-      - name: Configure Magento authentication
-        run: |
-          composer config --global http-basic.repo.magento.com 8c681734f22763b50ea0c29dff9e7af2 02dfee497e669b5db1fe1c8d481d6974
-
-      # Update Magento with ignore platform requirements
       - name: Update Magento
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: |
+          MAGENTO_LATEST=$(curl -s https://api.github.com/repos/magento/magento2/tags 2>&1 | grep -m1 -oP '(?<=name": ")[0-9].*-p.*(?=")')
+          echo MAGENTO_RELEASE=${MAGENTO_LATEST}
           composer update -W  --ignore-platform-reqs
-          composer require-commerce magento/product-community-edition=2.4.8-p1 --no-update --ignore-platform-reqs
+          composer require-commerce magento/product-community-edition=${MAGENTO_VERSION} --no-update --ignore-platform-reqs
           composer update -W  --ignore-platform-reqs
-          
-      # Commit and push changes to the dev branch
-      - name: Commit and push changes
+
+      - name: Create PR and review changes
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+          BRANCH="upgrade-magento-${MAGENTO_VERSION}-$(date +%s)"
+          git checkout -b "${BRANCH}"
+
           git add .
-          git commit -m "Updated Magento to 2.4.8-p1 with PHP 8.4"
-          git push origin main
+          git commit -m "Updated Magento to ${MAGENTO_VERSION} with PHP ${PHP_VERSION}"
+          git push origin "${BRANCH}"
+
+          gh pr create --title "feat!(upgrade): Upgrade Magento to ${MAGENTO_VERSION} with PHP ${PHP_VERSION}" \
+          --body "Automated upgrade of Magento to ${MAGENTO_VERSION} with PHP ${PHP_VERSION}" \
+          --base main \
+          --head "${BRANCH}"
