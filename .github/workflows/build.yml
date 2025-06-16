@@ -1,26 +1,45 @@
 name: Build and Attach Artifact
 on:
   push:
-    tags:
-      - "*"
-  release:
-    types: [published]
-    
+    branches:
+      - main
+
 permissions:
   contents: write
   issues: write
   pull-requests: write
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
     
-    steps:
+    steps:    
+    - name: Release
+      uses: googleapis/release-please-action@v4
+      id: release
+      with:
+        release-type: node
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Release validation
+      id: release_validation
+      if: ${{ !steps.release.outputs.release_created }}
+      run: |
+        echo "No release was created. Stopping workflow."
+        exit 1        
+
+    - name: Released - show tag
+      if: ${{ steps.release.outputs.release_created }}
+      id: tag_name
+      run: |
+        echo "Tag created: ${{ steps.release.outputs.tag_name }}"
+
     - uses: actions/checkout@v4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        ref: ${{ github.event.release.tag_name }}
+        ref: ${{ steps.release.outputs.tag_name }}
         fetch-depth: 0
         persist-credentials: false
         
@@ -37,13 +56,12 @@ jobs:
       run: |
         composer install --no-dev --no-cache --no-interaction  --optimize-autoloader --apcu-autoloader
 
-    - name: Run setup:di:compile
+    - name: Run setup di compile
       id: setup_di_compile
-      if: ${{ success() }}
       run: bin/magento setup:di:compile -n
 
-    - name: Deploy static files
-      id: setup_static_content_deploy
+    - name: Generate static files
+      id: generate_static_content
       run: bin/magento setup:static-content:deploy -f -n
 
     - name: Debug with custom output
@@ -52,13 +70,11 @@ jobs:
 
     - name: Set version for complete build
       id: set_build_version
-      if: ${{ success() }}
       run: | 
         echo "BUILD_FILE=build_$(date +%Y%m%d_%H%M).tar.gz" >> ${GITHUB_ENV}
 
     - name: Package build into tar archive
       id: build_tar_archive
-      if: ${{ success() }}
       run: | 
         tar --ignore-failed-read --warning=no-file-changed \
           -czf "${{ env.BUILD_FILE }}" \
@@ -66,30 +82,9 @@ jobs:
           --exclude=".github" \
           --exclude="app/etc/env.php" \
           --exclude="CHANGELOG.md" \
-          --exclude=".releaserc" \
+          --exclude=".release*" \
           --exclude="${{ env.BUILD_FILE }}" \
           .
-
-#    - name: Release validation
-#      id: release_validation
-#      if: ${{ github.event.release.tag_name }}
-#      run: |
-#        echo "Tag created: ${{ steps.release.outputs.tag_name }}"
-#
-#    - name: Attach build archive
-#      id: attach_build_archive
-#      if: ${{ github.event.release.tag_name }}
-#      uses: softprops/action-gh-release@v2
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      with:
-#        files: ${{ env.BUILD_FILE }}
-#        tag_name: ${{ github.event.release.tag_name }}
-
-    - name: Release validation
-      id: release_validation
-      run: |
-        echo "Tag created: ${{ github.ref_name }}"
 
     - name: Attach build archive
       id: attach_build_archive
@@ -98,5 +93,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         files: ${{ env.BUILD_FILE }}
-        tag_name: ${{ github.ref_name }}
+        tag_name: ${{ steps.release.outputs.tag_name }}
 
