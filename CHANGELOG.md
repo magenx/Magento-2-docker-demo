@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.0.5](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.4...v5.0.5) (2025-06-16)
+
+
+### Bug Fixes
+
+* Add space line to test build ([#57](https://github.com/magenx/Magento-2-docker-demo/issues/57)) ([ff59317](https://github.com/magenx/Magento-2-docker-demo/commit/ff593178777146f696028da114685c024558a1ab))
+* Use branch separate build tag ([162595f](https://github.com/magenx/Magento-2-docker-demo/commit/162595fff4252736f0199707d8054833ebf70d63))
+* Use branch separate build tag ([#56](https://github.com/magenx/Magento-2-docker-demo/issues/56)) ([162595f](https://github.com/magenx/Magento-2-docker-demo/commit/162595fff4252736f0199707d8054833ebf70d63))
+
 ## [5.0.4](https://github.com/magenx/Magento-2-docker-demo/compare/v5.0.3...v5.0.4) (2025-06-16)
 
 
