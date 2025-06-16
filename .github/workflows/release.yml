@@ -44,3 +44,5 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         release-type: simple
+        manifest-file: .release-please-manifest.json
+
