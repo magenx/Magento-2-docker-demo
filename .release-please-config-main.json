@@ -1,19 +1,34 @@
 {
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "simple",
+  "prerelease": false,
   "include-v-in-tag": true,
-  "include-component-in-tag": false,
-  "changelog-sections": {
-        "feat": "🚀 Features",
-        "fix": "🐛 Bug Fixes",
-        "docs": "📝 Documentation",
-        "refactor": "🛠️ Refactoring",
-        "chore": "🚦 Maintenance",
-        "default": "Other Changes"
-  },
-  "packages": {
-    ".": {
-      "release-type": "simple",
-      "component": "Magento 2 docker demo production",
-      "changelog-path": "CHANGELOG.md" 
+  "include-component-in-tag": true,
+  "changelog-path": "CHANGELOG.md",
+  "changelog-sections": [
+    {
+        "type": "feat",
+        "section":  "🚀 Features"
+    },
+    {
+        "type": "fix",
+        "section":"🐛 Bug Fixes"
+    },
+    {
+        "type": "docs",
+        "section":"📝 Documentation"
+    },
+    {
+        "type": "refactor",
+        "section":"🛠️ Refactoring"
+    },
+    {
+        "type": "chore",
+        "section":"🚦 Maintenance"
+    },
+    {
+        "type": "default",
+        "section":"Other Changes"
     }
-  }
+  ]
 }
