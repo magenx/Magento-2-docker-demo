@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.1](https://github.com/magenx/Magento-2-docker-demo/compare/Magento-2-production-v8.0.0...Magento-2-production-v8.0.1) (2025-06-17)
+
+
+### 🚦 Maintenance
+
+* Rename release please manifest file ([#88](https://github.com/magenx/Magento-2-docker-demo/issues/88)) ([e6fbacc](https://github.com/magenx/Magento-2-docker-demo/commit/e6fbacc6f9565ed53aff089c258cf19d67a92659))
+
 ## [8.0.0](https://github.com/magenx/Magento-2-docker-demo/compare/Magento-2-production-v7.0.0...Magento-2-production-v8.0.0) (2025-06-17)
 
 
