@@ -1,18 +1,19 @@
 {
   "include-v-in-tag": true,
   "include-component-in-tag": false,
-  "packages": {
-    ".": {
-      "release-type": "simple",
-      "component": "Magento 2 docker demo production",
-      "changelog-sections": {
+  "changelog-sections": {
         "feat": "🚀 Features",
         "fix": "🐛 Bug Fixes",
         "docs": "📝 Documentation",
         "refactor": "🛠️ Refactoring",
         "chore": "🚦 Maintenance",
         "default": "Other Changes"
-      }
+  },
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "component": "Magento 2 docker demo production",
+      "changelog-path": "CHANGELOG.md" 
     }
   }
 }
