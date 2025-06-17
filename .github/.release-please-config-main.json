@@ -32,7 +32,8 @@
       "component": "Magento-2-production",
       "prerelease": false,
       "include-v-in-tag": true,
-      "include-component-in-tag": false,
+      "include-component-in-tag": true,
+      "tag-separator": "-",
       "changelog-path": "CHANGELOG.md"
     }
   }
