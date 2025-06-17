@@ -1,14 +1,25 @@
 {
   "include-v-in-tag": true,
-  "include-component-in-tag": true,
-  "tag-separator": "-",
+  "include-component-in-tag": false,
   "packages": {
     ".": {
-      "component": "main",
       "release-type": "simple",
+      "changelog-sections": {
+        "feat": "🚀 Features",
+        "fix": "🐛 Bug Fixes",
+        "docs": "📝 Documentation",
+        "refactor": "🛠️ Refactoring",
+        "chore": "🚦 Maintenance",
+        "default": "Other Changes"
+      },
       "branches": [
         {
-          "branch": "main"
+          "branch": "main",
+          "component": "Magento 2 production"
+        },
+        {
+          "branch": "staging",
+          "component": "Magento 2 staging"
         }
       ]
     }
