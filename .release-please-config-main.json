@@ -4,6 +4,7 @@
   "packages": {
     ".": {
       "release-type": "simple",
+      "component": "Magento 2 docker demo production",
       "changelog-sections": {
         "feat": "🚀 Features",
         "fix": "🐛 Bug Fixes",
@@ -11,17 +12,7 @@
         "refactor": "🛠️ Refactoring",
         "chore": "🚦 Maintenance",
         "default": "Other Changes"
-      },
-      "branches": [
-        {
-          "branch": "main",
-          "component": "Magento 2 production"
-        },
-        {
-          "branch": "staging",
-          "component": "Magento 2 staging"
-        }
-      ]
+      }
     }
   }
 }
