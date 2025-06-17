@@ -29,8 +29,7 @@
   ],
   "packages": {
     ".": {
-      "component": "Magento 2 production",
-      "tag-separator": "-",
+      "component": "Magento-2-production",
       "prerelease": false,
       "include-v-in-tag": true,
       "include-component-in-tag": false,
