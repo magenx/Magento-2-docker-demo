@@ -25,7 +25,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         target-branch: ${{ github.ref_name }}
-        config-file: .release-please-config.json
+        config-file: .release-please-config-${{ github.ref_name }}.json
 
     - name: Release validation
       id: release_validation
@@ -79,7 +79,7 @@ jobs:
     - name: Set version for complete build
       id: set_build_version
       run: | 
-        echo "BUILD_FILE=build_${{ github.ref_name }}_${{ steps.release.outputs.tag_name }}_$(date +%Y%m%d_%H%M).tar.gz" >> ${GITHUB_ENV}
+        echo "BUILD_FILE=build_${{ steps.release.outputs.tag_name }}_$(date +%Y%m%d_%H%M).tar.gz" >> ${GITHUB_ENV}
 
     - name: Package build into tar archive
       id: build_tar_archive
