@@ -1,0 +1,25 @@
+name: Coding Standard Baseline
+
+on:
+  pull_request:
+    branches: ["**"]
+    
+permissions:
+  contents: read
+
+jobs:
+  coding-standard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Coding Standard Baseline
+        uses: graycoreio/github-actions-magento2/coding-standard-baseline@main
+        with:
+          head_repo: ${{github.event.pull_request.head.repo.full_name}}
+          head_ref: ${{github.event.pull_request.head.ref}}
+          php_version: "8.4"
+          composer_version: "2"
+          version: "*"
+          severity: "5"
+          warning_severity: "8"
+          error_severity: "8"
+          baseline_version: "*"
