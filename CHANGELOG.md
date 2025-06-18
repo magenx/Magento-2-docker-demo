@@ -1,5 +1,17 @@
 # Changelog
 
+## [17.0.1](https://github.com/magenx/Magento-2-docker-demo/compare/v17.0.0...v17.0.1) (2025-06-18)
+
+
+### 🐛 Bug Fixes
+
+* Update component name to test ([#132](https://github.com/magenx/Magento-2-docker-demo/issues/132)) ([64772e7](https://github.com/magenx/Magento-2-docker-demo/commit/64772e753733b54f064936dcfbe0941b18d2b4fd))
+
+
+### 🚦 Maintenance
+
+* **main:** 17.0.1-alpha ([#133](https://github.com/magenx/Magento-2-docker-demo/issues/133)) ([6f8808b](https://github.com/magenx/Magento-2-docker-demo/commit/6f8808bea0af28fc5c2b80314e03967fdc4d1134))
+
 ## [17.0.1-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v17.0.0...v17.0.1-alpha) (2025-06-18)
 
 
