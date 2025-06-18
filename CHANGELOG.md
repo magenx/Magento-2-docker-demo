@@ -1,5 +1,12 @@
 # Changelog
 
+## [13.0.3-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v13.0.2...v13.0.3-alpha) (2025-06-18)
+
+
+### 🚦 Maintenance
+
+* **workflow:** Add different headers and titles ([bf952a3](https://github.com/magenx/Magento-2-docker-demo/commit/bf952a3002fe4b6e3122d3bb90c109a69d6bfe24))
+
 ## [13.0.2](https://github.com/magenx/Magento-2-docker-demo/compare/v13.0.1...v13.0.2) (2025-06-18)
 
 
