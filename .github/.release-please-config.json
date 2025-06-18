@@ -30,7 +30,14 @@
     ".": {
       "release-type": "simple",
       "prerelease": false,
-      "pull-request-header": ":robot: I have created a [ release ]"
+      "pull-request-header": ":robot: I have created a [ release ]",
+	  "extra-files": [
+        {
+          "type": "json",
+          "path": ".github/.release-please-manifest-prerelease.json",
+          "jsonpath": "$[\".\"]"
+        }
+      ]
     }
   }
 }
