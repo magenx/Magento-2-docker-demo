@@ -28,7 +28,7 @@
   ],
   "packages": {
     ".": {
-    "component": "magenx-cloud",
+    "component": "magenxcloud",
     "release-type": "simple",
     "prerelease": false,
     "pull-request-title-pattern": "chore${scope}:${component} ${version}",

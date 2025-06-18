@@ -28,7 +28,7 @@
   ],
   "packages": {
     ".": {
-      "component": "magenx-cloud",
+      "component": "magenxcloud",
       "release-type": "simple",
       "prerelease": true,
       "prerelease-type": "alpha",
