@@ -17,7 +17,6 @@ permissions:
   actions: read
   
 env:
-  RELEASE_PLEASE_VERSION: "v4.2.0"
   PRERELEASE_TYPE: "alpha"
   PRERELEASE_CONFIG: ".github/.release-please-config-prerelease.json"
   PRERELEASE_MANIFEST: ".github/.release-please-manifest-prerelease.json"
@@ -30,7 +29,7 @@ concurrency:
 jobs:
 
   pre-release-pr:
-    name: Pre-release PR for ${{ env.PRERELEASE_TYPE }}
+    name: Create pre-release PR
     runs-on: ubuntu-latest
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
@@ -38,7 +37,7 @@ jobs:
     steps:
       - id: release
         name: Create prerelease
-        uses: googleapis/release-please-action@${{ env.RELEASE_PLEASE_VERSION }}
+        uses: googleapis/release-please-action@v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           target-branch: ${{ github.ref_name }}
@@ -47,14 +46,14 @@ jobs:
 
 
   pre-release-validate:
-    name: Prerelease validate
+    name: Pre-release validate
     runs-on: ubuntu-latest
     if: ${{ needs.pre-release-pr.outputs.releases_created == 'false' }}
     needs: pre-release-pr
     steps:
       - name: Release Build Push Deploy
         run: |
-          echo "Prerelease Tests"
+          echo "Pre-release validate"
 
 
   pre-release:
@@ -69,21 +68,21 @@ jobs:
           echo "Running pre-release"
 
       - name: Create release PR
-        uses: googleapis/release-please-action@${{ env.RELEASE_PLEASE_VERSION }}
+        uses: googleapis/release-please-action@v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: ${{ env.RELEASE_CONFIG }}
           manifest-file: ${{ env.RELEASE_MANIFEST }}
 
 
-  post-pre-release:
-    name: Post pre-release cleanup
+  after-pre-release:
+    name: After pre-release cleanup
     runs-on: ubuntu-latest
     needs: pre-release
     steps:
-      - name: Post pre-release cleanup
+      - name: After pre-release cleanup
         run: |
-          echo "Running post-pre-release cleanup"
+          echo "Running after-pre-release cleanup"
 
 
   release:
@@ -98,11 +97,11 @@ jobs:
           echo "Create release"
 
 
-  post-release:
-    name: Post-release cleanup
+  after-release:
+    name: After release cleanup
     runs-on: ubuntu-latest
     needs: release
     steps:
-      - name: Post-release cleanup
+      - name: After release cleanup
         run: |
-          echo "Post-release cleanup"
+          echo "After release cleanup"
