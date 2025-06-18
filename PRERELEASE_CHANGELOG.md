@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.0-alpha.1](https://github.com/magenx/Magento-2-docker-demo/compare/pre-release-v9.0.0-alpha...pre-release-v9.0.0-alpha.1) (2025-06-18)
+
+
+### 🐛 Bug Fixes
+
+* Add space line in this file ([#94](https://github.com/magenx/Magento-2-docker-demo/issues/94)) ([f29136d](https://github.com/magenx/Magento-2-docker-demo/commit/f29136deb769809080643043f03d8da377b4378a))
+
 ## [9.0.0-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/pre-release-v8.0.1...pre-release-v9.0.0-alpha) (2025-06-18)
 
 
