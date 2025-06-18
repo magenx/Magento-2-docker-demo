@@ -51,9 +51,34 @@ jobs:
     if: ${{ needs.pre-release-pr.outputs.releases_created == 'false' }}
     needs: pre-release-pr
     steps:
-      - name: Release Build Push Deploy
+      - name: Checkout latest tag ${{ needs.pre-release-pr.outputs.tag_name }}
+        id: checkout_latest_tag
+        uses: actions/checkout@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          ref: ${{ needs.pre-release-pr.outputs.tag_name }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Composer install modules and updates
+        id: composer_install
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: |
-          echo "Pre-release validate"
+          composer install --no-dev --no-cache --no-interaction  --optimize-autoloader --apcu-autoloader
+
+      - name: Run setup di compile
+        id: setup_di_compile
+        run: bin/magento setup:di:compile -n
+
+      - name: Generate static files
+        id: generate_static_content
+        run: bin/magento setup:static-content:deploy -f -n
+
+      - name: Debug with custom output
+        id: debug
+        run: bin/magento
 
 
   pre-release:
