@@ -33,8 +33,8 @@
       "prerelease": true,
       "prerelease-type": "alpha",
       "versioning": "prerelease",
-	  "pull-request-title-pattern": "chore(${scope}):${component} pre-release ${version}"
-	  "pull-request-header": ":robot: I have created a [*pre-release*]"
+	  "pull-request-title-pattern": "chore(${scope}):${component} pre-release ${version}",
+	  "pull-request-header": ":robot: I have created a [*pre-release*]",
       "include-v-in-tag": true,
       "include-component-in-tag": true,
       "tag-separator": "-",
