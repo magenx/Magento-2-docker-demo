@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.0-alpha.2](https://github.com/magenx/Magento-2-docker-demo/compare/pre-release-v9.0.0-alpha.1...pre-release-v9.0.0-alpha.2) (2025-06-18)
+
+
+### 🐛 Bug Fixes
+
+* Correct syntax typo in workflow ([2551f24](https://github.com/magenx/Magento-2-docker-demo/commit/2551f242db8fffe4454ae07adb07a2992097a4c1))
+
 ## [9.0.0-alpha.1](https://github.com/magenx/Magento-2-docker-demo/compare/pre-release-v9.0.0-alpha...pre-release-v9.0.0-alpha.1) (2025-06-18)
 
 
