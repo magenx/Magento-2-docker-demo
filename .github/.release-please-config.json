@@ -1,6 +1,5 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-  "release-type": "simple",
   "changelog-sections": [
     {
         "type": "feat",
@@ -30,6 +29,7 @@
   "packages": {
     ".": {
       "component": "production",
+	  "release-type": "simple",
       "prerelease": false,
       "include-v-in-tag": true,
       "include-component-in-tag": true,
