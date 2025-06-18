@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.0-alpha.9](https://github.com/magenx/Magento-2-docker-demo/compare/v9.0.0-alpha.8...v9.0.0-alpha.9) (2025-06-18)
+
+
+### 🚦 Maintenance
+
+* **main:** release 13.0.0 ([#108](https://github.com/magenx/Magento-2-docker-demo/issues/108)) ([19a5397](https://github.com/magenx/Magento-2-docker-demo/commit/19a5397d6cfcf3cb71983c844c470b6916d049c3))
+
 ## [13.0.0](https://github.com/magenx/Magento-2-docker-demo/compare/v12.0.0...v13.0.0) (2025-06-18)
 
 
