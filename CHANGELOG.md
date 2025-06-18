@@ -1,5 +1,12 @@
 # Changelog
 
+## [17.0.2-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v17.0.1...v17.0.2-alpha) (2025-06-18)
+
+
+### 🐛 Bug Fixes
+
+* Hardcode component name in pr title ([#135](https://github.com/magenx/Magento-2-docker-demo/issues/135)) ([dcfa268](https://github.com/magenx/Magento-2-docker-demo/commit/dcfa268c65c6a5e9a110bd1cf597fe96f96102d6))
+
 ## [17.0.1](https://github.com/magenx/Magento-2-docker-demo/compare/v17.0.0...v17.0.1) (2025-06-18)
 
 
