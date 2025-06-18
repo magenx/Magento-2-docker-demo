@@ -28,9 +28,14 @@
   ],
   "packages": {
     ".": {
+      "component": "release",
       "release-type": "simple",
       "prerelease": false,
+      "pull-request-title-pattern": "chore${scope}:${component} ${version}",
       "pull-request-header": ":robot: I have created a [ release ]",
+      "include-v-in-tag": true,
+      "include-component-in-tag": false,
+      "always-update": true,
 	  "extra-files": [
         {
           "type": "json",
