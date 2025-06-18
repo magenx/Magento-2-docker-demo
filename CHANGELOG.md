@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.0-alpha.8](https://github.com/magenx/Magento-2-docker-demo/compare/v9.0.0-alpha.7...v9.0.0-alpha.8) (2025-06-18)
+
+
+### 🚦 Maintenance
+
+* **workflow:** Fix typo in release config ([2066972](https://github.com/magenx/Magento-2-docker-demo/commit/20669724c684e6c6d93e57fa1584b5a2b9d27440))
+
 ## [9.0.0-alpha.7](https://github.com/magenx/Magento-2-docker-demo/compare/v9.0.0-alpha.6...v9.0.0-alpha.7) (2025-06-18)
 
 
