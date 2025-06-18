@@ -28,14 +28,9 @@
   ],
   "packages": {
     ".": {
-      "component": "production",
       "release-type": "simple",
       "prerelease": false,
-      "pull-request-header": ":robot: I have created a [ *release* ]",
-      "include-v-in-tag": true,
-      "include-component-in-tag": true,
-      "tag-separator": "-",
-      "changelog-path": "CHANGELOG.md"
+      "pull-request-header": ":robot: I have created a [ release ]",
     }
   }
 }

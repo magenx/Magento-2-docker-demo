@@ -57,12 +57,12 @@ jobs:
 
 
   pre-release:
-    name: Create pre-release then release PR
+    name: Publish pre-release then release PR
     runs-on: ubuntu-latest
     if: ${{ needs.pre-release-pr.outputs.releases_created == 'true' && contains(needs.pre-release-pr.outputs.tag_name, 'alpha') }}
     needs: pre-release-pr
     steps:
-      - name: Pre release
+      - name: Pre-release publishing
         run: |
           echo "Running pre-release"
 
