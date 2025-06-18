@@ -1,5 +1,26 @@
 # Changelog
 
+## [16.0.2](https://github.com/magenx/Magento-2-docker-demo/compare/v16.0.1...v16.0.2) (2025-06-18)
+
+
+### 🐛 Bug Fixes
+
+* Remove comma in prerelease config ([#126](https://github.com/magenx/Magento-2-docker-demo/issues/126)) ([514f8ae](https://github.com/magenx/Magento-2-docker-demo/commit/514f8ae5f77f4fce59a082c73f620d65b35f8da1))
+* Test again with pr header title custom ([#125](https://github.com/magenx/Magento-2-docker-demo/issues/125)) ([60bbe08](https://github.com/magenx/Magento-2-docker-demo/commit/60bbe0879b9c5b560865d94d7bd30afd64b1c686))
+
+
+### 🚦 Maintenance
+
+* **main:** 16.0.2-alpha ([#127](https://github.com/magenx/Magento-2-docker-demo/issues/127)) ([5a8d057](https://github.com/magenx/Magento-2-docker-demo/commit/5a8d0571e8e40689be10df97e18b6c192aa658b4))
+
+## [16.0.2-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v16.0.1...v16.0.2-alpha) (2025-06-18)
+
+
+### 🐛 Bug Fixes
+
+* Remove comma in prerelease config ([#126](https://github.com/magenx/Magento-2-docker-demo/issues/126)) ([514f8ae](https://github.com/magenx/Magento-2-docker-demo/commit/514f8ae5f77f4fce59a082c73f620d65b35f8da1))
+* Test again with pr header title custom ([#125](https://github.com/magenx/Magento-2-docker-demo/issues/125)) ([60bbe08](https://github.com/magenx/Magento-2-docker-demo/commit/60bbe0879b9c5b560865d94d7bd30afd64b1c686))
+
 ## [16.0.1](https://github.com/magenx/Magento-2-docker-demo/compare/v16.0.0...v16.0.1) (2025-06-18)
 
 
