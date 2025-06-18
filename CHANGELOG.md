@@ -1,5 +1,17 @@
 # Changelog
 
+## [13.0.1-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v13.0.0...v13.0.1-alpha) (2025-06-18)
+
+
+### 🐛 Bug Fixes
+
+* Add some pre-release validation build ([130db81](https://github.com/magenx/Magento-2-docker-demo/commit/130db8173c88a8704719452a873ee1b8cfbf303d))
+
+
+### 🚦 Maintenance
+
+* **manifest:** Up pre version sync with release ([8089629](https://github.com/magenx/Magento-2-docker-demo/commit/808962926b89d3be1cf8fec9d142a2e038606b30))
+
 ## [13.0.0](https://github.com/magenx/Magento-2-docker-demo/compare/v12.0.0...v13.0.0) (2025-06-18)
 
 
