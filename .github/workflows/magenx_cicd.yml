@@ -36,7 +36,7 @@ jobs:
       tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
       - id: release
-        name: Create prerelease
+        name: Create pre-release
         uses: googleapis/release-please-action@v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -59,8 +59,7 @@ jobs:
   pre-release:
     name: Create pre-release then release PR
     runs-on: ubuntu-latest
-    if: ${{ needs.pre-release-pr.outputs.releases_created == 'true' && 
-     contains(needs.pre-release-pr.outputs.tag_name, '${{ env.PRERELEASE_TYPE }}') }}
+    if: ${{ needs.pre-release-pr.outputs.releases_created == 'true' && contains(needs.pre-release-pr.outputs.tag_name, env.PRERELEASE_TYPE ) }}
     needs: pre-release-pr
     steps:
       - name: Pre release
@@ -88,8 +87,7 @@ jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
-    if: ${{ needs.pre-release-pr.outputs.releases_created == 'true' && 
-     !contains(needs.pre-release-pr.outputs.tag_name, '${{ env.PRERELEASE_TYPE }}') }}
+    if: ${{ needs.pre-release-pr.outputs.releases_created == 'true' && !contains(needs.pre-release-pr.outputs.tag_name, env.PRERELEASE_TYPE ) }}
     needs: pre-release-pr
     steps:
       - name: Create release
