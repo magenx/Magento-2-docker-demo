@@ -30,7 +30,7 @@
     ".": {
       "release-type": "simple",
       "prerelease": false,
-      "pull-request-header": ":robot: I have created a [ release ]",
+      "pull-request-header": ":robot: I have created a [ release ]"
     }
   }
 }
