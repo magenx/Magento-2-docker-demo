@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.0-alpha.6](https://github.com/magenx/Magento-2-docker-demo/compare/staging-v9.0.0-alpha.5...staging-v9.0.0-alpha.6) (2025-06-18)
+
+
+### 🚦 Maintenance
+
+* **main:** release production 11.0.0 ([#103](https://github.com/magenx/Magento-2-docker-demo/issues/103)) ([2f6aa9d](https://github.com/magenx/Magento-2-docker-demo/commit/2f6aa9db7edb947318b163b53ead834b866ff805))
+
 ## [9.0.0-alpha.5](https://github.com/magenx/Magento-2-docker-demo/compare/staging-v9.0.0-alpha.4...staging-v9.0.0-alpha.5) (2025-06-18)
 
 
