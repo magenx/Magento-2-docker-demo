@@ -41,7 +41,6 @@ jobs:
         uses: googleapis/release-please-action@v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          target-branch: ${{ github.ref_name }}
           config-file: ${{ env.PRERELEASE_CONFIG }}
           manifest-file: ${{ env.PRERELEASE_MANIFEST }}
 

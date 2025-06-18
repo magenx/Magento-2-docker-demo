@@ -29,8 +29,9 @@
   "packages": {
     ".": {
       "component": "production",
-	  "release-type": "simple",
+      "release-type": "simple",
       "prerelease": false,
+      "pull-request-header": ":robot: I have created a [ *release* ]",
       "include-v-in-tag": true,
       "include-component-in-tag": true,
       "tag-separator": "-",
