@@ -1,5 +1,17 @@
 # Changelog
 
+## [16.0.1](https://github.com/magenx/Magento-2-docker-demo/compare/v16.0.0...v16.0.1) (2025-06-18)
+
+
+### 🐛 Bug Fixes
+
+* Remove all pr header title mods ([30268d1](https://github.com/magenx/Magento-2-docker-demo/commit/30268d139f39148e29044966b0a93e781c381c2a))
+
+
+### 🚦 Maintenance
+
+* **main:** release 16.0.1-alpha ([#123](https://github.com/magenx/Magento-2-docker-demo/issues/123)) ([909da6f](https://github.com/magenx/Magento-2-docker-demo/commit/909da6f15ebc80da877701ab4adb48363108c50e))
+
 ## [16.0.1-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v16.0.0...v16.0.1-alpha) (2025-06-18)
 
 
