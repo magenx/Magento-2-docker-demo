@@ -1,0 +1,42 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "simple",
+  "changelog-sections": [
+    {
+        "type": "feat",
+        "section":  "🚀 Features"
+    },
+    {
+        "type": "fix",
+        "section":"🐛 Bug Fixes"
+    },
+	{
+        "type": "refactor",
+        "section":"🛠️ Refactoring"
+    },
+    {
+        "type": "docs",
+        "section":"📝 Documentation"
+    },
+    {
+        "type": "chore",
+        "section":"🚦 Maintenance"
+    },
+    {
+        "type": "default",
+        "section":"Other Changes"
+    }
+  ],
+  "packages": {
+    ".": {
+      "component": "pre-release",
+      "prerelease": true,
+      "prerelease-type": "alpha",
+      "versioning": "prerelease",
+      "include-v-in-tag": true,
+      "include-component-in-tag": true,
+      "tag-separator": "-",
+      "changelog-path": "PRERELEASE_CHANGELOG.md"
+    }
+  }
+}

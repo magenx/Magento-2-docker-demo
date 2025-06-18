@@ -1,0 +1,108 @@
+name: Magenx CI/CD
+
+on:
+  push:
+    branches: 
+      - main
+      - release/1.x
+    paths-ignore:
+      - '**.md'
+      - '**.txt'
+      - '.github/workflows/**'
+
+permissions:
+  contents: write
+  pull-requests: write
+  repository-projects: read
+  actions: read
+  
+env:
+  RELEASE_PLEASE_VERSION: "v4.2.0"
+  PRERELEASE_TYPE: "alpha"
+  PRERELEASE_CONFIG: ".github/.release-please-config-prerelease.json"
+  PRERELEASE_MANIFEST: ".github/.release-please-manifest-prerelease.json"
+  RELEASE_CONFIG: ".github/.release-please-config.json"
+  RELEASE_MANIFEST: ".github/.release-please-manifest.json"
+
+concurrency:
+  group: release
+
+jobs:
+
+  pre-release-pr:
+    name: Pre-release PR for ${{ env.PRERELEASE_TYPE }}
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - id: release
+        name: Create prerelease
+        uses: googleapis/release-please-action@${{ env.RELEASE_PLEASE_VERSION }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: ${{ github.ref_name }}
+          config-file: ${{ env.PRERELEASE_CONFIG }}
+          manifest-file: ${{ env.PRERELEASE_MANIFEST }}
+
+
+  pre-release-validate:
+    name: Prerelease validate
+    runs-on: ubuntu-latest
+    if: ${{ needs.pre-release-pr.outputs.releases_created == 'false' }}
+    needs: pre-release-pr
+    steps:
+      - name: Release Build Push Deploy
+        run: |
+          echo "Prerelease Tests"
+
+
+  pre-release:
+    name: Create pre-release then release PR
+    runs-on: ubuntu-latest
+    if: ${{ needs.pre-release-pr.outputs.releases_created == 'true' && 
+     contains(needs.pre-release-pr.outputs.tag_name, '${{ env.PRERELEASE_TYPE }}') }}
+    needs: pre-release-pr
+    steps:
+      - name: Pre release
+        run: |
+          echo "Running pre-release"
+
+      - name: Create release PR
+        uses: googleapis/release-please-action@${{ env.RELEASE_PLEASE_VERSION }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: ${{ env.RELEASE_CONFIG }}
+          manifest-file: ${{ env.RELEASE_MANIFEST }}
+
+
+  post-pre-release:
+    name: Post pre-release cleanup
+    runs-on: ubuntu-latest
+    needs: pre-release
+    steps:
+      - name: Post pre-release cleanup
+        run: |
+          echo "Running post-pre-release cleanup"
+
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    if: ${{ needs.pre-release-pr.outputs.releases_created == 'true' && 
+     !contains(needs.pre-release-pr.outputs.tag_name, '${{ env.PRERELEASE_TYPE }}') }}
+    needs: pre-release-pr
+    steps:
+      - name: Create release
+        run: |
+          echo "Create release"
+
+
+  post-release:
+    name: Post-release cleanup
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Post-release cleanup
+        run: |
+          echo "Post-release cleanup"

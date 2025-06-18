@@ -10,13 +10,13 @@
         "type": "fix",
         "section":"🐛 Bug Fixes"
     },
+	{
+        "type": "refactor",
+        "section":"🛠️ Refactoring"
+    },
     {
         "type": "docs",
         "section":"📝 Documentation"
-    },
-    {
-        "type": "refactor",
-        "section":"🛠️ Refactoring"
     },
     {
         "type": "chore",
@@ -29,7 +29,7 @@
   ],
   "packages": {
     ".": {
-      "component": "Magento-2-production",
+      "component": "production",
       "prerelease": false,
       "include-v-in-tag": true,
       "include-component-in-tag": true,
