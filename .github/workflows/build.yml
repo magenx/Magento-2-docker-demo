@@ -1,0 +1,66 @@
+name: Magento Build Workflow
+
+on:
+  workflow_call:
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+      COMPOSER_AUTH:
+        required: true
+
+jobs:
+  build:
+    name: Build Magento
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest tag
+        id: checkout_latest_tag
+        uses: actions/checkout@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Composer install modules and updates
+        id: composer_install
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+        run: |
+          composer install --no-dev --no-cache --no-interaction --optimize-autoloader --apcu-autoloader
+
+      - name: Run setup di compile
+        id: setup_di_compile
+        run: bin/magento setup:di:compile -n
+
+      - name: Generate static files
+        id: generate_static_content
+        run: bin/magento setup:static-content:deploy -f -n
+
+      - name: Debug with custom output
+        id: debug
+        run: bin/magento
+
+      - name: Set version for complete build
+        id: set_build_version
+        run: | 
+          echo "BUILD_FILE=build_$(date +%Y%m%d_%H%M).tar.gz" >> ${GITHUB_ENV}
+
+      - name: Package build into tar archive
+        id: build_tar_archive
+        run: | 
+          tar --ignore-failed-read --warning=no-file-changed \
+            -czf "${{ env.BUILD_FILE }}" \
+            --exclude=".git" \
+            --exclude=".github" \
+            --exclude="app/etc/env.php" \
+            --exclude="CHANGELOG*" \
+            --exclude="${{ env.BUILD_FILE }}" \
+            .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.BUILD_FILE }}
+          path: ${{ env.BUILD_FILE }}
