@@ -56,8 +56,10 @@ jobs:
     needs: pre-release-validate
     runs-on: ubuntu-latest
     steps:
-      - name: Add comment to PR
+      - name: Find pre-release target PR
         id: find-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pr=$(gh pr list \
             --state all \
@@ -70,6 +72,8 @@ jobs:
 
       - name: Add comment to PR
         if: steps.find-pr.outputs.pr_number != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           COMMENT="Pre-release validation time! 🚀
 
