@@ -52,6 +52,7 @@ jobs:
       COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
       
   comment-on-pr:
+    name: Find target PR and comment
     if: ${{ needs.pre-release-pr.outputs.releases_created == 'false' }}
     needs: pre-release-validate
     runs-on: ubuntu-latest
