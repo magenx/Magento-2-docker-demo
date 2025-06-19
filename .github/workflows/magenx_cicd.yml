@@ -63,7 +63,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pr=$(gh pr list \
-            --state all \
+            --repo "$GITHUB_REPOSITORY" \
+            --state open \
             --label "autorelease: pending" \
             --search "alpha in:title" \
             --json number \
