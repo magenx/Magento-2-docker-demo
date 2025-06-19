@@ -50,6 +50,37 @@ jobs:
     uses: ./.github/workflows/build.yml
     secrets:
       COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+      
+  comment-on-pr:
+    if: ${{ needs.pre-release-pr.outputs.releases_created == 'false' }}
+    needs: pre-release-validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add comment to PR
+        id: find-pr
+        run: |
+          pr=$(gh pr list \
+            --state all \
+            --label "autorelease: pending" \
+            --search "alpha in:title" \
+            --json number \
+            --limit 1 \
+            --jq '.[0].number')
+          echo "pr_number=$pr" >> $GITHUB_OUTPUT
+
+      - name: Add comment to PR
+        if: steps.find-pr.outputs.pr_number != ''
+        run: |
+          COMMENT="Pre-release validation time! 🚀
+
+          **Artifact Details:**
+          - Build file: \`$BUILD_FILE\`
+          - [Download artifacts]($ARTIFACT_URL)
+          
+          Signal from staging environment:
+
+          Please verify the build before proceeding with release."
+          gh pr comment ${{ steps.find-pr.outputs.pr_number }} --body "$COMMENT"
 
 
   pre-release:
