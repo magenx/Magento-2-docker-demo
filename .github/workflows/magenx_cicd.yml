@@ -36,15 +36,15 @@ jobs:
       releases_created: ${{ steps.release.outputs.releases_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - id: release
-        name: Debug with GitHub Script
+      - name: Debug with GitHub Script
         uses: actions/github-script@v6
         with:
           debug: true
           script: |
             console.log(context)
              
-        name: Create pre-release
+      - name: Create pre-release
+        id: release
         uses: googleapis/release-please-action@v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
