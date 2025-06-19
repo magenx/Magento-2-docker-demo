@@ -1,5 +1,22 @@
 # Changelog
 
+## [17.0.3](https://github.com/magenx/Magento-2-docker-demo/compare/v17.0.2...v17.0.3) (2025-06-19)
+
+
+### 🐛 Bug Fixes
+
+* Add more fixes before pre release ([#144](https://github.com/magenx/Magento-2-docker-demo/issues/144)) ([1594667](https://github.com/magenx/Magento-2-docker-demo/commit/15946672ac6a05ea3796976c1ce6ae0e52204ff5))
+* Fix workflow yaml syntax correct ([#141](https://github.com/magenx/Magento-2-docker-demo/issues/141)) ([10d3f2e](https://github.com/magenx/Magento-2-docker-demo/commit/10d3f2eabd4b016cbb17a039edee03c1cdf03d3b))
+* Fix yaml syntax workflow debug ([#139](https://github.com/magenx/Magento-2-docker-demo/issues/139)) ([1233308](https://github.com/magenx/Magento-2-docker-demo/commit/1233308e2c8e112a883ba6e9bedc1fcc5e0deb2b))
+* Remove extra lines to debug ([#140](https://github.com/magenx/Magento-2-docker-demo/issues/140)) ([fdb1981](https://github.com/magenx/Magento-2-docker-demo/commit/fdb19816c8b508593884c318e7191567f7891ac0))
+* Update php file to test workflow ([#142](https://github.com/magenx/Magento-2-docker-demo/issues/142)) ([3053b84](https://github.com/magenx/Magento-2-docker-demo/commit/3053b843c8e619e330bbbc66ff7e7bbd0fe08e76))
+
+
+### 🚦 Maintenance
+
+* **main:** magenxcloud 17.0.3-alpha ([#143](https://github.com/magenx/Magento-2-docker-demo/issues/143)) ([57d790e](https://github.com/magenx/Magento-2-docker-demo/commit/57d790eb21b3e359e89468626953a2e1f6a21027))
+* **workflow:** Add debug steps to see context ([#138](https://github.com/magenx/Magento-2-docker-demo/issues/138)) ([b4b6315](https://github.com/magenx/Magento-2-docker-demo/commit/b4b63153c96b6941f2add316187e9e687155503e))
+
 ## [17.0.3-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v17.0.2...v17.0.3-alpha) (2025-06-19)
 
 
