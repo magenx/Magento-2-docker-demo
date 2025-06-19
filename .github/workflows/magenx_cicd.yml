@@ -51,7 +51,6 @@ jobs:
     needs: pre-release-pr
     uses: ./.github/workflows/build.yml
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
 
 
