@@ -55,6 +55,7 @@ jobs:
       COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
 
 
+
   pre-release:
     name: Publish pre-release then release PR
     runs-on: ubuntu-latest
@@ -66,13 +67,19 @@ jobs:
           echo "Running pre-release"
     
 
+      - name: Debug with GitHub Script
+        uses: actions/github-script@v6
+        with:
+          debug: true
+          script: |
+            console.log(context)    
+
       - name: Create release PR
         uses: googleapis/release-please-action@v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: ${{ env.RELEASE_CONFIG }}
           manifest-file: ${{ env.RELEASE_MANIFEST }}
-          
 
 
   after-pre-release:
