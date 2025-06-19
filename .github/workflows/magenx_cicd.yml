@@ -86,7 +86,7 @@ jobs:
           Signal from staging environment:
 
           Please verify the build before proceeding with release."
-          gh pr comment ${{ steps.find-pr.outputs.pr_number }} --body "$COMMENT"
+          gh pr comment ${{ steps.find-pr.outputs.pr_number }} --repo "$GITHUB_REPOSITORY" --body "$COMMENT"
 
 
   pre-release:
