@@ -3,8 +3,6 @@ name: Magento Build Workflow
 on:
   workflow_call:
     secrets:
-      GITHUB_TOKEN:
-        required: true
       COMPOSER_AUTH:
         required: true
 
