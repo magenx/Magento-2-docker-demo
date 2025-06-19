@@ -3,7 +3,6 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 /**
  * this is a router file for the php Built-in web server
  * https://secure.php.net/manual/en/features.commandline.webserver.php
