@@ -45,8 +45,6 @@ jobs:
 
 
   pre-release-validate:
-    name: Pre-release validate
-    runs-on: ubuntu-latest
     if: ${{ needs.pre-release-pr.outputs.releases_created == 'false' }}
     needs: pre-release-pr
     uses: ./.github/workflows/build.yml
