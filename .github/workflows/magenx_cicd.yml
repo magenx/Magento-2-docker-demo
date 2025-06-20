@@ -72,22 +72,21 @@ jobs:
             --json number \
             --limit 1 \
             --jq '.[0].number')
-          echo "pr_number=$pr" >> $GITHUB_OUTPUT
+          echo "pr_number=$pr" >> ${GITHUB_OUTPUT}
 
       - name: Add comment to PR
         if: steps.find-pr.outputs.pr_number != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
+        run: | 
           COMMENT="
-          
           Pre-release validation! 🚀
 
           **Build and artifact details:**
           - Build artifact url: ${BUILD_ARTIFACT_URL}
           - Workflow run url: ${BUILD_RUN_URL}
-         "
-
+          "
+         
           gh pr comment ${{ steps.find-pr.outputs.pr_number }} --repo "$GITHUB_REPOSITORY" --body "$COMMENT"
 
 
