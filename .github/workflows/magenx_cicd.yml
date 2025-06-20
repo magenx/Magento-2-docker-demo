@@ -60,8 +60,6 @@ jobs:
       - name: Find pre-release target PR
         id: find-pr
         env:
-          BUILD_ARTIFACT_URL: ${{ needs.pre-release-validate.outputs.build_artifact_url }}
-          BUILD_RUN_URL: ${{ needs.pre-release-validate.outputs.build_run_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pr=$(gh pr list \
@@ -83,8 +81,9 @@ jobs:
           Pre-release validation! 🚀
 
           **Build and artifact details:**
-          - Build artifact url: ${BUILD_ARTIFACT_URL}
-          - Workflow run url: ${BUILD_RUN_URL}
+          - Artifact file name: ${{ needs.pre-release-validate.outputs.build_artifact }}
+          - Artifact url: ${{ needs.pre-release-validate.outputs.build_artifact_url }}
+          - Build run url: ${{ needs.pre-release-validate.outputs.build_run_url }}
           "
          
           gh pr comment ${{ steps.find-pr.outputs.pr_number }} --repo "$GITHUB_REPOSITORY" --body "$COMMENT"
