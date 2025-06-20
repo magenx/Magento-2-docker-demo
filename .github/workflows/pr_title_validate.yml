@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+      issues: write
     name: PR labeler
     runs-on: ubuntu-latest
     steps:
