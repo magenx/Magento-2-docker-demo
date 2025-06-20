@@ -44,7 +44,6 @@ jobs:
         id: set_build_version
         run: | 
           echo "BUILD_FILE=build_$(date +%Y%m%d_%H%M).tar.gz" >> ${GITHUB_ENV}
-          echo "build_file=$BUILD_FILE" >> $GITHUB_OUTPUT
 
       - name: Package build into tar archive
         id: build_tar_archive
@@ -59,7 +58,14 @@ jobs:
             .
 
       - name: Upload build artifact
+        id: upload-artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BUILD_FILE }}
           path: ${{ env.BUILD_FILE }}
+
+      - name: Set build outputs
+        id: build_output
+        run: |
+          echo "build_artifact_url=${{ steps.upload-artifact.outputs.artifact-url }}" >> ${GITHUB_OUTPUT}
+          echo "build_run_url=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"  >> ${GITHUB_OUTPUT}
