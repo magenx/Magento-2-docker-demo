@@ -8,6 +8,15 @@ on:
       - synchronize
 
 jobs:
+  labeler:
+    permissions:
+      contents: read
+      pull-requests: write
+    name: PR labeler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/labeler@v5
+
   main:
     name: PR title validation
     runs-on: ubuntu-latest

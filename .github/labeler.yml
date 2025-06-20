@@ -1,0 +1,65 @@
+
+workflow:
+- changed-files:
+  - any-glob-to-any-file: '.github/**'
+
+module:
+- changed-files:
+  - any-glob-to-any-file: 
+    - 'app/code/**'
+    - 'composer.json'
+    - 'composer.lock'
+
+theme:
+- changed-files:
+  - any-glob-to-any-file: 'app/design/**'
+
+javascript:
+- changed-files:
+  - any-glob-to-any-file: '**/*.js'
+
+css:
+- changed-files:
+  - any-glob-to-any-file: '**/*.css'
+
+less:
+- changed-files:
+  - any-glob-to-any-file: '**/*.less'
+
+xml:
+- changed-files:
+  - any-glob-to-any-file: '**/*.xml'
+
+csv:
+- changed-files:
+  - any-glob-to-any-file: '**/*.csv'
+
+json:
+- changed-files:
+  - any-glob-to-any-file: '**/*.json'
+
+phtml:
+- changed-files:
+  - any-glob-to-any-file: '**/*.phtml'
+
+php:
+- changed-files:
+  - any-glob-to-any-file: '**/*.php'
+
+config.php:
+- changed-files:
+  - any-glob-to-any-file: 'app/etc/config.php'
+
+env.php:
+- changed-files:
+  - any-glob-to-any-file: 'app/etc/env.php'
+
+di.xml:
+- changed-files:
+  - any-glob-to-any-file: 'app/etc/di.xml'
+  
+developer:
+ - base-branch: 'main'
+
+release:
+ - base-branch: 'release'
