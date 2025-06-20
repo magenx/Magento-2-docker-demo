@@ -1,5 +1,44 @@
 # Changelog
 
+## [18.0.0-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v17.0.3...v18.0.0-alpha) (2025-06-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update file to test settings ([#155](https://github.com/magenx/Magento-2-docker-demo/issues/155))
+
+### 🚀 Features
+
+* Update file to test settings ([#155](https://github.com/magenx/Magento-2-docker-demo/issues/155)) ([5336b94](https://github.com/magenx/Magento-2-docker-demo/commit/5336b947dec67ffc0443065e380270fb389cf7dc))
+
+
+### 🐛 Bug Fixes
+
+* Remove space line to trigger deployment ([#149](https://github.com/magenx/Magento-2-docker-demo/issues/149)) ([a89c66d](https://github.com/magenx/Magento-2-docker-demo/commit/a89c66dc19a97898c23fc6d1f916e5ff915d7699))
+* Test update php file to trigger ([#153](https://github.com/magenx/Magento-2-docker-demo/issues/153)) ([e03c6a7](https://github.com/magenx/Magento-2-docker-demo/commit/e03c6a7ba9ca4471379219dbee5f7944e25e6d1e))
+* Test update php file to trigger ([#154](https://github.com/magenx/Magento-2-docker-demo/issues/154)) ([bd97ef7](https://github.com/magenx/Magento-2-docker-demo/commit/bd97ef79b1c72beecad94d03ad855444ac17d84e))
+* Update magenx cicd release yml ([#151](https://github.com/magenx/Magento-2-docker-demo/issues/151)) ([2086ba7](https://github.com/magenx/Magento-2-docker-demo/commit/2086ba7c26d76c8880802ddf151723747d07830b))
+* Update magenx cicd release yml ([#156](https://github.com/magenx/Magento-2-docker-demo/issues/156)) ([f481d33](https://github.com/magenx/Magento-2-docker-demo/commit/f481d3304dee7ede2958dfe465d59a435d610ca3))
+* Update magenx cicd release yml ([#157](https://github.com/magenx/Magento-2-docker-demo/issues/157)) ([38da15d](https://github.com/magenx/Magento-2-docker-demo/commit/38da15da0fc7c54e301bd7b9f76e7d7c1739bd63))
+* Workflow syntax update to test ([#150](https://github.com/magenx/Magento-2-docker-demo/issues/150)) ([d4d2158](https://github.com/magenx/Magento-2-docker-demo/commit/d4d21589e6fd2a9bcd95cab59d2851aad8ca2df4))
+
+
+### 🚦 Maintenance
+
+* Update release please config main ([#158](https://github.com/magenx/Magento-2-docker-demo/issues/158)) ([80d5741](https://github.com/magenx/Magento-2-docker-demo/commit/80d5741c4fe83e59f36dcef9a10ff5f9dac1c396))
+* **workflow:** Ad outputs to pr comment ([9c652d5](https://github.com/magenx/Magento-2-docker-demo/commit/9c652d56f78824afb125225326c8ce6f42ff8a0b))
+* **workflow:** Add artifact outputs to pr comment ([c3d4cf8](https://github.com/magenx/Magento-2-docker-demo/commit/c3d4cf8b31977be09a1a5601ca465d511169fd3e))
+* **workflow:** Add artifact outputs to pr comment step ([73169aa](https://github.com/magenx/Magento-2-docker-demo/commit/73169aa9f18b14e5156178086e54aabb7bd1d7ba))
+* **workflow:** Add some build and prerelease validation deployment ([#146](https://github.com/magenx/Magento-2-docker-demo/issues/146)) ([95a2459](https://github.com/magenx/Magento-2-docker-demo/commit/95a24590072194e0e9cadef8ae586154da9c70b3))
+* **workflow:** Add some pr comment test ([154a363](https://github.com/magenx/Magento-2-docker-demo/commit/154a363ea5caa4766aaee2cf2f7deae24806e8d2))
+* **workflow:** Add some prerelease build and deployment ([#148](https://github.com/magenx/Magento-2-docker-demo/issues/148)) ([b916a2a](https://github.com/magenx/Magento-2-docker-demo/commit/b916a2a6c772844fea8414b072a364813ac9bb77))
+* **workflow:** Add some prerelease build and deployment validation ([#147](https://github.com/magenx/Magento-2-docker-demo/issues/147)) ([5acb227](https://github.com/magenx/Magento-2-docker-demo/commit/5acb2278de26c42ae37582ffda9e2daac59767ea))
+* **workflow:** Add token for gh cli ([b48dbbc](https://github.com/magenx/Magento-2-docker-demo/commit/b48dbbc33d507359d3360758369cd2cb60bd3e6f))
+* **workflow:** Fix github cli to list pr ([00ed373](https://github.com/magenx/Magento-2-docker-demo/commit/00ed3738458af9a7fbda354905a38135b7eb06b9))
+* **workflow:** Fix pr message after build ([fd013e8](https://github.com/magenx/Magento-2-docker-demo/commit/fd013e8310a1c2cae433af5b018a047c7452b51d))
+* **workflow:** Fix work flow job name ([999df84](https://github.com/magenx/Magento-2-docker-demo/commit/999df846f73e0efc3997aee10330821bca0c4b57))
+* **workflow:** Workflow syntax update to test ([50a59ee](https://github.com/magenx/Magento-2-docker-demo/commit/50a59ee25f446cb254bec00de15dcba511e0cbe7))
+
 ## [17.0.3](https://github.com/magenx/Magento-2-docker-demo/compare/v17.0.2...v17.0.3) (2025-06-19)
 
 
