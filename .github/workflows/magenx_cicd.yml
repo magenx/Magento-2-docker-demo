@@ -7,8 +7,7 @@ on:
     paths-ignore:
       - '**.md'
       - '**.txt'
-      - '.github/workflows/**'
-      - '.github/*.yml'
+      - '.github/**.yml'
 
 permissions:
   contents: write
@@ -74,20 +73,22 @@ jobs:
           echo "pr_number=$pr" >> ${GITHUB_OUTPUT}
 
       - name: Add comment to PR
-        if: steps.find-pr.outputs.pr_number != ''
+        if: ${{ steps.find-pr.outputs.pr_number != '' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
           COMMENT="
-          Pre-release validation! 🚀
+          
+          ###Pre-release staging deployment! 🚀
 
           **Build and artifact details:**
-          - Artifact file name: ${{ needs.pre-release-validate.outputs.build_artifact }}
-          - Artifact url: ${{ needs.pre-release-validate.outputs.build_artifact_url }}
+          - Build run id: ${{ needs.pre-release-validate.outputs.build_run_id }}
+          - Artifact name: ${{ needs.pre-release-validate.outputs.build_artifact }}
           - Build run url: ${{ needs.pre-release-validate.outputs.build_run_url }}
+          - Artifact file: ${{ needs.pre-release-validate.outputs.build_artifact_url }}
           "
          
-          gh pr comment ${{ steps.find-pr.outputs.pr_number }} --repo "$GITHUB_REPOSITORY" --body "$COMMENT"
+          gh pr comment ${{ steps.find-pr.outputs.pr_number }} --repo "${GITHUB_REPOSITORY}" --body "${COMMENT}"
 
 
   pre-release:

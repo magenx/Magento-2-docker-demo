@@ -12,6 +12,9 @@ on:
       build_artifact_url:
         description: "URL to the build artifact"
         value: ${{ jobs.build.outputs.build_artifact_url }}
+      build_run_id:
+        description: "ID of the build workflow run"
+        value: ${{ jobs.build.outputs.build_run_id }}
       build_run_url:
         description: "URL to the build workflow run"
         value: ${{ jobs.build.outputs.build_run_url }}
@@ -21,9 +24,11 @@ jobs:
     name: Build Magento
     runs-on: ubuntu-latest
     outputs:
+      build_artifact: ${{ steps.build_output.outputs.build_artifact }}
       build_artifact_url: ${{ steps.build_output.outputs.build_artifact_url }}
       build_run_url: ${{ steps.build_output.outputs.build_run_url }}
-      build_artifact: ${{ steps.build_output.outputs.build_artifact }}
+      build_run_id: ${{ steps.build_output.outputs.build_run_id }}
+
     steps:
       - name: Checkout latest tag
         id: checkout_latest_tag
@@ -84,3 +89,5 @@ jobs:
           echo "build_artifact_url=${{ steps.upload-artifact.outputs.artifact-url }}" >> ${GITHUB_OUTPUT}
           echo "build_run_url=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"  >> ${GITHUB_OUTPUT}
           echo "build_artifact=${{ env.BUILD_FILE }}" >> ${GITHUB_OUTPUT}
+          echo "build_run_id=${GITHUB_RUN_ID}"  >> ${GITHUB_OUTPUT}
+          
