@@ -8,6 +8,7 @@ on:
       - '**.md'
       - '**.txt'
       - '.github/workflows/**'
+      - '.github/*.yml'
 
 permissions:
   contents: write
