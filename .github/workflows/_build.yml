@@ -102,7 +102,9 @@ jobs:
       - name: Construct PR comment
         id: construct_comment
         run: |
-          COMMENT=""
+          if [ "${{ job.status }}" == "success" ]; then
+          COMMENT+="**READY TO DEPLOY**: ${{ steps.upload-artifact.outputs.artifact-id }}\n\n"
+          fi
           if [ "${{ steps.composer_install.outcome }}" == "failure" ]; then
             COMMENT+="❌ Composer install failed\n"
           else

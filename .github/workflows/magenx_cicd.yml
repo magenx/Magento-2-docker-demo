@@ -67,9 +67,18 @@ jobs:
     needs: pre-release-pr
     steps:
       - name: Pre-release publishing
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Publish pre-release and create release PR"
-
+          pr=$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --state merged \
+            --label "autorelease: tagged" \
+            --search "alpha in:title" \
+            --json number \
+            --limit 1 \
+            --jq '.[0].number')
+          echo "pr_number=$pr" >> ${GITHUB_OUTPUT}
 
       - name: Create release PR
         uses: googleapis/release-please-action@v4.2.0
