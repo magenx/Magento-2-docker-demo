@@ -1,5 +1,12 @@
 # Changelog
 
+## [18.0.3-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.2...v18.0.3-alpha) (2025-06-21)
+
+
+### 🐛 Bug Fixes
+
+* Update release please config main ([#169](https://github.com/magenx/Magento-2-docker-demo/issues/169)) ([91bcea7](https://github.com/magenx/Magento-2-docker-demo/commit/91bcea77fb9a95e559e37a7c2c25c652659f57ed))
+
 ## [18.0.2](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.1...v18.0.2) (2025-06-21)
 
 
