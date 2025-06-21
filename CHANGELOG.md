@@ -1,5 +1,18 @@
 # Changelog
 
+## [18.0.4](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.3...v18.0.4) (2025-06-21)
+
+
+### 🐛 Bug Fixes
+
+* Update magenx cicd release yml ([#172](https://github.com/magenx/Magento-2-docker-demo/issues/172)) ([5e6df2a](https://github.com/magenx/Magento-2-docker-demo/commit/5e6df2a37fa9461597061c2bb5641cb8d4a715a2))
+
+
+### 🚦 Maintenance
+
+* **main:** magenxcloud 18.0.4-alpha ([#173](https://github.com/magenx/Magento-2-docker-demo/issues/173)) ([5b612f5](https://github.com/magenx/Magento-2-docker-demo/commit/5b612f575ce717afe2321051d374da8f9dce5c29))
+* **workflow:** Fix artifact grep tail typo ([f0f4824](https://github.com/magenx/Magento-2-docker-demo/commit/f0f4824f3786ef88f3f78e2d4f11b10a0b98558f))
+
 ## [18.0.4-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.3...v18.0.4-alpha) (2025-06-21)
 
 
