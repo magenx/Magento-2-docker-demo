@@ -1,5 +1,21 @@
 # Changelog
 
+## [19.0.0-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.4...v19.0.0-alpha) (2025-06-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update file to test settings ([#175](https://github.com/magenx/Magento-2-docker-demo/issues/175))
+
+### 🚀 Features
+
+* Update file to test settings ([#175](https://github.com/magenx/Magento-2-docker-demo/issues/175)) ([9b21a6b](https://github.com/magenx/Magento-2-docker-demo/commit/9b21a6b2fb34450b8ed5cbb890f36bac1b53cad8))
+
+
+### 🚦 Maintenance
+
+* **workflow:** Fix artifact to pr comment ([304b6d5](https://github.com/magenx/Magento-2-docker-demo/commit/304b6d5275095c97e67a4422cbac312004c032b7))
+
 ## [18.0.4](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.3...v18.0.4) (2025-06-21)
 
 
