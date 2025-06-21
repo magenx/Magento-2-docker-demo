@@ -1,5 +1,24 @@
 # Changelog
 
+## [18.0.0-alpha.1](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.0-alpha...v18.0.0-alpha.1) (2025-06-21)
+
+
+### 🐛 Bug Fixes
+
+* Remove bottom lines to test work flow ([#161](https://github.com/magenx/Magento-2-docker-demo/issues/161)) ([de6fa45](https://github.com/magenx/Magento-2-docker-demo/commit/de6fa453ea79636fd409edc61f27ef1fbded34b4))
+* Remove bottom lines to test workflow ([de6fa45](https://github.com/magenx/Magento-2-docker-demo/commit/de6fa453ea79636fd409edc61f27ef1fbded34b4))
+
+
+### 🚦 Maintenance
+
+* **workflow:** Add build data to pr comment ([09c2874](https://github.com/magenx/Magento-2-docker-demo/commit/09c2874c4eecf4d7b071aeda9df9ada99e65d0c4))
+* **workflow:** Add labeler config example file ([94ee136](https://github.com/magenx/Magento-2-docker-demo/commit/94ee136542cec3587521b01a59a6cbcce19f8fc6))
+* **workflow:** Add more permissions for labeler ([946f885](https://github.com/magenx/Magento-2-docker-demo/commit/946f88512c8332632926e469c0a7561515689e00))
+* **workflow:** Change workflow to build and comment pr ([e3a80f9](https://github.com/magenx/Magento-2-docker-demo/commit/e3a80f90fcd8c346fc97720778d8ccc750d58d82))
+* **workflow:** Extend pr title validation regex ([da3ee33](https://github.com/magenx/Magento-2-docker-demo/commit/da3ee3338c7b1b21a65413c1bdabbc4dc674a5bf))
+* **workflow:** Fix labeler config use token ([559c701](https://github.com/magenx/Magento-2-docker-demo/commit/559c70197b74b972008248256034844ca7d0460b))
+* **workflow:** Remove yml files from ci ([5c74687](https://github.com/magenx/Magento-2-docker-demo/commit/5c74687ec10b6425d81c08931c2e279878122225))
+
 ## [18.0.0-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v17.0.3...v18.0.0-alpha) (2025-06-20)
 
 
