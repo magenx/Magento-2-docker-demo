@@ -80,7 +80,33 @@ jobs:
             --jq '.[0].number')
           echo "pr_number=$pr" >> ${GITHUB_OUTPUT}
 
+      - name: Find artifact id
+        id: extract-artifact-id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          comments=$(gh pr view ${{ github.event.pull_request.number }} --repo "$GITHUB_REPOSITORY" --json comments --jq '.comments')
+          artifact_id=$(echo "$comments" | jq -r '.[] | select(.body | test("READY TO DEPLOY")) | .body' | \
+          grep -oP 'READY TO DEPLOY: \K[0-9]+' | tail -n1)
+          echo "artifact_id=$artifact_id" >> ${GITHUB_OUTPUT}
+
+      - name: Find artifact id
+        id: download-artifact
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ steps.extract-artifact-id.outputs.artifact_id }}
+
+      - name: Attach build archive
+        id: attach_build_archive
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: "${{ steps.download-artifact.outputs.download-path }}/*"
+          tag_name: ${{ needs.pre-release-pr.outputs.tag_name }}
+
       - name: Create release PR
+        if: ${{ always() }}
         uses: googleapis/release-please-action@v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
