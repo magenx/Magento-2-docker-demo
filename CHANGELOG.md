@@ -1,5 +1,17 @@
 # Changelog
 
+## [19.0.1-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v19.0.0...v19.0.1-alpha) (2025-06-21)
+
+
+### 🐛 Bug Fixes
+
+* Update file to test settings ([#178](https://github.com/magenx/Magento-2-docker-demo/issues/178)) ([662c02b](https://github.com/magenx/Magento-2-docker-demo/commit/662c02b4dc491e5230aa6fe5b620b26b0a89b43f))
+
+
+### 🚦 Maintenance
+
+* **workflow:** Too much debug for cli ([e663b3e](https://github.com/magenx/Magento-2-docker-demo/commit/e663b3e607a9225bda64f28eaa6d4e54fc89be84))
+
 ## [19.0.0](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.4...v19.0.0) (2025-06-21)
 
 
