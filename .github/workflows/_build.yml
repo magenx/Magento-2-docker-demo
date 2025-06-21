@@ -99,8 +99,8 @@ jobs:
             --jq '.[0].number')
           echo "pr_number=$pr" >> ${GITHUB_OUTPUT}
           
-      - name: Build PR comment
-        id: build_comment
+      - name: Construct PR comment
+        id: construct_comment
         run: |
           COMMENT=""
           if [ "${{ steps.composer_install.outcome }}" == "failure" ]; then
@@ -109,9 +109,9 @@ jobs:
             COMMENT+="✔ Composer install succeeded\n"
           fi
           if [ "${{ steps.setup_di_compile.outcome }}" == "failure" ]; then
-            COMMENT+="❌ setup:di:compile failed\n"
+            COMMENT+="❌ Code compilation failed\n"
           else
-            COMMENT+="✔ setup:di:compile succeeded\n"
+            COMMENT+="✔ Code compilation succeeded\n"
           fi
           if [ "${{ steps.generate_static_content.outcome }}" == "failure" ]; then
             COMMENT+="❌ Static content deploy failed\n"
@@ -119,10 +119,10 @@ jobs:
             COMMENT+="✔ Static content deploy succeeded\n"
           fi
           COMMENT+="\n**Build and artifact details:**\n"
-          COMMENT+="- build_run_id: ${GITHUB_RUN_ID}\n"
-          COMMENT+="- build_artifact: ${{ env.BUILD_FILE }}\n"
-          COMMENT+="- build_run_url: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\n"
-          COMMENT+="- build_artifact_url: ${{ steps.upload-artifact.outputs.artifact-url }}\n"
+          COMMENT+="- **build_run_id**: ${GITHUB_RUN_ID}\n"
+          COMMENT+="- **build_artifact**: ${{ env.BUILD_FILE }}\n"
+          COMMENT+="- **build_run_url**: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\n"
+          COMMENT+="- **build_artifact_url**: ${{ steps.upload-artifact.outputs.artifact-url }}\n"
           echo "COMMENT<<EOF" >> $GITHUB_ENV
           echo -e "$COMMENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV 
