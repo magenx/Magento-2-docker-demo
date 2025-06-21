@@ -67,11 +67,12 @@ jobs:
     needs: pre-release-pr
     steps:
       - name: Pre-release publishing
+        id: find-pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pr=$(gh pr list \
-            --repo "$GITHUB_REPOSITORY" \
+            --repo "${GITHUB_REPOSITORY}" \
             --state merged \
             --label "autorelease: tagged" \
             --search "alpha in:title" \
@@ -85,9 +86,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          comments=$(gh pr view ${{ github.event.pull_request.number }} --repo "$GITHUB_REPOSITORY" --json comments --jq '.comments')
-          artifact_id=$(echo "$comments" | jq -r '.[] | select(.body | test("READY TO DEPLOY")) | .body' | \
-          grep -oP 'READY TO DEPLOY: \K[0-9]+' | tail -n1)
+          comments=$(gh pr view ${{ steps.find-pr.outputs.pr_number }} \
+            --repo "$GITHUB_REPOSITORY" \
+            --json comments \
+            --jq '.comments')
+          artifact_id=$(echo "$comments" | jq -r '.[] | select(.body | test("READY TO DEPLOY")) | .body' | grep -oP 'READY TO DEPLOY: \K[0-9]+' | tail -n1)
           echo "artifact_id=$artifact_id" >> ${GITHUB_OUTPUT}
 
       - name: Find artifact id
