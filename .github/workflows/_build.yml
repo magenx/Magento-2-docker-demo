@@ -103,20 +103,23 @@ jobs:
         if: ${{ always() }}
         id: construct_comment
         run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            COMMENT+="🟢 BUILD STATUS: Success\n\n"
+          fi
           if [ "${{ steps.composer_install.outcome }}" == "failure" ]; then
             COMMENT+="❌ Composer install failed\n"
           else
-            COMMENT+="✔ Composer install succeeded\n"
+            COMMENT+="✔ Composer install ok\n"
           fi
           if [ "${{ steps.setup_di_compile.outcome }}" == "failure" ]; then
             COMMENT+="❌ Code compilation failed\n"
           else
-            COMMENT+="✔ Code compilation succeeded\n"
+            COMMENT+="✔ Code compilation ok\n"
           fi
           if [ "${{ steps.generate_static_content.outcome }}" == "failure" ]; then
             COMMENT+="❌ Static content deploy failed\n"
           else
-            COMMENT+="✔ Static content deploy succeeded\n"
+            COMMENT+="✔ Static content deploy ok\n"
           fi
           if [ "${{ job.status }}" == "success" ]; then
           COMMENT+="\n## Build and artifact details:\n"
@@ -126,6 +129,7 @@ jobs:
           COMMENT+="- **BUILD_RUN_URL**: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\n"
           COMMENT+="- **ARTIFACT_URL**: ${{ steps.upload-artifact.outputs.artifact-url }}\n"
           fi
+          COMMENT+="\n@${GITHUB_REPOSITORY_OWNER} Please review this PR.\n"
           echo "COMMENT<<EOF" >> $GITHUB_ENV
           echo -e "$COMMENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV 
