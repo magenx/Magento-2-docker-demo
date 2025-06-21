@@ -1,5 +1,18 @@
 # Changelog
 
+## [18.0.2-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.1...v18.0.2-alpha) (2025-06-21)
+
+
+### 🐛 Bug Fixes
+
+* Composer file updated to test workflow ([9e3768a](https://github.com/magenx/Magento-2-docker-demo/commit/9e3768a4254362bf141a680564bf47c85093aa12))
+* Composer file updated to test workflow ([#166](https://github.com/magenx/Magento-2-docker-demo/issues/166)) ([9e3768a](https://github.com/magenx/Magento-2-docker-demo/commit/9e3768a4254362bf141a680564bf47c85093aa12))
+
+
+### 🚦 Maintenance
+
+* **workflow:** Add artifact download to release ([350ecec](https://github.com/magenx/Magento-2-docker-demo/commit/350ecec07abf2cc50d5ef378e04eb88d49939d83))
+
 ## [18.0.1](https://github.com/magenx/Magento-2-docker-demo/compare/v18.0.0...v18.0.1) (2025-06-21)
 
 
