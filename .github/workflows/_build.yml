@@ -82,6 +82,57 @@ jobs:
         with:
           name: ${{ env.BUILD_FILE }}
           path: ${{ env.BUILD_FILE }}
+          
+      - name: Find pre-release target PR
+        if: ${{ always() }}
+        id: find-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr=$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --state open \
+            --label "autorelease: pending" \
+            --search "alpha in:title" \
+            --json number \
+            --limit 1 \
+            --jq '.[0].number')
+          echo "pr_number=$pr" >> ${GITHUB_OUTPUT}
+          
+      - name: Build PR comment
+        id: build_comment
+        run: |
+          COMMENT=""
+          if [ "${{ steps.composer_install.outcome }}" == "failure" ]; then
+            COMMENT+="❌ Composer install failed\n"
+          else
+            COMMENT+="✔ Composer install succeeded\n"
+          fi
+          if [ "${{ steps.setup_di_compile.outcome }}" == "failure" ]; then
+            COMMENT+="❌ setup:di:compile failed\n"
+          else
+            COMMENT+="✔ setup:di:compile succeeded\n"
+          fi
+          if [ "${{ steps.generate_static_content.outcome }}" == "failure" ]; then
+            COMMENT+="❌ Static content deploy failed\n"
+          else
+            COMMENT+="✔ Static content deploy succeeded\n"
+          fi
+          COMMENT+="\n**Build and artifact details:**\n"
+          COMMENT+="- build_run_id: ${GITHUB_RUN_ID}\n"
+          COMMENT+="- build_artifact: ${{ env.BUILD_FILE }}\n"
+          COMMENT+="- build_run_url: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\n"
+          COMMENT+="- build_artifact_url: ${{ steps.upload-artifact.outputs.artifact-url }}\n"
+          echo "COMMENT<<EOF" >> $GITHUB_ENV
+          echo -e "$COMMENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV 
+
+      - name: Add comment to PR
+        if: ${{ steps.find-pr.outputs.pr_number != '' && always() }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: | 
+          gh pr comment ${{ steps.find-pr.outputs.pr_number }} --repo "${GITHUB_REPOSITORY}" --body "${COMMENT}"
 
       - name: Set build outputs
         id: build_output

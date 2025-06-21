@@ -43,53 +43,22 @@ jobs:
           config-file: ${{ env.PRERELEASE_CONFIG }}
           manifest-file: ${{ env.PRERELEASE_MANIFEST }}
 
-
   pre-release-validate:
     if: ${{ needs.pre-release-pr.outputs.releases_created == 'false' }}
     needs: pre-release-pr
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/_build.yml
     secrets:
       COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-      
-  comment-on-pr:
-    name: Find target PR and comment
-    if: ${{ needs.pre-release-pr.outputs.releases_created == 'false' }}
-    needs: pre-release-validate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Find pre-release target PR
-        id: find-pr
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          pr=$(gh pr list \
-            --repo "$GITHUB_REPOSITORY" \
-            --state open \
-            --label "autorelease: pending" \
-            --search "alpha in:title" \
-            --json number \
-            --limit 1 \
-            --jq '.[0].number')
-          echo "pr_number=$pr" >> ${GITHUB_OUTPUT}
-
-      - name: Add comment to PR
-        if: ${{ steps.find-pr.outputs.pr_number != '' }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: | 
-          COMMENT="
           
-          ###Pre-release staging deployment! 🚀
-
-          **Build and artifact details:**
-          - Build run id: ${{ needs.pre-release-validate.outputs.build_run_id }}
-          - Artifact name: ${{ needs.pre-release-validate.outputs.build_artifact }}
-          - Build run url: ${{ needs.pre-release-validate.outputs.build_run_url }}
-          - Artifact file: ${{ needs.pre-release-validate.outputs.build_artifact_url }}
-          "
-         
-          gh pr comment ${{ steps.find-pr.outputs.pr_number }} --repo "${GITHUB_REPOSITORY}" --body "${COMMENT}"
-
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    environment: staging
+    needs: pre-release-validate
+    steps:
+      - name: Atomic deployment
+        run: |
+          echo "Deploying to staging!"
 
   pre-release:
     name: Publish pre-release then release PR
@@ -99,7 +68,7 @@ jobs:
     steps:
       - name: Pre-release publishing
         run: |
-          echo "Running pre-release"
+          echo "Publish pre-release and create release PR"
 
 
       - name: Create release PR
