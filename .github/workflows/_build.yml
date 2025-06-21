@@ -100,6 +100,7 @@ jobs:
           echo "pr_number=$pr" >> ${GITHUB_OUTPUT}
           
       - name: Construct PR comment
+        if: ${{ always() }}
         id: construct_comment
         run: |
           if [ "${{ steps.composer_install.outcome }}" == "failure" ]; then
@@ -118,7 +119,7 @@ jobs:
             COMMENT+="✔ Static content deploy succeeded\n"
           fi
           if [ "${{ job.status }}" == "success" ]; then
-          COMMENT+="\n##Build and artifact details:\n"
+          COMMENT+="\n## Build and artifact details:\n"
           COMMENT+="- **ARTIFACT_ID**: ${{ steps.upload-artifact.outputs.artifact-id }}\n"
           COMMENT+="- **BUILD_RUN_ID**: ${GITHUB_RUN_ID}\n"
           COMMENT+="- **ARTIFACT_FILE**: ${{ env.BUILD_FILE }}\n"

@@ -92,7 +92,7 @@ jobs:
             --jq '.comments')
           artifact_id=$(echo "$comments" \
             | jq -r '.[] | select(.body | test("${ARTIFACT_ID}")) .body' \
-            | grep -oP "${ARTIFACT_ID}.*: \K[0-9]+" tail -n1)
+            | grep -oP "${ARTIFACT_ID}.*: \K[0-9]+" | tail -n1)
           echo "artifact_id=$artifact_id" >> ${GITHUB_OUTPUT}
 
       - name: Find artifact id
