@@ -102,6 +102,7 @@ jobs:
           mkdir -p ./${{ steps.extract-artifact-id.outputs.build_run_id }}
           gh run download ${{ steps.extract-artifact-id.outputs.build_run_id }} \
             --repo "${GITHUB_REPOSITORY}" \
+            --name ${{ steps.extract-artifact-id.outputs.artifact_file }} \
             --dir ./${{ steps.extract-artifact-id.outputs.build_run_id }}/
 
       - name: Attach build archive
