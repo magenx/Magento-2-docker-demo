@@ -1,5 +1,18 @@
 # Changelog
 
+## [20.0.4](https://github.com/magenx/Magento-2-docker-demo/compare/v20.0.3...v20.0.4) (2025-06-23)
+
+
+### 🐛 Bug Fixes
+
+* Update release please config main ([#193](https://github.com/magenx/Magento-2-docker-demo/issues/193)) ([d7983b4](https://github.com/magenx/Magento-2-docker-demo/commit/d7983b424a9171d760bc8e830e37e59e31bade2a))
+
+
+### 🚦 Maintenance
+
+* **main:** magenxcloud 20.0.4-alpha ([#194](https://github.com/magenx/Magento-2-docker-demo/issues/194)) ([00e5256](https://github.com/magenx/Magento-2-docker-demo/commit/00e5256d1d8000a716538b3f4fb093cee209ee07))
+* **workflow:** Add repo parameter to gh cli ([4f46596](https://github.com/magenx/Magento-2-docker-demo/commit/4f4659646a07a7cfa73fedba95ae494becd082d1))
+
 ## [20.0.4-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v20.0.3...v20.0.4-alpha) (2025-06-23)
 
 
