@@ -91,17 +91,15 @@ jobs:
             --json comments \
             --jq '.comments')
           artifact_id=$(echo "$comments" \
-            | jq -r --arg ARTIFACT_ID "${ARTIFACT_ID}" '.[] | select(.body | test($ARTIFACT_ID)) .body' \
-            | grep -oP "${ARTIFACT_ID}.*: \K[0-9]+" | tail -n1)
-          echo "artifact_id=$artifact_id" >> ${GITHUB_OUTPUT}
+            | jq -r '.[] | select(.body | contains("BUILD_RUN_ID")) .body' \
+            | grep -oP "BUILD_RUN_ID.*: \K[0-9]+" | tail -n1)
+          echo "build_run_id=$build_run_id" >> ${GITHUB_OUTPUT}
 
-      - name: Find artifact id
+      - name: Download artifact id
         id: download-artifact
-        uses: actions/download-artifact@v4
-        with:
-          artifact-ids: ${{ steps.extract-artifact-id.outputs.artifact_id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ""
+        run: | 
+          gh run download ${{ steps.extract-artifact-id.outputs.build_run_id }} \
+            --dir ./${{ steps.extract-artifact-id.outputs.build_run_id }}
 
       - name: Attach build archive
         id: attach_build_archive
@@ -109,7 +107,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: "${{ steps.download-artifact.outputs.download-path }}/*"
+          files: "./${{ steps.extract-artifact-id.outputs.build_run_id }}/*"
           tag_name: ${{ needs.pre-release-pr.outputs.tag_name }}
 
       - name: Create release PR
