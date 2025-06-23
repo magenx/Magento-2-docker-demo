@@ -1,5 +1,17 @@
 # Changelog
 
+## [20.0.3-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v20.0.2...v20.0.3-alpha) (2025-06-23)
+
+
+### 🐛 Bug Fixes
+
+* Update release please config main ([#190](https://github.com/magenx/Magento-2-docker-demo/issues/190)) ([b50013d](https://github.com/magenx/Magento-2-docker-demo/commit/b50013d7be263de05e1c8c06c3dfd72d5c975ae5))
+
+
+### 🚦 Maintenance
+
+* **workflow:** Download artifact upload to release ([5e1b065](https://github.com/magenx/Magento-2-docker-demo/commit/5e1b06581d834f4d59d5ed98bb33ec0410467f64))
+
 ## [20.0.2](https://github.com/magenx/Magento-2-docker-demo/compare/v20.0.1...v20.0.2) (2025-06-23)
 
 
