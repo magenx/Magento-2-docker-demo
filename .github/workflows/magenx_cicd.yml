@@ -17,7 +17,6 @@ permissions:
   actions: read
   
 env:
-  ARTIFACT_ID: "ARTIFACT_ID"
   PRERELEASE_TYPE: "alpha"
   PRERELEASE_CONFIG: ".github/.release-please-config-prerelease.json"
   PRERELEASE_MANIFEST: ".github/.release-please-manifest-prerelease.json"
@@ -102,6 +101,7 @@ jobs:
         run: | 
           mkdir -p ./${{ steps.extract-artifact-id.outputs.build_run_id }}
           gh run download ${{ steps.extract-artifact-id.outputs.build_run_id }} \
+            --repo "${GITHUB_REPOSITORY}" \
             --dir ./${{ steps.extract-artifact-id.outputs.build_run_id }}
 
       - name: Attach build archive
