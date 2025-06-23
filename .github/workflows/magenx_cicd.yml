@@ -90,14 +90,17 @@ jobs:
             --repo "${GITHUB_REPOSITORY}" \
             --json comments \
             --jq '.comments')
-          artifact_id=$(echo "$comments" \
+          build_run_id=$(echo "$comments" \
             | jq -r '.[] | select(.body | contains("BUILD_RUN_ID")) .body' \
             | grep -oP "BUILD_RUN_ID.*: \K[0-9]+" | tail -n1)
           echo "build_run_id=$build_run_id" >> ${GITHUB_OUTPUT}
 
       - name: Download artifact id
         id: download-artifact
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
+          mkdir -p ./${{ steps.extract-artifact-id.outputs.build_run_id }}
           gh run download ${{ steps.extract-artifact-id.outputs.build_run_id }} \
             --dir ./${{ steps.extract-artifact-id.outputs.build_run_id }}
 
