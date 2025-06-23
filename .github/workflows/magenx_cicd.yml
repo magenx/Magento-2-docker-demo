@@ -22,6 +22,8 @@ env:
   PRERELEASE_MANIFEST: ".github/.release-please-manifest-prerelease.json"
   RELEASE_CONFIG: ".github/.release-please-config.json"
   RELEASE_MANIFEST: ".github/.release-please-manifest.json"
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
 
 concurrency:
   group: release
@@ -68,8 +70,6 @@ jobs:
     steps:
       - name: Pre-release publishing
         id: find-pr
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pr=$(gh pr list \
             --repo "${GITHUB_REPOSITORY}" \
@@ -82,8 +82,6 @@ jobs:
 
       - name: Find artifact id
         id: extract-artifact-id
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           comments=$(gh pr view ${{ steps.find-pr.outputs.pr_number }} \
             --repo "${GITHUB_REPOSITORY}" \
@@ -92,26 +90,25 @@ jobs:
           build_run_id=$(echo "$comments" \
             | jq -r '.[] | select(.body | contains("BUILD_RUN_ID")) .body' \
             | grep -oP "BUILD_RUN_ID.*: \K[0-9]+" | tail -n1)
+          artifact_file=$(echo "$comments" \
+            | jq -r '.[] | select(.body | contains("ARTIFACT_FILE")) .body' \
+            | grep -oP "ARTIFACT_FILE.*: \K[a-z].+\.gz" | tail -n1)
           echo "build_run_id=$build_run_id" >> ${GITHUB_OUTPUT}
+          echo "artifact_file=$artifact_file" >> ${GITHUB_OUTPUT}
 
       - name: Download artifact id
         id: download-artifact
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
           mkdir -p ./${{ steps.extract-artifact-id.outputs.build_run_id }}
           gh run download ${{ steps.extract-artifact-id.outputs.build_run_id }} \
             --repo "${GITHUB_REPOSITORY}" \
-            --dir ./${{ steps.extract-artifact-id.outputs.build_run_id }}
+            --dir ./${{ steps.extract-artifact-id.outputs.build_run_id }}/
 
       - name: Attach build archive
         id: attach_build_archive
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: "./${{ steps.extract-artifact-id.outputs.build_run_id }}/*"
-          tag_name: ${{ needs.pre-release-pr.outputs.tag_name }}
+        run: |
+          gh --repo "${GITHUB_REPOSITORY}" release upload ${{ needs.pre-release-pr.outputs.tag_name }} \
+            ./${{ steps.extract-artifact-id.outputs.build_run_id }}/${{ steps.extract-artifact-id.outputs.artifact_file }}
 
       - name: Create release PR
         if: ${{ always() }}
