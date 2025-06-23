@@ -1,5 +1,18 @@
 # Changelog
 
+## [20.0.2](https://github.com/magenx/Magento-2-docker-demo/compare/v20.0.1...v20.0.2) (2025-06-23)
+
+
+### 🐛 Bug Fixes
+
+* Update magenx cicd release yml ([#187](https://github.com/magenx/Magento-2-docker-demo/issues/187)) ([23ba5d2](https://github.com/magenx/Magento-2-docker-demo/commit/23ba5d26d75cc2cfc71f4c80d5e817f558e72617))
+
+
+### 🚦 Maintenance
+
+* **main:** magenxcloud 20.0.2-alpha ([#188](https://github.com/magenx/Magento-2-docker-demo/issues/188)) ([a66d01a](https://github.com/magenx/Magento-2-docker-demo/commit/a66d01a8fa323a74d178e06939cf51b601c32529))
+* **workflow:** Fix artifact download and attach ([79fb6ef](https://github.com/magenx/Magento-2-docker-demo/commit/79fb6ef2438ef5ebb67bf9a6362ae0cb6363da68))
+
 ## [20.0.2-alpha](https://github.com/magenx/Magento-2-docker-demo/compare/v20.0.1...v20.0.2-alpha) (2025-06-23)
 
 
