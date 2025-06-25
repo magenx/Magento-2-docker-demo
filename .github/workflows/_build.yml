@@ -24,10 +24,10 @@ jobs:
     name: Build Magento
     runs-on: ubuntu-latest
     outputs:
-      artifact_name: ${{ steps.build_output.outputs.artifact_name }}
-      artifact_url: ${{ steps.build_output.outputs.artifact_url }}
-      run_url: ${{ steps.build_output.outputs.run_url }}
-      run_id: ${{ steps.build_output.outputs.run_id }}
+      artifact_name: ${{ steps.build-output.outputs.artifact_name }}
+      artifact_url: ${{ steps.build-output.outputs.artifact_url }}
+      run_url: ${{ steps.build-output.outputs.run_url }}
+      run_id: ${{ steps.build-output.outputs.run_id }}
 
     steps:
       - name: Checkout latest tag
@@ -104,16 +104,13 @@ jobs:
         id: construct-comment
         run: |
           COMMENT=""
-          if [ "${{ job.status }}" == "success" ]; then
-            COMMENT+="🟢 BUILD STATUS: ${{ job.status }}\n\n"
-          else
-            COMMENT+="🔴 BUILD STATUS: ${{ job.status }}\n\n"
-          fi
+          declare -A job_icons=( ["success"]="🟢" ["failure"]="🔴" ["cancelled"]="⚫" )
+          COMMENT+="${job_icons[${{ job.status }}]} BUILD STATUS: ${{ job.status }}\n\n"
           
-          declare -A icons=( ["success"]="✔" ["failure"]="❌" )
-          COMMENT+="${icons[${{ steps.composer-install.outcome }}]} Composer install ${{ steps.composer-install.outcome }}\n"
-          COMMENT+="${icons[${{ steps.setup-di-compile.outcome }}]} Code compilation ${{ steps.setup-di-compile.outcome }}\n"
-          COMMENT+="${icons[${{ steps.static-content-deploy.outcome }}]} Static content deploy ${{ steps.static-content-deploy.outcome }}\n"
+          declare -A step_icons=( ["success"]="✔" ["failure"]="❌" ["cancelled"]="❌" )
+          COMMENT+="${step_icons[${{ steps.composer-install.outcome }}]} Composer install ${{ steps.composer-install.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.setup-di-compile.outcome }}]} Code compilation ${{ steps.setup-di-compile.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.static-content-deploy.outcome }}]} Static content deploy ${{ steps.static-content-deploy.outcome }}\n"
           
           if [ "${{ job.status }}" == "success" ]; then
             COMMENT+="\n## Build and artifact details:\n"
