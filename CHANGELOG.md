@@ -1,5 +1,35 @@
 # Changelog
 
+## [22.0.1](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v22.0.0...v22.0.1) (2025-06-25)
+
+
+### 🐛 Bug Fixes
+
+* Composer file updated to test workflow ([#207](https://github.com/magenx/Magento-2-deployment-pipeline/issues/207)) ([9db84f1](https://github.com/magenx/Magento-2-deployment-pipeline/commit/9db84f1d12369fd10fea392e7f0b81bb323a261e))
+* Test remove line in xml file to trigger ([#209](https://github.com/magenx/Magento-2-deployment-pipeline/issues/209)) ([c91461f](https://github.com/magenx/Magento-2-deployment-pipeline/commit/c91461ff29c5e754852ab3cb8c21ce2e5d0ab937))
+* Test update php file to trigger ([#205](https://github.com/magenx/Magento-2-deployment-pipeline/issues/205)) ([2ff66d6](https://github.com/magenx/Magento-2-deployment-pipeline/commit/2ff66d616184fe4c8058547e40c66eda72d0c13b))
+* Test update xml file to trigger ([#208](https://github.com/magenx/Magento-2-deployment-pipeline/issues/208)) ([a29b92a](https://github.com/magenx/Magento-2-deployment-pipeline/commit/a29b92a97b1532ef7355e6680420a3b0a1a47fa3))
+* Update composer to test pipeline ([#211](https://github.com/magenx/Magento-2-deployment-pipeline/issues/211)) ([794f5b0](https://github.com/magenx/Magento-2-deployment-pipeline/commit/794f5b019b5ccdb26a4bd75ea89e64d7a2621dc7))
+* Update file to trigger webhook test ([#210](https://github.com/magenx/Magento-2-deployment-pipeline/issues/210)) ([3eb6991](https://github.com/magenx/Magento-2-deployment-pipeline/commit/3eb69912530f15c1a575e02e5358c16f52ad0ddb))
+* Update magenx cicd release yml ([#202](https://github.com/magenx/Magento-2-deployment-pipeline/issues/202)) ([f31e17b](https://github.com/magenx/Magento-2-deployment-pipeline/commit/f31e17bc8e5f7ae2d4729193734e0f6407850722))
+* Update release please config main ([#203](https://github.com/magenx/Magento-2-deployment-pipeline/issues/203)) ([04153c0](https://github.com/magenx/Magento-2-deployment-pipeline/commit/04153c0f87588dd780b58eed89a529d51f75fbc5))
+* Update release please config main ([#204](https://github.com/magenx/Magento-2-deployment-pipeline/issues/204)) ([a71caa7](https://github.com/magenx/Magento-2-deployment-pipeline/commit/a71caa727a2d6e5e574bd6bd5ec6221fd5c9684f))
+
+
+### 🚦 Maintenance
+
+* **main:** magenxcloud 22.0.1-alpha ([#206](https://github.com/magenx/Magento-2-deployment-pipeline/issues/206)) ([359ba52](https://github.com/magenx/Magento-2-deployment-pipeline/commit/359ba52dba76bef23494a21cde9eb6880f79c70c))
+* **workflow:** Add deployment signal back to pr ([b162f86](https://github.com/magenx/Magento-2-deployment-pipeline/commit/b162f862dbe64a9442777ca4f9836bbc1245127e))
+* **workflow:** Add pr comment id to step ([d9717d8](https://github.com/magenx/Magento-2-deployment-pipeline/commit/d9717d87ed80be7452782e02db64e1490038dcfe))
+* **workflow:** Add s3 endpoint scheme https ([5fd4e73](https://github.com/magenx/Magento-2-deployment-pipeline/commit/5fd4e7318c4bb50a4cd061e22bdcaef703d84583))
+* **workflow:** Change output names in caller ([ae0c2a2](https://github.com/magenx/Magento-2-deployment-pipeline/commit/ae0c2a2b2d7269c82c1e47acbb4e11a480809755))
+* **workflow:** Change outputs and variables names ([f4b57db](https://github.com/magenx/Magento-2-deployment-pipeline/commit/f4b57db4f8954fa63f69ab5d5799ff218582ae95))
+* **workflow:** Deploy artifact to s3 storage ([0bce0cf](https://github.com/magenx/Magento-2-deployment-pipeline/commit/0bce0cff8aaa72259109ef993572bcd348378927))
+* **workflow:** Move labeler workflow to separate file ([be48bea](https://github.com/magenx/Magento-2-deployment-pipeline/commit/be48beae1fec80fce7b10f5a81bddaea06bf9245))
+* **workflow:** Remove artifact name from dir ([88aeb19](https://github.com/magenx/Magento-2-deployment-pipeline/commit/88aeb19e0d0edb21ba7e609ec1c13b227875fb9a))
+* **workflow:** Rename outputs and status and comment ([d831908](https://github.com/magenx/Magento-2-deployment-pipeline/commit/d83190857fff69b33713eb4565920ac1822b53db))
+* **workflow:** Signal deployment back to pr ([f9b0053](https://github.com/magenx/Magento-2-deployment-pipeline/commit/f9b00531214fa05046275ea1c2ab6385215f6fd6))
+
 ## [22.0.1-alpha](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v22.0.0...v22.0.1-alpha) (2025-06-25)
 
 
