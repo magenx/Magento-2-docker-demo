@@ -69,7 +69,7 @@ jobs:
             --name ${{ needs.pre-release-validate.outputs.artifact_name }} \
             --dir ./${GITHUB_RUN_ID}/${{ needs.pre-release-validate.outputs.artifact_name }}
           
-          aws --endpoint-url ${{ secrets.S3_ENDPOINT }} \
+          aws --endpoint-url https://${{ secrets.S3_ENDPOINT }} \
             s3 cp ./${GITHUB_RUN_ID}/${{ needs.pre-release-validate.outputs.artifact_name }} \
             s3://${{ secrets.S3_BUCKET }}/${RELEASES_FOLDER}/${{ needs.pre-release-validate.outputs.artifact_name }}
 
