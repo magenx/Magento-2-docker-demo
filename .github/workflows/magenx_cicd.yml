@@ -59,7 +59,8 @@ jobs:
     environment: staging
     needs: pre-release-validate
     steps:
-      - name: Upload to S3 [hetzner]
+      - name: Upload to S3
+        id: deployment
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -73,12 +74,23 @@ jobs:
             s3 cp ./${GITHUB_RUN_ID}/${{ needs.pre-release-validate.outputs.artifact_name }} \
             s3://${{ secrets.S3_BUCKET }}/${RELEASES_FOLDER}/${{ needs.pre-release-validate.outputs.artifact_name }}
 
-      - name: Trigger webhook [hetzner]
+      - name: Trigger webhook
+        id: deployment-webhook
         run: |
           curl -X POST ${{ secrets.DEPLOY_WEBHOOK_URL }} \
             -H "Content-Type: application/json" \
             -H "X-Webhook-Secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}" \
             -d '{"artifact_name": "${{ needs.pre-release-validate.outputs.artifact_name }}"}'
+
+      - name: Add comment to PR
+        id: add-pr-comment
+        if: ${{ always() }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: | 
+          echo -e "Deployment: ${{ steps.deployment.outcome }}\n" > deployment.txt
+          echo -e "Deployment webhook: ${{ steps.deployment-webhook.outcome }}\n" > deployment.txt
+          gh pr comment ${{ needs.pre-release-validate.outputs.pre_pr_number }} --repo "${GITHUB_REPOSITORY}" --body-file deployment.txt
 
   pre-release:
     name: Publish pre-release then release PR

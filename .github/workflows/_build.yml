@@ -18,7 +18,10 @@ on:
       run_url:
         description: "URL to the build workflow run"
         value: ${{ jobs.build.outputs.run_url }}
-
+      pre_pr_number:
+        description: "PR number for pre-release"
+        value: ${{ jobs.build.outputs.pre_pr_number }}
+        
 jobs:
   build:
     name: Build Magento
@@ -28,6 +31,7 @@ jobs:
       artifact_url: ${{ steps.build-output.outputs.artifact_url }}
       run_url: ${{ steps.build-output.outputs.run_url }}
       run_id: ${{ steps.build-output.outputs.run_id }}
+      pre_pr_number: ${{ steps.build-output.outputs.pre_pr_number }}
 
     steps:
       - name: Checkout latest tag
@@ -135,9 +139,10 @@ jobs:
 
       - name: Set build outputs
         id: build-output
+        if: ${{ always() }}
         run: |
           echo "artifact_url=${{ steps.upload-artifact.outputs.artifact-url }}" >> ${GITHUB_OUTPUT}
           echo "run_url=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"  >> ${GITHUB_OUTPUT}
           echo "artifact_name=${{ env.ARTIFACT_NAME }}" >> ${GITHUB_OUTPUT}
           echo "run_id=${GITHUB_RUN_ID}"  >> ${GITHUB_OUTPUT}
-          
+          echo "pre_pr_number=${{ steps.find-pr.outputs.pr_number }}"  >> ${GITHUB_OUTPUT}
