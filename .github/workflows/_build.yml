@@ -129,7 +129,7 @@ jobs:
           echo -e "${COMMENT}" > comment.txt
 
       - name: Add comment to PR
-        id: 
+        id: add-pr-comment
         if: ${{ steps.find-pr.outputs.pr_number != '' && always() }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
