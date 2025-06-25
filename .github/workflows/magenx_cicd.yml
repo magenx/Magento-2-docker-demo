@@ -17,6 +17,7 @@ permissions:
   actions: read
   
 env:
+  RELEASES_FOLDER: "releases"
   PRERELEASE_TYPE: "alpha"
   PRERELEASE_CONFIG: ".github/.release-please-config-prerelease.json"
   PRERELEASE_MANIFEST: ".github/.release-please-manifest-prerelease.json"
@@ -51,6 +52,11 @@ jobs:
     uses: ./.github/workflows/_build.yml
     secrets:
       COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+    outputs:
+      artifact_url: ${{ steps.build_output.outputs.artifact_url }}
+      run_url: ${{ steps.build_output.outputs.run_url }}
+      artifact_name: ${{ steps.build_output.outputs.artifact_name }}
+      run_id: ${{ steps.build_output.outputs.run_id }}
           
   deploy-staging:
     name: Deploy to Staging
@@ -58,9 +64,26 @@ jobs:
     environment: staging
     needs: pre-release-validate
     steps:
-      - name: Atomic deployment
+      - name: Upload to S3 [hetzner]
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          echo "Deploying to staging!"
+          gh run download ${{ needs.pre-release-validate.outputs.run_id }} \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name ${{ needs.pre-release-validate.outputs.artifact_name }} \
+            --dir ./${GITHUB_RUN_ID}/${{ needs.pre-release-validate.outputs.artifact_name }}
+          
+          aws --endpoint-url ${{ secrets.S3_ENDPOINT }} \
+            s3 cp ./${GITHUB_RUN_ID}/${{ needs.pre-release-validate.outputs.artifact_name }} \
+            s3://${{ secrets.S3_BUCKET }}/${RELEASES_FOLDER}/${{ needs.pre-release-validate.outputs.artifact_name }}
+
+      - name: Trigger webhook [hetzner]
+        run: |
+          curl -X POST ${{ secrets.DEPLOY_WEBHOOK_URL }} \
+            -H "Content-Type: application/json" \
+            -H "X-Webhook-Secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}" \
+            -d '{"artifact_name": "${{ needs.pre-release-validate.outputs.artifact_name }}"}'
 
   pre-release:
     name: Publish pre-release then release PR
@@ -87,29 +110,29 @@ jobs:
             --repo "${GITHUB_REPOSITORY}" \
             --json comments \
             --jq '.comments')
-          build_run_id=$(echo "$comments" \
-            | jq -r '.[] | select(.body | contains("BUILD_RUN_ID")) .body' \
-            | grep -oP "BUILD_RUN_ID.*: \K[0-9]+" | tail -n1)
-          artifact_file=$(echo "$comments" \
-            | jq -r '.[] | select(.body | contains("ARTIFACT_FILE")) .body' \
-            | grep -oP "ARTIFACT_FILE.*: \K[a-z].+\.gz" | tail -n1)
-          echo "build_run_id=$build_run_id" >> ${GITHUB_OUTPUT}
-          echo "artifact_file=$artifact_file" >> ${GITHUB_OUTPUT}
+          run_id=$(echo "$comments" \
+            | jq -r '.[] | select(.body | contains("RUN_ID")) .body' \
+            | grep -oP "RUN_ID.*: \K[0-9]+" | tail -n1)
+          artifact_name=$(echo "$comments" \
+            | jq -r '.[] | select(.body | contains("ARTIFACT_NAME")) .body' \
+            | grep -oP "ARTIFACT_NAME.*: \K[a-z].+\.gz" | tail -n1)
+          echo "run_id=$run_id" >> ${GITHUB_OUTPUT}
+          echo "artifact_name=$artifact_name" >> ${GITHUB_OUTPUT}
 
       - name: Download artifact id
         id: download-artifact
         run: | 
-          mkdir -p ./${{ steps.extract-artifact-id.outputs.build_run_id }}
-          gh run download ${{ steps.extract-artifact-id.outputs.build_run_id }} \
+          mkdir -p ./${{ steps.extract-artifact-id.outputs.run_id }}
+          gh run download ${{ steps.extract-artifact-id.outputs.run_id }} \
             --repo "${GITHUB_REPOSITORY}" \
-            --name ${{ steps.extract-artifact-id.outputs.artifact_file }} \
-            --dir ./${{ steps.extract-artifact-id.outputs.build_run_id }}/
+            --name ${{ steps.extract-artifact-id.outputs.artifact_name }} \
+            --dir ./${{ steps.extract-artifact-id.outputs.run_id }}/
 
       - name: Attach build archive
-        id: attach_build_archive
+        id: attach-artifact
         run: |
           gh --repo "${GITHUB_REPOSITORY}" release upload ${{ needs.pre-release-pr.outputs.tag_name }} \
-            ./${{ steps.extract-artifact-id.outputs.build_run_id }}/${{ steps.extract-artifact-id.outputs.artifact_file }}
+            ./${{ steps.extract-artifact-id.outputs.run_id }}/${{ steps.extract-artifact-id.outputs.artifact_name }}
 
       - name: Create release PR
         if: ${{ always() }}
