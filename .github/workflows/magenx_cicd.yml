@@ -52,11 +52,6 @@ jobs:
     uses: ./.github/workflows/_build.yml
     secrets:
       COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-    outputs:
-      artifact_url: ${{ steps.build-output.outputs.artifact_url }}
-      run_url: ${{ steps.build-output.outputs.run_url }}
-      artifact_name: ${{ steps.build-output.outputs.artifact_name }}
-      run_id: ${{ steps.build-output.outputs.run_id }}
           
   deploy-staging:
     name: Deploy to Staging
