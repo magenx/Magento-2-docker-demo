@@ -50,3 +50,4 @@ ob_start();
 require_once __DIR__ . '/view/magento/setup/index.phtml';
 $html = ob_get_clean();
 echo $html;
+
