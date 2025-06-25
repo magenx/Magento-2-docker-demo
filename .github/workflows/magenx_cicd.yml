@@ -67,7 +67,7 @@ jobs:
           gh run download ${{ needs.pre-release-validate.outputs.run_id }} \
             --repo "${GITHUB_REPOSITORY}" \
             --name ${{ needs.pre-release-validate.outputs.artifact_name }} \
-            --dir ./${GITHUB_RUN_ID}/${{ needs.pre-release-validate.outputs.artifact_name }}
+            --dir ./${GITHUB_RUN_ID}/
           
           aws --endpoint-url https://${{ secrets.S3_ENDPOINT }} \
             s3 cp ./${GITHUB_RUN_ID}/${{ needs.pre-release-validate.outputs.artifact_name }} \
