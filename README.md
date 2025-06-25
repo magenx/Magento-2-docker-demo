@@ -29,7 +29,7 @@ To maintain SOC 2 compliance, this template assumes all related testing and publ
 
 1. Open PR with code changes to the dev branch using Conventional Commit messages.
 2. PR and changed files validation. Review and merge.
-3. The workflow opens a pre-release PR automatically.
+3. The workflow opens a [pre-release PR](https://github.com/magenx/Magento-2-deployment-pipeline/pull/206) automatically.
 4. Starts Magento 2 build and deployment.
 5. PR updated with job outcome status.
 6. Test your deployment on staging server.
