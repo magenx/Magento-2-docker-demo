@@ -1,0 +1,125 @@
+name: Composer Modules Check
+
+on:
+  pull_request:
+    paths:
+      - 'composer.json'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  composer-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          path: base
+
+      - name: Extract require block from base
+        run: jq -r '.require | keys_unsorted[]' base/composer.json | sort > modules_old.txt
+
+      - name: Validate composer.json from PR
+        id: composer-validate
+        run: | 
+          composer validate --no-check-all --no-check-lock --no-check-publish --no-check-version 
+
+      - name: Extract require block from PR
+        run: jq -r '.require | keys_unsorted[]' composer.json | sort > modules_new.txt
+
+      - name: Find new modules in require block
+        id: find-new-modules
+        run: |
+          comm -13 base/modules_old.txt modules_new.txt > modules.txt
+          if [ ! -s modules.txt ]; then
+            echo "No new modules in require block."
+          else
+            echo "New modules in require block:"
+            cat modules.txt
+            echo "new_modules=true" >> ${GITHUB_OUTPUT}
+          fi
+
+      - name: New modules review comment to PR
+        id: module-comment-pr
+        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat modules.txt | reviewdog -efm="::%l:%c:%t:%m" \
+            -name="COMPOSER MODULES INSTALLATION" \
+            -reporter=github-pr-review \
+            -level=info
+
+      - name: Install dependencies
+        id: composer-install
+        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+        run: |
+          composer install --no-interaction --no-dev --no-cache
+
+      - name: Extract Magento module names
+        id: modules-new-names
+        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        run: |
+          while read module; do
+            registration_file="vendor/$(echo $module | tr '/' '/')/registration.php"
+            if [ -f "$registration_file" ]; then
+              module_name=$(grep -oP "ComponentRegistrar::MODULE,\s*'([^']+)'" "$registration_file" | sed "s/.*',\s*'\([^']*\)'.*/\1/")
+              if [ ! -z "$module_name" ]; then
+                echo "$module => $module_name"
+              fi
+            fi
+          done < ./modules.txt > ./magento_modules.txt
+          echo "New Magento modules:"
+          cat ./magento_modules.txt
+          echo "magento_modules=$(paste -sd, magento_modules.txt)" >> ${GITHUB_OUTPUT}
+
+      - name: Enable newly installed modules
+        id: module-enable
+        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        run: |
+          modules=$(awk -F' => ' '{print $2}' magento_modules.txt | xargs)
+          bin/magento module:enable $modules -n --no-ansi -q 2>/dev/null || true
+
+      - name: Run setup di compile
+        id: setup-di-compile
+        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        run: | 
+          bin/magento setup:di:compile -n
+      
+      - name: Check for lock file changes
+        id: git-diff-composer-lock
+        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        run: |
+          echo "lock_changed=$(git diff --quiet composer.lock && echo false || echo true)" >> "${GITHUB_OUTPUT}"
+
+      - name: Check for config.php changes
+        id: git-diff-config
+        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        run: |
+          echo "config_changed=$(git diff --quiet app/etc/config.php && echo false || echo true)" >> "${GITHUB_OUTPUT}"
+
+      - name: Commit updated config.php back to PR branch
+        id: config-commit
+        if: ${{ steps.git-diff-config.outputs.config_changed == 'true' }}
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: "chore(config): Update app/etc/config.php after module enable"
+          file_pattern: app/etc/config.php
+
+      - name: Commit updated composer.lock back to PR branch
+        id: composer-lock-commit
+        if: ${{ steps.git-diff-composer-lock.outputs.lock_changed == 'true' }}
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: "chore(composer): Update composer.lock to match composer.json"
+          file_pattern: composer.lock
