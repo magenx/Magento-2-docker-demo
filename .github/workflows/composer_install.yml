@@ -47,6 +47,10 @@ jobs:
             echo "new_modules=true" >> ${GITHUB_OUTPUT}
           fi
 
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+
       - name: New modules review comment to PR
         id: module-comment-pr
         if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
