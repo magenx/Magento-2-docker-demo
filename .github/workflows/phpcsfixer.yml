@@ -29,6 +29,8 @@ jobs:
           php-version: '8.4'
 
       - name: Install dependencies
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: composer require --dev friendsofphp/php-cs-fixer
 
       - name: Run php-cs-fixer and report with reviewdog
