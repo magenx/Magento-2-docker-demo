@@ -28,10 +28,10 @@ jobs:
         with:
           php-version: '8.4'
 
-      - name: Install dependencies
-        env:
-          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-        run: composer require --dev friendsofphp/php-cs-fixer
+      - name: Download php-cs-fixer standalone
+        run: |
+          curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/latest/download/php-cs-fixer.phar -o ./php-cs-fixer
+          chmod +x ./php-cs-fixer
 
       - name: Run php-cs-fixer and report with reviewdog
         if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
@@ -39,5 +39,5 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           files=(${{ steps.changed-files.outputs.all_changed_files }})
-          ./vendor/bin/php-cs-fixer fix --dry-run --diff --format=checkstyle --allow-risky=yes --using-cache=no "${files[@]}" \
+          ./php-cs-fixer fix --dry-run --diff --format=checkstyle --allow-risky=yes --using-cache=no "${files[@]}" \
             | reviewdog -f=checkstyle -name="php-cs-fixer" -reporter=github-pr-review -level=error
