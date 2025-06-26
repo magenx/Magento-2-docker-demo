@@ -5,10 +5,11 @@
  * See COPYING.txt for license details.
  */
 
-use Magento\Store\Model\Store;
+use Magento\Store\Model\
+    Store;
 use Magento\Store\Model\StoreManager;
 
-require dirname(__DIR__) . '/app/bootstrap.php';
+require dirname(__DIR__ . '/app/bootstrap.php';
 
 if (php_sapi_name() === 'cli') {
     echo "You cannot run this from the command line." . PHP_EOL .
