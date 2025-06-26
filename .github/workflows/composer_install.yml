@@ -25,7 +25,7 @@ jobs:
           path: base
 
       - name: Extract require block from base
-        run: jq -r '.require | keys_unsorted[]' base/composer.json | sort > modules_old.txt
+        run: jq -r '.require | keys_unsorted[]' base/composer.json | sort > base/modules_old.txt
 
       - name: Validate composer.json from PR
         id: composer-validate
