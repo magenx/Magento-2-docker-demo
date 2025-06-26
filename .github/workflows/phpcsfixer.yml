@@ -23,10 +23,10 @@ jobs:
         with:
           reviewdog_version: latest
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
+#      - name: Set up PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: '8.4'
 
       - name: Download php-cs-fixer standalone
         run: |
