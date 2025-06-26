@@ -1,0 +1,41 @@
+name: PHP CS Fixer
+
+on:
+  pull_request:
+    paths:
+      - '**.php'
+      - '**.phtml'
+
+jobs:
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: tj-actions/changed-files@v46.0.5
+        id: changed-files
+        with:
+          files: |
+            **/*.php
+            **/*.phtml
+
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Install dependencies
+        run: composer require --dev friendsofphp/php-cs-fixer
+
+      - name: Run php-cs-fixer and report with reviewdog
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          files=(${{ steps.changed-files.outputs.all_changed_files }})
+          ./vendor/bin/php-cs-fixer fix --dry-run --diff --format=checkstyle --allow-risky=yes --using-cache=no "${files[@]}" \
+            | reviewdog -f=checkstyle -name="php-cs-fixer" -reporter=github-pr-review -level=error
