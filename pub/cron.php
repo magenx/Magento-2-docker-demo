@@ -6,7 +6,7 @@
  */
 
 use Magento\Store\Model\
-    Store ;
+    Store;
 use Magento\Store\Model\StoreManager;
 
 require dirname(__DIR__ . '/app/bootstrap.php';
