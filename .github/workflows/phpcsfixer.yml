@@ -41,17 +41,16 @@ jobs:
         if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
         run: |
           files=(${{ steps.changed-files.outputs.all_changed_files }})
-          error=0
           {
           for file in "${files[@]}"; do
-            php -l "$file" || error=1
+            php -l "$file"
           done 
-          } 2>&1 | reviewdog -efm="%m in %f on line %l" -name="php lint" -reporter=github-pr-review -level=error
-          exit $error
+          } 2>&1 | reviewdog -efm="%m in %f on line %l" -name="PHP LINT" -reporter=github-pr-review -level=error -fail-level=error
 
       - name: Run php-cs-fixer and report with reviewdog
         id: php-cs-fixer
         if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
         run: |
+          files=(${{ steps.changed-files.outputs.all_changed_files }})
           ./php-cs-fixer fix --dry-run --diff --format=checkstyle --allow-risky=yes --using-cache=no "${files[@]}" \
-          | reviewdog -f=checkstyle -name="php-cs-fixer" -reporter=github-pr-review -level=error
+          | reviewdog -f=checkstyle -name="PHP-CS-FIXER" -reporter=github-pr-review -level=error -fail-level=error
