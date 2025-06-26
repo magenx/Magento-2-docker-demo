@@ -23,7 +23,7 @@ jobs:
         with:
           reviewdog_version: latest
 
-#      - name: Set up PHP
+#     - name: Set up PHP
 #        uses: shivammathur/setup-php@v2
 #        with:
 #          php-version: '8.4'
@@ -33,11 +33,17 @@ jobs:
           curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/latest/download/php-cs-fixer.phar -o ./php-cs-fixer
           chmod +x ./php-cs-fixer
 
-      - name: Run php-cs-fixer and report with reviewdog
+      - name: Run php-cs-fixer and lint and report with reviewdog
         if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           files=(${{ steps.changed-files.outputs.all_changed_files }})
+          error=0
+          for file in "${files[@]}"; do
+            php -l "$file" || error=1
+          done 2>&1 | reviewdog -efm="%m in %f on line %l" -name="php lint" -reporter=github-pr-review -level=error
+          exit $error
+          
           ./php-cs-fixer fix --dry-run --diff --format=checkstyle --allow-risky=yes --using-cache=no "${files[@]}" \
-            | reviewdog -f=checkstyle -name="php-cs-fixer" -reporter=github-pr-review -level=error
+          | reviewdog -f=checkstyle -name="php-cs-fixer" -reporter=github-pr-review -level=error
