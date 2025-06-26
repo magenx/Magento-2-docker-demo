@@ -5,8 +5,7 @@
  * See COPYING.txt for license details.
  */
 
-use Magento\Store\Model\
-    Store ;
+use Magento\Store\Model\Store ;
 use Magento\Store\Model\StoreManager;
 
 require dirname(__DIR__ . '/app/bootstrap.php';
