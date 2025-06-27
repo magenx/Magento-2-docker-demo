@@ -107,6 +107,22 @@ jobs:
             -filter-mode=nofilter \
             -level=warning
 
+      - name: Run composer outdated and post with reviewdog
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer outdated --direct --format=json | \
+          jq -r '.installed[] | select(.version != .latest) | 
+          "composer.json:1:📦 **\(.name)**  
+          `\(.version)` → `\(.latest)`  
+          💡 _Status: \(if .latest_status == "null" then "update available" else .latest_status end)_  
+          [More info](\(.homepage))"' \
+          | reviewdog -f=rdjsonl \
+          -name="COMPOSER OUTDATED" \
+          -reporter=github-pr-review \
+          -level=info \
+          -filter-mode=nofilter
+
       - name: Enable newly installed modules
         id: module-enable
         if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
