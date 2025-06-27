@@ -25,7 +25,10 @@ jobs:
           path: base
 
       - name: Extract require block from base
-        run: jq -r '.require | keys_unsorted[]' base/composer.json | sort > base/modules_old.txt
+        id: require_base
+        run: |
+          jq -r '.require | keys_unsorted[]' base/composer.json | sort > base/require_modules_old.txt
+          composer show --locked -N >  base/locked_modules_old.txt
 
       - name: Validate composer.json from PR
         id: composer-validate
@@ -33,16 +36,17 @@ jobs:
           composer validate --no-check-all --no-check-lock --no-check-publish --no-check-version 
 
       - name: Extract require block from PR
-        run: jq -r '.require | keys_unsorted[]' composer.json | sort > modules_new.txt
+        id: require_pr
+        run: jq -r '.require | keys_unsorted[]' composer.json | sort > require_modules_new.txt
 
       - name: Find new modules in require block
         id: find-new-modules
         run: |
-          comm -13 base/modules_old.txt modules_new.txt > modules.txt
+          comm -13 base/require_modules_old.txt require_modules_new.txt > modules.txt
           if [ ! -s modules.txt ]; then
             echo "No new modules in require block."
           else
-            echo "New modules in require block:"
+            echo "⚠️ New modules in require block:"
             cat modules.txt
             echo "new_modules=true" >> ${GITHUB_OUTPUT}
           fi
@@ -57,9 +61,9 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo -e "composer.json:New module require:\n$(sed 's/^/- /' modules.txt)" > reviewdog.log
-          cat reviewdog.log | reviewdog -efm="%f:%m" \
-            -name="COMPOSER MODULES INSTALLATION" \
+          echo -e "composer.json: New module require:\n$(sed 's/^/- /' modules.txt)" \
+          | reviewdog -efm="%f: %m" \
+            -name="COMPOSER MODULES REQUIRE" \
             -reporter=github-pr-review \
             -level=info
 
@@ -73,29 +77,36 @@ jobs:
             composer require "$module"
           done < modules.txt
           composer install --no-interaction --no-dev --no-cache
+          composer show --locked -N > locked_modules_new.txt
 
-      - name: Extract Magento module names
-        id: modules-new-names
-        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+      - name: Find new modules dependencies in composer lock
+        id: find-new-modules-lock
         run: |
-          while read module; do
-            registration_file="vendor/$(echo $module | tr '/' '/')/registration.php"
-            if [ -f "$registration_file" ]; then
-              module_name=$(grep -oP "ComponentRegistrar::MODULE,\s*'([^']+)'" "$registration_file" | sed "s/.*',\s*'\([^']*\)'.*/\1/")
-              if [ ! -z "$module_name" ]; then
-                echo "$module => $module_name"
-              fi
-            fi
-          done < ./modules.txt > ./magento_modules.txt
-          echo "⚠️ New Magento modules: ⚠️"
-          cat ./magento_modules.txt
-          echo "magento_modules=$(paste -sd, magento_modules.txt)" >> ${GITHUB_OUTPUT}
+          comm -13 base/locked_modules_old.txt locked_modules_new.txt > locked_modules.txt
+          if [ ! -s locked_modules.txt ]; then
+            echo "No new modules in composer lock."
+          else
+            echo "⚠️ New modules in composer lock:"
+            cat locked_modules.txt
+            echo "new_locked_modules=true" >> ${GITHUB_OUTPUT}
+          fi
+
+      - name: New modules review comment to PR
+        id: module-lock-comment-pr
+        if: ${{ steps.find-new-modules-lock.outputs.new_locked_modules == 'true' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo -e "composer.json: New module in composer lock:\n$(sed 's/^/- /' locked_modules.txt)" \
+          | reviewdog -efm="%f: %m" \
+            -name="COMPOSER LOCK MODULES" \
+            -reporter=github-pr-review \
+            -level=info
 
       - name: Enable newly installed modules
         id: module-enable
         if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
         run: |
-          modules=$(awk -F' => ' '{print $2}' magento_modules.txt | xargs)
           bin/magento module:enable --all -n --no-ansi -q 2>/dev/null || true
 
       - name: Run setup di compile
