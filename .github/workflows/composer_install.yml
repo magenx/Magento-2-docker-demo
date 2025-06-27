@@ -57,10 +57,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          while read module; do
-            echo "composer.json:New module require - $module"
-          done < modules.txt > reviewdog.log
-          
+          echo -e "composer.json:New module require:\n$(sed 's/^/- /' modules.txt)" > reviewdog.log
           cat reviewdog.log | reviewdog -efm="%f:%m" \
             -name="COMPOSER MODULES INSTALLATION" \
             -reporter=github-pr-review \
@@ -72,6 +69,9 @@ jobs:
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: |
+          while read module; do
+            composer require "$module"
+          done < modules.txt
           composer install --no-interaction --no-dev --no-cache
 
       - name: Extract Magento module names
@@ -87,7 +87,7 @@ jobs:
               fi
             fi
           done < ./modules.txt > ./magento_modules.txt
-          echo "New Magento modules:"
+          echo "⚠️ New Magento modules: ⚠️"
           cat ./magento_modules.txt
           echo "magento_modules=$(paste -sd, magento_modules.txt)" >> ${GITHUB_OUTPUT}
 
@@ -96,7 +96,7 @@ jobs:
         if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
         run: |
           modules=$(awk -F' => ' '{print $2}' magento_modules.txt | xargs)
-          bin/magento module:enable $modules -n --no-ansi -q 2>/dev/null || true
+          bin/magento module:enable --all -n --no-ansi -q 2>/dev/null || true
 
       - name: Run setup di compile
         id: setup-di-compile
