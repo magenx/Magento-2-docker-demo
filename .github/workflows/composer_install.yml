@@ -28,7 +28,7 @@ jobs:
         id: require_base
         run: |
           jq -r '.require | keys_unsorted[]' base/composer.json | sort > base/require_modules_old.txt
-          composer show --locked -N >  base/locked_modules_old.txt
+          composer show --working-dir="base/" --locked -N >  base/locked_modules_old.txt
 
       - name: Validate composer.json from PR
         id: composer-validate
