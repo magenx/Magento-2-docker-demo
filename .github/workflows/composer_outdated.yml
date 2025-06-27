@@ -1,0 +1,42 @@
+name: Composer Outdated
+
+on:
+  workflow_dispatch:
+
+jobs:
+  composer-outdated:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest tag
+        id: checkout-latest-tag
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Check composer outdated packages
+        id: outdated
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+        run: |
+          composer install --no-progress --no-interaction
+          composer outdated --direct --format=json > outdated.json
+          echo "text=$(jq -r '.installed[] | select(.version != .latest) | "- \(.name)@\(.version) → \(.latest)"' outdated.json)" >> $GITHUB_OUTPUT
+
+      - name: Create and maintain issue
+        uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
+        id: issue
+        with:
+          actions: 'create-issue'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: '📦 Composer Outdated Check $(date +"%Y-%m-%d")'
+          body: |
+            ## Composer Outdated Check
+            ${{ steps.outdated.outputs.text }}
+            
+            <!-- TRACKER_KEY:outdated -->
+          labels: 'dependencies,module,outdated'
+          assignees: ${{ github.repository_owner }}
+          emoji: 'eyes'
