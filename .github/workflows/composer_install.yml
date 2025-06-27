@@ -112,18 +112,7 @@ jobs:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          composer outdated --direct --format=json \
-          | jq -r '.installed[] | select(.version != .latest) | {
-            "message": "📦 **\(.name)**  \n`\(.version)` → `\(.latest)`  \n💡 _Status: \(if .latest_status == "null" then "update available" else .latest_status end)_  \n🔗 [More info](\(.homepage))",
-            "path": "composer.json",
-            "line": 1,
-            "severity": "INFO"
-            } | @json' \
-          | reviewdog -f=rdjsonl \
-            -name="COMPOSER OUTDATED" \
-            -reporter=github-pr-review \
-            -level=info \
-            -filter-mode=nofilter
+          composer outdated --direct --no-ansi
 
       - name: Enable newly installed modules
         id: module-enable
