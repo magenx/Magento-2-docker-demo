@@ -16,12 +16,18 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Check composer outdated packages
-        id: outdated
+      - name: Composer install modules
+        id: composer-install
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: |
-          composer install --no-progress --no-interaction
+          composer install --no-progress --no-interaction --no-dev
+          
+      - name: Check composer outdated packages
+        id: composer-outdated
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+        run: |
           composer outdated --direct --format=json > outdated.json
           echo "text=$(jq -r '.installed[] | select(.version != .latest) | "- \(.name)@\(.version) → \(.latest)"' outdated.json)" >> $GITHUB_OUTPUT
 
@@ -34,7 +40,7 @@ jobs:
           title: '📦 Composer Outdated Check $(date +"%Y-%m-%d")'
           body: |
             ## Composer Outdated Check
-            ${{ steps.outdated.outputs.text }}
+            ${{ steps.composer-outdated.outputs.text }}
             
             <!-- TRACKER_KEY:outdated -->
           labels: 'dependencies,module,outdated'
