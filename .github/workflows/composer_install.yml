@@ -61,14 +61,13 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          MODULES=$(sed 's/^/\\n- /' modules.txt | tr -d '\n')
-          printf "composer.json: New modules require:$MODULES\n" \
+          MODULES=$(awk '{printf "[%s] ", $0}' modules.txt | sed 's/ $//')
+          printf "composer.json: New modules require: %s\n" "$MODULES" \
           | reviewdog -efm="%f: %m" \
             -name="COMPOSER MODULES REQUIRE" \
             -reporter=github-pr-review \
             -filter-mode=nofilter \
-            -level=info
-          exit 1
+            -level=warning
 
       - name: Install dependencies
         id: composer-install
@@ -100,12 +99,13 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo -e "composer.lock: New modules in lock:\n$(sed 's/^/- /' locked_modules.txt)" \
+          MODULES=$(awk '{printf "[%s] ", $0}' locked_modules.txt | sed 's/ $//')
+          printf "composer.lock: New modules in lock: %s\n" "$MODULES" \
           | reviewdog -efm="%f: %m" \
             -name="COMPOSER LOCK MODULES" \
             -reporter=github-pr-review \
             -filter-mode=nofilter \
-            -level=info
+            -level=warning
 
       - name: Enable newly installed modules
         id: module-enable
