@@ -31,17 +31,24 @@ jobs:
           composer outdated --direct --format=json > outdated.json
           echo "text=$(jq -r '.installed[] | select(.version != .latest) | "- \(.name)@\(.version) → \(.latest)"' outdated.json)" >> $GITHUB_OUTPUT
 
+      - name: Set current date
+        id: date
+        run: echo "date=$(date +%Y-%m-%d-%H:%M)" >> $GITHUB_OUTPUT
+
       - name: Create and maintain issue
         uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
         id: issue
         with:
           actions: 'create-issue'
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: '📦 Composer Outdated Check $(date +"%Y-%m-%d")'
+          title: 'Composer Outdated Check (${{ steps.date.outputs.date }})'
           body: |
-            ## Composer Outdated Check
+            ## ⚠️ Composer Outdated Check
             ${{ steps.composer-outdated.outputs.text }}
-            
+              
+              
+            📅 Generated on: [${{ steps.date.outputs.date }}]
+            [run url:](https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}) 
             <!-- TRACKER_KEY:outdated -->
           labels: 'dependencies,module,outdated'
           assignees: ${{ github.repository_owner }}
