@@ -61,12 +61,14 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo -e "composer.json: New modules require:\n$(sed 's/^/- /' modules.txt)" \
+          MODULES=$(sed 's/^/\\n- /' modules.txt | tr -d '\n')
+          printf "composer.json: New modules require:$MODULES\n" \
           | reviewdog -efm="%f: %m" \
             -name="COMPOSER MODULES REQUIRE" \
             -reporter=github-pr-review \
             -filter-mode=nofilter \
             -level=info
+          exit 1
 
       - name: Install dependencies
         id: composer-install
