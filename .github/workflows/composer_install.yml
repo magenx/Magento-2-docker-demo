@@ -61,8 +61,8 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo -e "composer.json: New module require:\n$(sed 's/^/- /' modules.txt)" \
-          | reviewdog -efm="%f: %m" \
+          awk '{print "composer.json:" NR ": " $0}' modules.txt \
+          | reviewdog -efm="%f:%l: %m" \
             -name="COMPOSER MODULES REQUIRE" \
             -reporter=github-pr-review \
             -level=info
@@ -97,8 +97,8 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo -e "composer.json: New module in composer lock:\n$(sed 's/^/- /' locked_modules.txt)" \
-          | reviewdog -efm="%f: %m" \
+          awk '{print "composer.lock:" NR ": " $0}' locked_modules.txt \
+          | reviewdog -efm="%f:%l: %m" \
             -name="COMPOSER LOCK MODULES" \
             -reporter=github-pr-review \
             -level=info
