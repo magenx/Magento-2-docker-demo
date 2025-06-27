@@ -6,28 +6,25 @@ on:
       - '**.php'
       - '**.phtml'
 
-env:
-  REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: tj-actions/changed-files@v46.0.5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+      - uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c #v46.0.5
         id: changed-files
         with:
           files: |
             **/*.php
             **/*.phtml
 
-      - uses: reviewdog/action-setup@v1
+      - uses: reviewdog/action-setup@e04ffabe3898a0af8d0fb1af00c188831c4b5893 #v1.3.2
         with:
-          reviewdog_version: latest
+          reviewdog_version: v0.20.3
 
 #     - name: Set up PHP
-#        uses: shivammathur/setup-php@v2
+#        uses: shivammathur/setup-php@0f7f1d08e3e32076e51cae65eb0b0c871405b16e #v2.34.1
 #        with:
 #          php-version: '8.4'
 
@@ -39,18 +36,37 @@ jobs:
       - name: Run php lint and report with reviewdog
         id: php-lint
         if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           files=(${{ steps.changed-files.outputs.all_changed_files }})
           {
           for file in "${files[@]}"; do
             php -l "$file"
           done 
-          } 2>&1 | reviewdog -efm="%m in %f on line %l" -name="PHP LINT" -reporter=github-pr-review -level=error -fail-level=error
+          } 2>&1 | reviewdog \
+          -efm="%m in %f on line %l" \
+          -name="PHP LINT" \
+          -reporter=github-pr-review \
+          -level=error \
+          -fail-level=error
 
       - name: Run php-cs-fixer and report with reviewdog
         id: php-cs-fixer
         if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           files=(${{ steps.changed-files.outputs.all_changed_files }})
-          ./php-cs-fixer fix --dry-run --diff --format=checkstyle --allow-risky=yes --using-cache=no "${files[@]}" \
-          | reviewdog -f=checkstyle -name="PHP-CS-FIXER" -reporter=github-pr-review -level=error -fail-level=error
+          ./php-cs-fixer fix \
+          --dry-run \
+          --diff \
+          --format=checkstyle \
+          --allow-risky=yes \
+          --using-cache=no "${files[@]}" \
+          | reviewdog \
+          -f=checkstyle \
+          -name="PHP CS FIXER" \
+          -reporter=github-pr-review \
+          -level=error \
+          -fail-level=error
