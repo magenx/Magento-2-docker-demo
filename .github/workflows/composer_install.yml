@@ -65,6 +65,7 @@ jobs:
           | reviewdog -efm="%f:%l: %m" \
             -name="COMPOSER MODULES REQUIRE" \
             -reporter=github-pr-review \
+            -filter-mode=nofilter \
             -level=info
 
       - name: Install dependencies
@@ -101,6 +102,7 @@ jobs:
           | reviewdog -efm="%f:%l: %m" \
             -name="COMPOSER LOCK MODULES" \
             -reporter=github-pr-review \
+            -filter-mode=nofilter \
             -level=info
 
       - name: Enable newly installed modules
