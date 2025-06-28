@@ -27,10 +27,14 @@ jobs:
           title-includes: 'Composer outdated modules check'
           labels: 'outdated'
 
-      - name: Display raw outputs
+      - name: Dump GitHub Actions context
         run: |
-          echo "${{ steps.find-issues.outputs }}"
-          exhit 1
+          echo "Dumping context for debugging"
+          env
+
+      - name: Display all outputs as JSON
+        run: |
+          echo "${{ toJSON(steps.find-issues.outputs) }}"
 
       - name: Configure Composer cache
         id: composer-cache
