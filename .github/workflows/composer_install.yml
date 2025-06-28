@@ -78,7 +78,7 @@ jobs:
           while read module; do
             composer require "$module"
           done < modules.txt
-          composer install --no-interaction --no-dev --no-cache
+          composer install --no-dev --no-interaction 
           composer show --locked -N > locked_modules_new.txt
 
       - name: Find new modules dependencies in composer lock
@@ -106,13 +106,6 @@ jobs:
             -reporter=github-pr-review \
             -filter-mode=nofilter \
             -level=warning
-
-      - name: Run composer outdated and post with reviewdog
-        env:
-          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer outdated --direct --no-ansi
 
       - name: Enable newly installed modules
         id: module-enable
