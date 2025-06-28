@@ -20,7 +20,7 @@ jobs:
         id: composer-cache
         run: |
           echo "composer_cache_dir=$(composer config cache-dir)" >> $GITHUB_OUTPUT
-          echo "composer_cache_key=composer-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}" >> $GITHUB_OUTPUT
+          echo "composer_cache_key=${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}" >> $GITHUB_OUTPUT
 
       - name: Cache Composer dependencies
         id: cache
@@ -29,7 +29,7 @@ jobs:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
           key: ${{ steps.composer-cache.outputs.composer_cache_key }}
           restore-keys: |
-            composer-${{ runner.os }}-
+            ${{ runner.os }}-composer-
 
       - name: Composer install modules
         id: composer-install
