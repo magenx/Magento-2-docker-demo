@@ -16,6 +16,22 @@ jobs:
           ref: main
           fetch-depth: 0
 
+      - name: Find existing issue
+        id: find-issues
+        uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
+        with:
+          actions: 'find-issues'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-creator: 'github-actions[bot]'
+          issue-state: 'open'
+          title-includes: 'Composer outdated modules check'
+          labels: 'outdated'
+
+      - name: Display raw outputs
+        run: |
+          echo "${{ steps.find-issues.outputs }}
+          exhit 1
+
       - name: Configure Composer cache
         id: composer-cache
         run: |
@@ -49,23 +65,6 @@ jobs:
       - name: Set current date
         id: date
         run: echo "date=$(date +%Y-%m-%d-%H:%M)" >> $GITHUB_OUTPUT
-
-      - name: Find existing issue
-        id: find-issues
-        uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
-        with:
-          actions: 'find-issues'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-creator: 'github-actions[bot]'
-          issue-state: 'open'
-          title-includes: 'Composer outdated modules check'
-          labels: 'outdated'
-
-      - name: Display raw outputs
-        run: |
-          echo "numbers: ${{ steps.find-issues.outputs.issue-numbers }}"
-          echo "json: ${{ steps.find-issues.outputs.issues-json }}"
-          echo "count: ${{ steps.find-issues.outputs.issue-count }}"
 
       - name: Process found issues
         id: found-issues
