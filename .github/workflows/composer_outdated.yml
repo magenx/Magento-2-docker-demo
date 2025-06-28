@@ -56,7 +56,7 @@ jobs:
         with:
           actions: 'find-issues'
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-creator: 'github-actions'
+          issue-creator: 'github-actions[bot]'
           issue-state: 'open'
           title-includes: 'Composer outdated modules check'
           labels: 'outdated'
