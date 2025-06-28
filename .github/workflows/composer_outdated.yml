@@ -60,6 +60,7 @@ jobs:
           issue-state: 'open'
           title-includes: 'Composer outdated modules check'
           labels: 'outdated'
+          exclude-labels: 'overdue'
 
       - name: Process found issues
         id: found-issues
