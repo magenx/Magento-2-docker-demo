@@ -48,9 +48,9 @@ jobs:
         run: |
           comm -13 base/require_modules_old.txt require_modules_new.txt > modules.txt
           if [ ! -s modules.txt ]; then
-            echo "No new modules in require block."
+            echo "No new composer packages."
           else
-            echo "⚠️ New modules in require block:"
+            echo "⚠️ New composer packages require:"
             cat modules.txt
             echo "new_modules=true" >> ${GITHUB_OUTPUT}
           fi
@@ -65,10 +65,10 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          MODULES=$(awk '{printf "[%s] ", $0}' modules.txt | sed 's/ $//')
-          printf "composer.json: New modules require: %s\n" "$MODULES" \
+          MODULES=$(awk '{printf "- **%s**<br>", $0}' modules.txt | sed 's/ $//')
+          printf "composer.json: %s" "<br>$MODULES" \
           | reviewdog -efm="%f: %m" \
-            -name="COMPOSER MODULES REQUIRE" \
+            -name=" NEW COMPOSER PACKAGES REQUIRE: " \
             -reporter=github-pr-review \
             -filter-mode=nofilter \
             -level=warning
@@ -90,9 +90,9 @@ jobs:
         run: |
           comm -13 base/locked_modules_old.txt locked_modules_new.txt > locked_modules.txt
           if [ ! -s locked_modules.txt ]; then
-            echo "No new modules in composer lock."
+            echo "No new composer dependency."
           else
-            echo "⚠️ New modules in composer lock:"
+            echo "⚠️ Including a required dependency:"
             cat locked_modules.txt
             echo "new_locked_modules=true" >> ${GITHUB_OUTPUT}
           fi
@@ -103,10 +103,10 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          MODULES=$(awk '{printf "[%s]<br>", $0}' locked_modules.txt | sed 's/ $//')
-          printf "composer.lock: New modules in lock: %s<br>" "$MODULES" \
+          MODULES=$(awk '{printf "- **%s**<br>", $0}' locked_modules.txt | sed 's/ $//')
+          printf "composer.lock: %s" "<br>$MODULES" \
           | reviewdog -efm="%f: %m" \
-            -name="COMPOSER LOCK MODULES" \
+            -name=" INCLUDING A REQUIRED DEPENDENCY: " \
             -reporter=github-pr-review \
             -filter-mode=nofilter \
             -level=warning
