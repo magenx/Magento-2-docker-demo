@@ -27,11 +27,6 @@ jobs:
           title-includes: 'Composer outdated modules check'
           labels: 'outdated'
 
-      - name: Dump GitHub Actions context
-        run: |
-          echo "Dumping context for debugging"
-          env
-
       - name: Display all outputs as JSON
         run: |
           echo "${{ toJSON(steps.find-issues.outputs) }}"
