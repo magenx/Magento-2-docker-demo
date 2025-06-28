@@ -59,6 +59,8 @@ jobs:
           echo "issue_numbers=${ISSUE_NUMBERS}" >> $GITHUB_OUTPUT
 
       - name: Add labels
+        id: issue-labeler
+        if: ${{ steps.found-issues.outputs.issue_numbers ! ='' }}
         uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
         with:
           actions: 'add-labels'
