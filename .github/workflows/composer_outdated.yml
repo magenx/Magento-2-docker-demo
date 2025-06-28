@@ -16,6 +16,21 @@ jobs:
           ref: main
           fetch-depth: 0
 
+      - name: Configure Composer cache
+        id: composer-cache
+        run: |
+          echo "composer_cache_dir=$(composer config cache-dir)" >> $GITHUB_OUTPUT
+          echo "composer_cache_key=composer-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        id: cache
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 #v4.2.3
+        with:
+          path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
+          key: ${{ steps.composer-cache.outputs.composer_cache_key }}
+          restore-keys: |
+            composer-${{ runner.os }}-
+
       - name: Composer install modules
         id: composer-install
         env:
@@ -41,15 +56,15 @@ jobs:
         with:
           actions: 'create-issue'
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'Composer Outdated Check (${{ steps.date.outputs.date }})'
+          title: 'Composer outdated modules check'
           body: |
             ## ⚠️ Composer Outdated Check
             ${{ steps.composer-outdated.outputs.text }}
               
               
-            📅 Generated on: [${{ steps.date.outputs.date }}]
-            [run url:](https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}) 
-            <!-- TRACKER_KEY:outdated -->
+            generated on: [${{ steps.date.outputs.date }}]
+            [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            <!-- TRACKER_KEY:composer-outdated -->
           labels: 'dependencies,module,outdated'
           assignees: ${{ github.repository_owner }}
           emoji: 'eyes'
