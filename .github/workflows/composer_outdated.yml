@@ -64,7 +64,8 @@ jobs:
       - name: Process found issues
         id: found-issues
         run: |
-          ISSUE_NUMBERS=$(grep -oP '(?<=number":)\d+' '${{ steps.find-issues.outputs.issues }}' | paste -sd,)
+          printf '%s' '${{ steps.find-issues.outputs.issues }}' > issues.txt
+          ISSUE_NUMBERS=$(grep -oP '(?<=number":)\d+' issues.txt | paste -sd,)
           echo "issue_numbers=${ISSUE_NUMBERS}" >> $GITHUB_OUTPUT
 
       - name: Add labels
