@@ -49,7 +49,7 @@ jobs:
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: |
-          composer install --no-dev --no-cache --no-interaction --optimize-autoloader --apcu-autoloader
+          composer install --no-dev --no-interaction --optimize-autoloader --apcu-autoloader
 
       - name: Run setup di compile
         id: setup-di-compile
