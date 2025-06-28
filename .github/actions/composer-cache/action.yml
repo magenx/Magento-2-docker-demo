@@ -11,6 +11,7 @@ runs:
   steps:
     - name: Configure Composer cache
       id: composer-cache
+      shell: bash
       run: |
         echo "composer_cache_dir=$(composer config cache-dir)" >> $GITHUB_OUTPUT
         echo "composer_cache_key=${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}" >> $GITHUB_OUTPUT
