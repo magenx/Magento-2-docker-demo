@@ -44,6 +44,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Create composer cache
+        id: create-composer-cache
+        uses: ./.github/actions/composer-cache
+
       - name: Composer install modules and updates
         id: composer-install
         env:
