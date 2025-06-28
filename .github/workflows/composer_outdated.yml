@@ -61,6 +61,12 @@ jobs:
           title-includes: 'Composer outdated modules check'
           labels: 'outdated'
 
+      - name: Display raw outputs
+        run: |
+          echo "numbers: ${{ steps.find-issues.outputs.issue-numbers }}"
+          echo "json: ${{ steps.find-issues.outputs.issues-json }}"
+          echo "count: ${{ steps.find-issues.outputs.issue-count }}"
+
       - name: Process found issues
         id: found-issues
         run: |
