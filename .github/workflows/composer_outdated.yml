@@ -29,7 +29,7 @@ jobs:
 
       - name: Display raw outputs
         run: |
-          echo "${{ steps.find-issues.outputs }}
+          echo "${{ steps.find-issues.outputs }}"
           exhit 1
 
       - name: Configure Composer cache
