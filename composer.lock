@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bf3ec3ebbd418aead7371833fd03958",
+    "content-hash": "43af7c9dad487f1a1523432bd24d1db0",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -14465,6 +14465,134 @@
                 }
             ],
             "time": "2025-04-25T15:57:13+00:00"
+        },
+        {
+            "name": "stripe/module-payments",
+            "version": "4.4.4",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/stripe/module-payments/stripe-module-payments-4.4.4.0.zip",
+                "shasum": "a57c067e02497b4905b6ba784840e5cb27a2c271"
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "StripeIntegration\\Payments\\": ""
+                }
+            },
+            "license": [
+                "https://stripe.com/magento/legal"
+            ],
+            "description": "Shared component for accepting online payments in Magento 2 using the Stripe payment gateway."
+        },
+        {
+            "name": "stripe/module-tax",
+            "version": "1.1.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/stripe/module-tax/stripe-module-tax-1.1.1.0.zip",
+                "shasum": "cf47e994da9f4926e07d6ca3e38af68b5c980d04"
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "StripeIntegration\\Tax\\": ""
+                }
+            },
+            "license": [
+                "https://stripe.com/magento/legal"
+            ],
+            "description": "Stripe Tax for Adobe Commerce and Magento Open Source."
+        },
+        {
+            "name": "stripe/stripe-payments",
+            "version": "4.4.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/stripe/stripe-payments/stripe-stripe-payments-4.4.0.0.zip",
+                "shasum": "c085d7e5675405c9c52f474f03eae4743786c376"
+            },
+            "require": {
+                "stripe/module-payments": "^4.4.0",
+                "stripe/module-tax": "^1.1.0",
+                "stripe/stripe-php": "^14.10.0"
+            },
+            "type": "metapackage",
+            "license": [
+                "https://stripe.com/legal/magento"
+            ],
+            "description": "Accept online payments in Magento 2 using the Stripe payment gateway."
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v14.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "7e1c4b5d2beadeaeddc42fd1f8a50fdb18b37f30"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/7e1c4b5d2beadeaeddc42fd1f8a50fdb18b37f30",
+                "reference": "7e1c4b5d2beadeaeddc42fd1f8a50fdb18b37f30",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.5.0",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v14.10.0"
+            },
+            "time": "2024-06-13T21:04:47+00:00"
         },
         {
             "name": "symfony/config",
