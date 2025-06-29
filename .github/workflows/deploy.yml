@@ -1,37 +1,12 @@
 name: Deploy to environment
 
 on:
-  workflow_call:
-    inputs:
-      environment:
-        required: true
-        type: string
-      artifact_name:
-        required: true
-        type: string
-      run_id:
-        required: true
-        type: string
-      pr_number:
-        required: true
-        type: string
-    secrets:
-      AWS_ACCESS_KEY_ID:
-        required: true
-      AWS_SECRET_ACCESS_KEY:
-        required: true
-      S3_ENDPOINT:
-        required: true
-      S3_BUCKET:
-        required: true
-      DEPLOY_WEBHOOK_URL:
-        required: true
-      DEPLOY_WEBHOOK_SECRET:
-        required: true
+  release:
+    types: [published]
 
 jobs:
   deploy:
-    name: Deploy to ${{ inputs.environment }} environemt
+    if: ${{ github.event.release.prerelease == true && contains(github.event.release.name, 'alpha') }}
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.environment }}
