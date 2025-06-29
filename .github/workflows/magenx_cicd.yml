@@ -68,7 +68,6 @@ jobs:
       S3_BUCKET: ${{ secrets.S3_BUCKET }}
       DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
       DEPLOY_WEBHOOK_SECRET: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
   pre-release:
