@@ -1,0 +1,78 @@
+name: Deploy to environment
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      artifact_name:
+        required: true
+        type: string
+      run_id:
+        required: true
+        type: string
+      pr_number:
+        required: true
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      S3_ENDPOINT:
+        required: true
+      S3_BUCKET:
+        required: true
+      DEPLOY_WEBHOOK_URL:
+        required: true
+      DEPLOY_WEBHOOK_SECRET:
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment }} environemt
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+    steps:
+      - name: Download artifact from workflow run
+        id: deployment-upload
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          gh run download ${{ inputs.run_id }} \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name ${{ inputs.artifact_name }} \
+            --dir ./${GITHUB_RUN_ID}/
+
+          aws --endpoint-url https://${{ secrets.S3_ENDPOINT }} \
+            s3 cp ./${GITHUB_RUN_ID}/${{ inputs.artifact_name }} \
+            s3://${{ secrets.S3_BUCKET }}/releases/${{ inputs.artifact_name }}
+
+      - name: Trigger webhook
+        id: deployment-webhook
+        run: |
+          curl -X POST ${{ secrets.DEPLOY_WEBHOOK_URL }} \
+            -H "Content-Type: application/json" \
+            -H "X-Webhook-Secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}" \
+            -d '{
+                "pr_number": "${{ inputs.pr_number }}",
+                "run_id": "${{ inputs.run_id }}",
+                "artifact_name": "${{ inputs.artifact_name }}"
+          }'
+
+      - name: Add comment to PR
+        id: add-pr-comment
+        if: ${{ always() }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: | 
+          COMMENT=""
+          declare -A step_icons=( ["success"]="✔" ["failure"]="❌" ["cancelled"]="❌" )
+          COMMENT+="${step_icons[${{ steps.deployment-upload.outcome }}]} Deployment upload: ${{ steps.deployment-upload.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook: ${{ steps.deployment-webhook.outcome }}\n"
+          echo -e "${COMMENT}" > deployment.txt
+          gh pr comment ${{ inputs.pr_number }} --repo "${GITHUB_REPOSITORY}" --body-file deployment.txt
+
