@@ -115,7 +115,7 @@ jobs:
           declare -A job_icons=( ["success"]="🟢" ["failure"]="🔴" ["cancelled"]="⚫" )
           COMMENT+="${job_icons[${{ job.status }}]} BUILD STATUS: ${{ job.status }}\n\n"
           
-          declare -A step_icons=( ["success"]="✔" ["failure"]="❌" ["cancelled"]="❌" )
+          declare -A step_icons=( ["success"]="✔️" ["failure"]="❌" ["skipped"]="➖" ["cancelled"]="✖️" )
           COMMENT+="${step_icons[${{ steps.composer-install.outcome }}]} Composer install ${{ steps.composer-install.outcome }}\n"
           COMMENT+="${step_icons[${{ steps.setup-di-compile.outcome }}]} Code compilation ${{ steps.setup-di-compile.outcome }}\n"
           COMMENT+="${step_icons[${{ steps.static-content-deploy.outcome }}]} Static content deploy ${{ steps.static-content-deploy.outcome }}\n"
