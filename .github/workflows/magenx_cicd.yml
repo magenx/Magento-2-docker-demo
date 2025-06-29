@@ -17,14 +17,12 @@ permissions:
   actions: read
   
 env:
-  RELEASES_FOLDER: "releases"
   PRERELEASE_TYPE: "alpha"
   PRERELEASE_CONFIG: ".github/.release-please-config-prerelease.json"
   PRERELEASE_MANIFEST: ".github/.release-please-manifest-prerelease.json"
   RELEASE_CONFIG: ".github/.release-please-config.json"
   RELEASE_MANIFEST: ".github/.release-please-manifest.json"
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
 
 concurrency:
   group: release
@@ -40,11 +38,12 @@ jobs:
     steps:
       - name: Create pre-release
         id: release
-        uses: googleapis/release-please-action@v4.2.0
+        uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 #v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: ${{ env.PRERELEASE_CONFIG }}
           manifest-file: ${{ env.PRERELEASE_MANIFEST }}
+
 
   pre-release-validate:
     if: ${{ needs.pre-release-pr.outputs.releases_created == 'false' }}
@@ -52,48 +51,25 @@ jobs:
     uses: ./.github/workflows/_build.yml
     secrets:
       COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-          
+
+
   deploy-staging:
-    name: Deploy to Staging
-    runs-on: ubuntu-latest
-    environment: staging
     needs: pre-release-validate
-    steps:
-      - name: Upload to S3
-        id: deployment-upload
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          gh run download ${{ needs.pre-release-validate.outputs.run_id }} \
-            --repo "${GITHUB_REPOSITORY}" \
-            --name ${{ needs.pre-release-validate.outputs.artifact_name }} \
-            --dir ./${GITHUB_RUN_ID}/
-          
-          aws --endpoint-url https://${{ secrets.S3_ENDPOINT }} \
-            s3 cp ./${GITHUB_RUN_ID}/${{ needs.pre-release-validate.outputs.artifact_name }} \
-            s3://${{ secrets.S3_BUCKET }}/${RELEASES_FOLDER}/${{ needs.pre-release-validate.outputs.artifact_name }}
+    uses: ./.github/workflows/_deploy.yml
+    with:
+      environment: staging
+      artifact_name: ${{ needs.pre-release-validate.outputs.artifact_name }}
+      run_id: ${{ needs.pre-release-validate.outputs.run_id }}
+      pr_number: ${{ needs.pre-release-validate.outputs.pre_pr_number }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+      DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+      DEPLOY_WEBHOOK_SECRET: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Trigger webhook
-        id: deployment-webhook
-        run: |
-          curl -X POST ${{ secrets.DEPLOY_WEBHOOK_URL }} \
-            -H "Content-Type: application/json" \
-            -H "X-Webhook-Secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}" \
-            -d '{"artifact_name": "${{ needs.pre-release-validate.outputs.artifact_name }}"}'
-
-      - name: Add comment to PR
-        id: add-pr-comment
-        if: ${{ always() }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: | 
-          COMMENT=""
-          declare -A step_icons=( ["success"]="✔" ["failure"]="❌" ["cancelled"]="❌" )
-          COMMENT+="${step_icons[${{ steps.deployment-upload.outcome }}]} Deployment upload: ${{ steps.deployment-upload.outcome }}\n"
-          COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook: ${{ steps.deployment-webhook.outcome }}\n"
-          echo -e "${COMMENT}" > deployment.txt
-          gh pr comment ${{ needs.pre-release-validate.outputs.pre_pr_number }} --repo "${GITHUB_REPOSITORY}" --body-file deployment.txt
 
   pre-release:
     name: Publish pre-release then release PR
@@ -146,13 +122,12 @@ jobs:
 
       - name: Create release PR
         if: ${{ always() }}
-        uses: googleapis/release-please-action@v4.2.0
+        uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 #v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: ${{ env.RELEASE_CONFIG }}
           manifest-file: ${{ env.RELEASE_MANIFEST }}
           
-
 
   after-pre-release:
     name: After pre-release cleanup
@@ -183,3 +158,4 @@ jobs:
       - name: After release cleanup
         run: |
           echo "After release cleanup"
+
