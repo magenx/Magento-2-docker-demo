@@ -70,7 +70,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
           COMMENT=""
-          declare -A step_icons=( ["success"]="✔" ["failure"]="❌" ["cancelled"]="❌" )
+          declare -A step_icons=( ["success"]="✔️" ["failure"]="❌" ["skipped"]="➖"  ["cancelled"]="✖️" )
           COMMENT+="${step_icons[${{ steps.deployment-upload.outcome }}]} Deployment upload: ${{ steps.deployment-upload.outcome }}\n"
           COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook: ${{ steps.deployment-webhook.outcome }}\n"
           echo -e "${COMMENT}" > deployment.txt
