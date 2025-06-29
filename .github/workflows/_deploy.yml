@@ -32,8 +32,6 @@ on:
         required: true
       DEPLOY_WEBHOOK_SECRET:
         required: true
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   deploy:
