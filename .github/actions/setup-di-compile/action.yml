@@ -1,0 +1,54 @@
+name: "Magento 2 code compilation test"
+author: "MagenX"
+description: "Check if setup-di-compile works without errors"
+
+inputs:
+  composer_auth:
+    description: 'Composer Auth'
+    required: true
+  composer_options:
+    description: 'Additional Composer options'
+    required: false
+    default: ''
+  compile_options:
+    description: 'Additional Composer options'
+    required: false
+    default: ''
+  content_options:
+    description: 'Additional Composer options'
+    required: false
+    default: ''
+  debug_command:
+    description: 'Additional Composer options'
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+    steps:
+      - name: Composer install modules and updates
+        id: composer-install
+        env:
+          COMPOSER_AUTH: ${{ inputs.composer_auth }}
+        shell: bash
+        run: |
+          composer install --no-dev --no-interaction ${{ inputs.composer_options }}
+
+      - name: Run setup di compile
+        id: setup-di-compile
+        shell: bash
+        run: |
+          bin/magento setup:di:compile -n ${{ inputs.compile_options }}
+
+      - name: Generate static files
+        id: static-content-deploy
+        if: ${{ inputs.static_content_deploy == 'true' }}
+        shell: bash
+        run: |
+          bin/magento setup:static-content:deploy -f -n ${{ inputs.content_options }}
+
+      - name: Debug with custom output
+        id: debug
+        shell: bash
+        run: |
+          ${{ inputs.debug_command }}
