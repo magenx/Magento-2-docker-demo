@@ -9,6 +9,9 @@ on:
 
 jobs:
   labeler:
+    if: >
+      !contains(github.event.pull_request.labels.*.name, 'autorelease: pending') &&
+      !contains(github.event.pull_request.title, 'alpha')
     permissions:
       contents: read
       pull-requests: write
