@@ -10,8 +10,8 @@ on:
 jobs:
   compile:
     if: >
-      ${{ !startsWith(github.head_ref, 'release-please--branches--') &&
-      github.event.pull_request.user.login != 'github-actions[bot]' &&
+      ${{ !startsWith(github.head_ref, 'release-please--branches--') ||
+      github.event.pull_request.user.login != 'github-actions[bot]' ||
       !contains(github.event.pull_request.labels.*.name, 'autorelease: pending') }}
     runs-on: ubuntu-latest
     steps:
