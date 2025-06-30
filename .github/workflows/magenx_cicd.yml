@@ -1,4 +1,4 @@
-name: Magenx CI/CD
+name: Magenx release CI/CD
 
 on:
   push:
