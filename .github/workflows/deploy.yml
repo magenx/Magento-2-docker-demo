@@ -79,6 +79,7 @@ jobs:
       - name: Add comment about deployment status
         id: deployment-status
         if: ${{ github.event.release.prerelease == true && always() }}
+        run: | 
           gh pr comment ${{ steps.find-pr.outputs.pr_number }} \
           --repo "${GITHUB_REPOSITORY}" \
           --body-file deployment.txt
