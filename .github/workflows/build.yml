@@ -6,9 +6,7 @@ on:
 
 jobs:
   build:
-    if: >
-      contains(github.event.pull_request.labels.*.name, 'autorelease: pending') &&
-      contains(github.event.pull_request.title, 'alpha')
+    if: "${{ contains(github.event.pull_request.labels.*.name, 'autorelease: pending') && contains(github.event.pull_request.title, 'alpha') }}"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest tag
