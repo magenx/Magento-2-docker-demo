@@ -31,8 +31,9 @@ jobs:
         with:
           composer_auth: "${{ secrets.COMPOSER_AUTH }}"
           composer_options: "--optimize-autoloader --apcu-autoloader"
-          compile_options: ""
-          content_options: ""
+          setup_compile_options: ""
+          static_content_deploy: true
+          static_content_deploy_options: ""
           debug_command: "bin/magento"
 
       - name: Set version for complete build
