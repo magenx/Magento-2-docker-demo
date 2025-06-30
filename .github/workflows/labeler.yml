@@ -9,7 +9,9 @@ on:
 
 jobs:
   labeler:
-    if: "${{ !contains(github.event.pull_request.labels.*.name, 'autorelease: pending') }}"
+    if: >
+      ${{ github.event.pull_request.user.login != 'github-actions[bot]' &&
+      !contains(github.event.pull_request.labels.*.name, 'autorelease: pending') }}
     permissions:
       contents: read
       pull-requests: write
