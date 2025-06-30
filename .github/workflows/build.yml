@@ -2,7 +2,11 @@ name: "Magento Build Workflow"
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, labeled]
+    types:
+      - opened
+      - labeled
+      - reopened
+      - synchronize
 
 jobs:
   build:
