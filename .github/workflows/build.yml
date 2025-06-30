@@ -97,12 +97,3 @@ jobs:
         run: | 
           gh pr comment ${{ github.event.pull_request.number }} --repo "${GITHUB_REPOSITORY}" --body-file comment.txt
 
-      - name: Set build outputs
-        id: build-output
-        if: ${{ always() }}
-        run: |
-          echo "artifact_url=${{ steps.upload-artifact.outputs.artifact-url }}" >> ${GITHUB_OUTPUT}
-          echo "run_url=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> ${GITHUB_OUTPUT}
-          echo "artifact_name=${{ env.ARTIFACT_NAME }}" >> ${GITHUB_OUTPUT}
-          echo "run_id=${GITHUB_RUN_ID}" >> ${GITHUB_OUTPUT}
-          echo "pr_number=${{ github.event.pull_request.number }}" >> ${GITHUB_OUTPUT}
