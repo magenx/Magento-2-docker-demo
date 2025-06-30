@@ -4,22 +4,26 @@ description: "Check if setup-di-compile works without errors"
 
 inputs:
   composer_auth:
-    description: 'Composer Auth'
+    description: 'Composer auth'
     required: true
   composer_options:
-    description: 'Additional Composer options'
+    description: 'Additional composer options'
     required: false
     default: ''
-  compile_options:
-    description: 'Additional Composer options'
+  setup_compile_options:
+    description: 'Additional Magento compile options'
     required: false
     default: ''
-  content_options:
-    description: 'Additional Composer options'
+  static_content_deploy:
+    description: 'Enable Magento static content deploy command'
+    required: false
+    default: '' 
+  static_content_deploy_options:
+    description: 'Additional Magento static deploy parameters'
     required: false
     default: ''
   debug_command:
-    description: 'Additional Composer options'
+    description: 'Additional Magento command debug options'
     required: false
     default: ''
 
@@ -38,14 +42,14 @@ runs:
         id: setup-di-compile
         shell: bash
         run: |
-          bin/magento setup:di:compile -n ${{ inputs.compile_options }}
+          bin/magento setup:di:compile -n ${{ inputs.setup_compile_options }}
 
       - name: Generate static files
         id: static-content-deploy
         if: ${{ inputs.static_content_deploy == 'true' }}
         shell: bash
         run: |
-          bin/magento setup:static-content:deploy -f -n ${{ inputs.content_options }}
+          bin/magento setup:static-content:deploy -f -n ${{ inputs.static_content_deploy_options }}
 
       - name: Debug with custom output
         id: debug
