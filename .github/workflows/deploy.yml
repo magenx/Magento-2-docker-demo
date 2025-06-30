@@ -10,30 +10,42 @@ jobs:
     environment:
       name: ${{ github.event.release.prerelease && 'staging' || 'production' }}
     steps:
-      - name: Download asset from release
-        id: asset-download
+      - name: Find ${{ github.job.environment.name }} release PR
+        id: find-pr
+        if: ${{ github.event.release.prerelease == true }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh run download ${{ inputs.run_id }} \
+          pr_number=$(gh pr list \
             --repo "${GITHUB_REPOSITORY}" \
-            --name ${{ inputs.artifact_name }} \
+            --state open \
+            --label "autorelease: pending" \
+            --search "NOT alpha in:title" \
+            --json number \
+            --limit 1 \
+            --jq '.[0].number')
+          echo "pr_number=$pr_number" >> ${GITHUB_OUTPUT}
+
+      - name: Download assets from release
+        id: assets-download
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download ${{ github.event.release.tag_name }} \
+            --repo "${GITHUB_REPOSITORY}" \
+            --pattern "*.tar.gz" \
             --dir ./${GITHUB_RUN_ID}/
 
-            gh release download ${{ github.event.release.tag_name }}
-            --repo "${GITHUB_REPOSITORY}" \
-            --pattern "*.tar.gz" 
-
-
-      - name: Upload release asset to S3 storage
-        id: asset-upload
+      - name: Upload release assets to S3 storage
+        id: assets-upload
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws --endpoint-url https://${{ secrets.S3_ENDPOINT }} \
-            s3 cp ./${GITHUB_RUN_ID}/${{ inputs.artifact_name }} \
-            s3://${{ secrets.S3_BUCKET }}/releases/${{ inputs.artifact_name }}
+            s3 cp ./${GITHUB_RUN_ID}/ \
+            s3://${{ secrets.S3_BUCKET }}/releases/ \
+            --recursive --exclude "*" --include "*.tar.gz"
 
       - name: Trigger webhook to start deployment
         id: deployment-webhook
@@ -47,17 +59,79 @@ jobs:
                 "artifact_name": "${{ inputs.artifact_name }}"
           }'
 
-      - name: Add comment to PR
-        id: add-pr-comment
+      - name: Comment about deployment status
+        id: deployment-status-comment
         if: ${{ always() }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
           COMMENT=""
           declare -A step_icons=( ["success"]="✔️" ["failure"]="❌" ["skipped"]="➖"  ["cancelled"]="✖️" )
-          COMMENT+="${step_icons[${{ steps.deployment-upload.outcome }}]} Deployment upload: ${{ steps.deployment-upload.outcome }}\n"
-          COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook: ${{ steps.deployment-webhook.outcome }}\n"
-          COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook: ${{ steps.deployment-webhook.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.assets-download.outcome }}]} Download assets from ${{ github.job.environment.name }} release: ${{ steps.assets-download.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.assets-upload.outcome }}]} Upload assets to S3 storage: ${{ steps.assets-upload.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook event trigger: ${{ steps.deployment-webhook.outcome }}\n"
           echo -e "${COMMENT}" > deployment.txt
-          gh pr comment ${{ inputs.pr_number }} --repo "${GITHUB_REPOSITORY}" --body-file deployment.txt
+          DEPLOYMENT_STATUS=$(cat deployment.txt)
+          echo "deployment_status<<EOF" >> $GITHUB_ENV
+          echo "$DEPLOYMENT_STATUS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      
+      - name: Add comment about deployment status
+        id: deployment-status
+        if: ${{ github.event.release.prerelease == true && always() }}
+          gh pr comment ${{ steps.find-pr.outputs.pr_number }} \
+          --repo "${GITHUB_REPOSITORY}" \
+          --body-file deployment.txt
+
+      - name: Find existing issue
+        id: find-issues
+        if: ${{ github.event.release.prerelease != true && always() }}
+        uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
+        with:
+          actions: 'find-issues'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-creator: 'github-actions[bot]'
+          issue-state: 'open'
+          title-includes: 'Production release deployment status'
+          labels: 'release'
+          exclude-labels: 'overdue'
+
+      - name: Process found issues
+        id: found-issues
+        run: |
+          printf '%s' '${{ steps.find-issues.outputs.issues }}' > issues.txt
+          ISSUE_NUMBERS=$(grep -oP '(?<=number":)\d+' issues.txt | paste -sd,)
+          echo "issue_numbers=${ISSUE_NUMBERS}" >> $GITHUB_OUTPUT
+
+      - name: Add labels
+        id: issue-labeler
+        if: ${{ steps.found-issues.outputs.issue_numbers != '' }}
+        uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
+        with:
+          actions: 'add-labels'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ steps.found-issues.outputs.issue_numbers }}
+          labels: 'overdue'
+
+      - name: Set current date
+        id: date
+        run: echo "date=$(date +%Y-%m-%d-%H:%M)" >> $GITHUB_OUTPUT
+
+      - name: Create and maintain issue
+        uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
+        id: issue
+        with:
+          actions: 'create-issue'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'Production release deployment status: ${{ job.status }}'
+          body: |
+            ## ⚠️ Production release deployment status:
+              
+            ${{ env.deployment_status }}
+              
+              
+            generated on: [${{ steps.date.outputs.date }}]
+            [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          labels: 'releases,deployment'
+          assignees: ${{ github.repository_owner }}
 
