@@ -17,7 +17,7 @@ inputs:
   static_content_deploy:
     description: 'Enable Magento static content deploy command'
     required: false
-    default: '' 
+    default: false
   static_content_deploy_options:
     description: 'Additional Magento static deploy parameters'
     required: false
@@ -29,30 +29,30 @@ inputs:
 
 runs:
   using: "composite"
-    steps:
-      - name: Composer install modules and updates
-        id: composer-install
-        env:
-          COMPOSER_AUTH: ${{ inputs.composer_auth }}
-        shell: bash
-        run: |
-          composer install --no-dev --no-interaction ${{ inputs.composer_options }}
+  steps:
+    - name: Composer install modules and updates
+      id: composer-install
+      env:
+        COMPOSER_AUTH: ${{ inputs.composer_auth }}
+      shell: bash
+      run: |
+        composer install --no-dev --no-interaction ${{ inputs.composer_options }}
 
-      - name: Run setup di compile
-        id: setup-di-compile
-        shell: bash
-        run: |
-          bin/magento setup:di:compile -n ${{ inputs.setup_compile_options }}
+    - name: Run setup di compile
+      id: setup-di-compile
+      shell: bash
+      run: |
+        bin/magento setup:di:compile -n ${{ inputs.setup_compile_options }}
 
-      - name: Generate static files
-        id: static-content-deploy
-        if: ${{ inputs.static_content_deploy == 'true' }}
-        shell: bash
-        run: |
-          bin/magento setup:static-content:deploy -f -n ${{ inputs.static_content_deploy_options }}
+    - name: Generate static files
+      id: static-content-deploy
+      if: ${{ inputs.static_content_deploy == 'true' }}
+      shell: bash
+      run: |
+        bin/magento setup:static-content:deploy -f -n ${{ inputs.static_content_deploy_options }}
 
-      - name: Debug with custom output
-        id: debug
-        shell: bash
-        run: |
-          ${{ inputs.debug_command }}
+    - name: Debug with custom output
+      id: debug
+      shell: bash
+      run: |
+        ${{ inputs.debug_command }}
