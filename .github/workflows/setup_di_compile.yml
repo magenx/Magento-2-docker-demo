@@ -6,13 +6,22 @@ on:
       - opened
       - edited
       - synchronize
+    paths:
+      - app/code/**
+      - app/etc/di.xml
+      - app/etc/config.php
+      - app/etc/env.php
 
 jobs:
   compile:
     if: >
-      ${{ !startsWith(github.head_ref, 'release-please--branches--') ||
-      github.event.pull_request.user.login != 'github-actions[bot]' ||
-      !contains(github.event.pull_request.labels.*.name, 'autorelease: pending') }}
+      ${{ 
+        !(
+          startsWith(github.head_ref, 'release-please--branches--') ||
+          github.event.pull_request.user.login == 'github-actions[bot]' ||
+          contains(github.event.pull_request.labels.*.name, 'autorelease: pending')
+        )
+      }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest tag
