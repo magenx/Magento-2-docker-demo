@@ -11,15 +11,19 @@ jobs:
   title:
     if: >
       ${{ 
-      !(
-        startsWith(github.head_ref, 'release-please--branches--') ||
+        !startsWith(github.head_ref, 'release-please') ||
         github.event.pull_request.user.login == 'github-actions[bot]' ||
-        contains(github.event.pull_request.labels.*.name, 'autorelease: pending')
-      )
+        !contains(github.event.pull_request.labels.*.name, 'autorelease: pending')
       }}
     name: PR title validation
     runs-on: ubuntu-latest
     steps:
+      - name: Print PR context
+        run: |
+          echo "head_ref = ${{ github.head_ref }}"
+          echo "author = ${{ github.event.pull_request.user.login }}"
+          echo "labels = ${{ toJson(github.event.pull_request.labels) }}"
+
       - uses: amannn/action-semantic-pull-request@0723387faaf9b38adef4775cd42cfd5155ed6017 #v5.5.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
