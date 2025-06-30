@@ -6,16 +6,13 @@ on:
 
 jobs:
   deploy:
-    if: ${{ github.event.release.prerelease == true && contains(github.event.release.name, 'alpha') }}
     runs-on: ubuntu-latest
     environment:
-      name: ${{ inputs.environment }}
+      name: ${{ github.event.release.prerelease && 'staging' || 'production' }}
     steps:
-      - name: Download artifact from workflow run
-        id: deployment-upload
+      - name: Download asset from release
+        id: asset-download
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh run download ${{ inputs.run_id }} \
@@ -23,11 +20,22 @@ jobs:
             --name ${{ inputs.artifact_name }} \
             --dir ./${GITHUB_RUN_ID}/
 
+            gh release download ${{ github.event.release.tag_name }}
+            --repo "${GITHUB_REPOSITORY}" \
+            --pattern "*.tar.gz" 
+
+
+      - name: Upload release asset to S3 storage
+        id: asset-upload
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
           aws --endpoint-url https://${{ secrets.S3_ENDPOINT }} \
             s3 cp ./${GITHUB_RUN_ID}/${{ inputs.artifact_name }} \
             s3://${{ secrets.S3_BUCKET }}/releases/${{ inputs.artifact_name }}
 
-      - name: Trigger webhook
+      - name: Trigger webhook to start deployment
         id: deployment-webhook
         run: |
           curl -X POST ${{ secrets.DEPLOY_WEBHOOK_URL }} \
@@ -48,6 +56,7 @@ jobs:
           COMMENT=""
           declare -A step_icons=( ["success"]="✔️" ["failure"]="❌" ["skipped"]="➖"  ["cancelled"]="✖️" )
           COMMENT+="${step_icons[${{ steps.deployment-upload.outcome }}]} Deployment upload: ${{ steps.deployment-upload.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook: ${{ steps.deployment-webhook.outcome }}\n"
           COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook: ${{ steps.deployment-webhook.outcome }}\n"
           echo -e "${COMMENT}" > deployment.txt
           gh pr comment ${{ inputs.pr_number }} --repo "${GITHUB_REPOSITORY}" --body-file deployment.txt
