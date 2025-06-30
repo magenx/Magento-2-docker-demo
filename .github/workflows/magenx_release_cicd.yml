@@ -1,0 +1,73 @@
+name: MagenX release CI/CD
+
+on:
+  push:
+    branches: 
+      - main
+    paths-ignore:
+      - '**.md'
+      - '**.txt'
+      - '.github/**.yml'
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  repository-projects: read
+  actions: read
+  
+env:
+  PRERELEASE_TYPE: "alpha"
+  PRERELEASE_CONFIG: ".github/.release-please-config-prerelease.json"
+  PRERELEASE_MANIFEST: ".github/.release-please-manifest-prerelease.json"
+  RELEASE_CONFIG: ".github/.release-please-config.json"
+  RELEASE_MANIFEST: ".github/.release-please-manifest.json"
+
+concurrency:
+  group: release
+
+jobs:
+
+  pre-release:
+    name: Create pre-release PR
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      prs_created: ${{ steps.release.outputs.prs_created }}
+      pr: ${{ steps.release.outputs.pr }}
+      upload_url: ${{ steps.release.outputs.upload_url }}
+      version: ${{ steps.release.outputs.version }}
+      sha: ${{ steps.release.outputs.sha }}
+    steps:
+      - name: Create pre-release
+        id: release
+        uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 #v4.2.0
+        with:
+          token: ${{ secrets.MAGENX_CI_GITHUB_TOKEN }}
+          config-file: ${{ env.PRERELEASE_CONFIG }}
+          manifest-file: ${{ env.PRERELEASE_MANIFEST }}
+
+
+  release:
+    name: Publish pre-release then release PR
+    if: ${{ needs.pre-release-pr.outputs.releases_created == 'true' && contains(needs.pre-release-pr.outputs.tag_name, 'alpha') }}
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      prs_created: ${{ steps.release.outputs.prs_created }}
+      pr: ${{ steps.release.outputs.pr }}
+      upload_url: ${{ steps.release.outputs.upload_url }}
+      version: ${{ steps.release.outputs.version }}
+      sha: ${{ steps.release.outputs.sha }}
+    needs: pre-release
+    steps:
+      - name: Create release PR
+        if: ${{ always() }}
+        uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 #v4.2.0
+        with:
+          token: ${{ secrets.MAGENX_CI_GITHUB_TOKEN }}
+          config-file: ${{ env.RELEASE_CONFIG }}
+          manifest-file: ${{ env.RELEASE_MANIFEST }}
+
