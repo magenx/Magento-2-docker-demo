@@ -9,7 +9,9 @@ on:
 
 jobs:
   title:
-    if: "${{ !contains(github.event.pull_request.labels.*.name, 'autorelease: pending') }}"
+    if: >
+      ${{ github.event.pull_request.user.login != 'github-actions[bot]' &&
+      !contains(github.event.pull_request.labels.*.name, 'autorelease: pending') }}
     name: PR title validation
     runs-on: ubuntu-latest
     steps:
