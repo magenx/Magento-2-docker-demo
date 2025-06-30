@@ -8,7 +8,9 @@ on:
 
 jobs:
   php-cs-fixer:
-    if: "${{ !contains(github.event.pull_request.labels.*.name, 'autorelease: pending') }}"
+    if: >
+      ${{ github.event.pull_request.user.login != 'github-actions[bot]' &&
+      !contains(github.event.pull_request.labels.*.name, 'autorelease: pending') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
