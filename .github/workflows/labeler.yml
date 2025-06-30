@@ -9,14 +9,7 @@ on:
 
 jobs:
   labeler:
-    if: >
-      ${{ 
-      !(
-        startsWith(github.head_ref, 'release-please--branches--') ||
-        github.event.pull_request.user.login == 'github-actions[bot]' ||
-        contains(github.event.pull_request.labels.*.name, 'autorelease: pending')
-      )
-      }}
+    if: "${{ ! startsWith(github.head_ref, 'release-please') || ! contains(github.event.pull_request.labels.*.name, 'autorelease: pending') }}"
     permissions:
       contents: read
       pull-requests: write
