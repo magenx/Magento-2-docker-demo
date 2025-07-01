@@ -27,6 +27,20 @@ inputs:
     required: false
     default: ''
 
+outputs:
+  composer-install:
+    description: "The status of composer install step"
+    value: ${{ steps.composer-install.outputs.status }}
+  setup-di-compile:
+    description: "The status of compilation step"
+    value: ${{ steps.setup-di-compile.outputs.status }}
+  static-content-deploy:
+    description: "The status of static content deploy step"
+    value: ${{ steps.static-content-deploy.outputs.status }}
+  debug:
+    description: "The status of debug step"
+    value: ${{ steps.debug.outputs.status }}
+  
 runs:
   using: "composite"
   steps:
