@@ -9,8 +9,6 @@ on:
     paths:
       - app/code/**
       - app/etc/di.xml
-      - app/etc/config.php
-      - app/etc/env.php
 
 jobs:
   compile:
