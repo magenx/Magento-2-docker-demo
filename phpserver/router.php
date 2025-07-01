@@ -12,7 +12,6 @@
  *
  * example usage: php -S 127.0.0.41:8082 -t ./pub/ ./router.php
  */
-
 /**
  * Set it to true to enable debug mode
  */
