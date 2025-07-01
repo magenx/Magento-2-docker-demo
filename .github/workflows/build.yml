@@ -8,6 +8,10 @@ on:
       - edited
       - synchronize
 
+concurrency:
+  group: build
+  cancel-in-progress: true
+
 jobs:
   build:
     if: "${{ contains(github.event.pull_request.labels.*.name, 'autorelease: pending') && contains(github.event.pull_request.title, 'alpha') }}"
