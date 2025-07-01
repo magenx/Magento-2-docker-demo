@@ -63,7 +63,7 @@ jobs:
           path: ${{ env.ARTIFACT_NAME }}
           
       - name: Construct PR comment
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         id: construct-comment
         run: |
           COMMENT=""
@@ -71,10 +71,10 @@ jobs:
           COMMENT+="${job_icons[${{ job.status }}]} BUILD STATUS: ${{ job.status }}\n\n"
           
           declare -A step_icons=( ["success"]="✔️" ["failure"]="❌" ["skipped"]="➖" ["cancelled"]="✖️" )
-          COMMENT+="${step_icons[${{ steps.compile.composer-install.outcome }}]} Composer install ${{ steps.compile.composer-install.outcome }}\n"
-          COMMENT+="${step_icons[${{ steps.compile.setup-di-compile.outcome }}]} Code compilation ${{ steps.compile.setup-di-compile.outcome }}\n"
-          COMMENT+="${step_icons[${{ steps.compile.static-content-deploy.outcome }}]} Static content deploy ${{ steps.compile.static-content-deploy.outcome }}\n"
-          COMMENT+="${step_icons[${{ steps.compile.debug.outcome }}]} Debug command ${{ steps.compile.debug.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.compile.outputs.composer_install_status }}]} Composer install ${{ steps.compile.outputs.composer_install_status }}\n"
+          COMMENT+="${step_icons[${{ steps.compile.outputs.setup_di_compile_status }}]} Code compilation ${{ steps.compile.outputs.setup_di_compile_status }}\n"
+          COMMENT+="${step_icons[${{ steps.compile.outputs.static_content_deploy_status }}]} Static content deploy ${{ steps.compile.outputs.static_content_deploy_status }}\n"
+          COMMENT+="${step_icons[${{ steps.compile.outputs.debug_status }}]} Debug command ${{ steps.compile.outputs.debug_status }}\n"
           
           if [ "${{ job.status }}" == "success" ]; then
             COMMENT+="\n## Build and artifact details:\n"
@@ -91,7 +91,7 @@ jobs:
 
       - name: Add comment to PR
         id: add-pr-comment
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
