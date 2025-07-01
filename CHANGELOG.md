@@ -1,5 +1,44 @@
 # Changelog
 
+## [23.0.0-alpha](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v22.0.1...v23.0.0-alpha) (2025-07-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update file to test settings ([#236](https://github.com/magenx/Magento-2-deployment-pipeline/issues/236))
+
+### 🚀 Features
+
+* Composer require stripe payments php module ([#215](https://github.com/magenx/Magento-2-deployment-pipeline/issues/215)) ([3c93c41](https://github.com/magenx/Magento-2-deployment-pipeline/commit/3c93c4169d65443f5e8f6a1ae8d300030c4c9f08))
+* Update file to test settings ([#236](https://github.com/magenx/Magento-2-deployment-pipeline/issues/236)) ([2fa2eb1](https://github.com/magenx/Magento-2-deployment-pipeline/commit/2fa2eb1186f9fe338a77a8f787fef34ec91828a7))
+
+
+### 🐛 Bug Fixes
+
+* Add error break to linter ([e95a20a](https://github.com/magenx/Magento-2-deployment-pipeline/commit/e95a20a036a66f97a68bb80ee2f7d78373d6becc))
+* Break php file to trigger php cs fixer ([#213](https://github.com/magenx/Magento-2-deployment-pipeline/issues/213)) ([85bc4dd](https://github.com/magenx/Magento-2-deployment-pipeline/commit/85bc4dda30e3741e3d924e98d41320257a06e581))
+* Change review dog message format ([70e9acd](https://github.com/magenx/Magento-2-deployment-pipeline/commit/70e9acd9e395cccbe5e9cf3f04a3fff00298f804))
+* Enable modules and print names into comment ([b83fa94](https://github.com/magenx/Magento-2-deployment-pipeline/commit/b83fa9497822a020fa71355760a61bb3892197f0))
+* Install reviewdog for pr review ([ce85c82](https://github.com/magenx/Magento-2-deployment-pipeline/commit/ce85c8259d435439d9590ca1bea680e5298becf3))
+* Reviewdog format for pr comment ([23ef462](https://github.com/magenx/Magento-2-deployment-pipeline/commit/23ef4625f71145ca508478c901e586c266f4f292))
+* Test update php file to trigger ([#224](https://github.com/magenx/Magento-2-deployment-pipeline/issues/224)) ([7fd28fb](https://github.com/magenx/Magento-2-deployment-pipeline/commit/7fd28fb7aa1523fa7de090125339471abec89d0b))
+* Test update php file to trigger ([#226](https://github.com/magenx/Magento-2-deployment-pipeline/issues/226)) ([9850b33](https://github.com/magenx/Magento-2-deployment-pipeline/commit/9850b33004e6c19718019ffec4f8d5e09218184c))
+* Test update php file to trigger ([#228](https://github.com/magenx/Magento-2-deployment-pipeline/issues/228)) ([412bc15](https://github.com/magenx/Magento-2-deployment-pipeline/commit/412bc15a50a80d1bd522fb1dc38ee5030f7d67d3))
+* Test update php file to trigger ([#230](https://github.com/magenx/Magento-2-deployment-pipeline/issues/230)) ([2a2c313](https://github.com/magenx/Magento-2-deployment-pipeline/commit/2a2c3132266b285f4e4f190ccae468edacbb2c01))
+* Test update php file to trigger ([#232](https://github.com/magenx/Magento-2-deployment-pipeline/issues/232)) ([9a5f105](https://github.com/magenx/Magento-2-deployment-pipeline/commit/9a5f1054c3e1f47157d4ffa56a18182d706e341c))
+* Test update php file to trigger ([#234](https://github.com/magenx/Magento-2-deployment-pipeline/issues/234)) ([7cf6ca5](https://github.com/magenx/Magento-2-deployment-pipeline/commit/7cf6ca5a39f80913648d617f245816fba8f16009))
+* Test update php file to trigger ([#237](https://github.com/magenx/Magento-2-deployment-pipeline/issues/237)) ([88f2fa2](https://github.com/magenx/Magento-2-deployment-pipeline/commit/88f2fa2d1a3e6873123588a974ce252597e73aad))
+* Test update router file to trigger ([#238](https://github.com/magenx/Magento-2-deployment-pipeline/issues/238)) ([02b214d](https://github.com/magenx/Magento-2-deployment-pipeline/commit/02b214d6d7d1466249a4236a737e6c9720ecfa81))
+
+
+### 🚦 Maintenance
+
+* **workflow:** Default parameters for revewdog output ([90a257a](https://github.com/magenx/Magento-2-deployment-pipeline/commit/90a257acf63c1574bdfa64af5d764ec9e69a9b6e))
+* **workflow:** Test error outputs to step and reviewdog ([9398088](https://github.com/magenx/Magento-2-deployment-pipeline/commit/939808884e8df70ddde9d87d0c9076b5b45b7890))
+* **workflow:** Test simple php cs fixer ([13767be](https://github.com/magenx/Magento-2-deployment-pipeline/commit/13767be33a259f8ceb40cd386e5f06abc8776157))
+* **workflow:** Use default php version 8.3 ([309a16e](https://github.com/magenx/Magento-2-deployment-pipeline/commit/309a16e49b77229fac2b918b638e65a520fcd0fc))
+* **workflow:** Use standalone php cs fixer ([dca9769](https://github.com/magenx/Magento-2-deployment-pipeline/commit/dca9769feb09bb9350c6a2fb4396e194809063d8))
+
 ## [22.0.1](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v22.0.0...v22.0.1) (2025-06-25)
 
 
