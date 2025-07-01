@@ -28,18 +28,18 @@ inputs:
     default: ''
 
 outputs:
-  composer-install:
+  composer_install_status:
     description: "The status of composer install step"
-    value: ${{ steps.composer-install.outputs.status }}
-  setup-di-compile:
+    value: ${{ steps.composer-install.outputs.composer_install_status }}
+  setup_di_compile_status:
     description: "The status of compilation step"
-    value: ${{ steps.setup-di-compile.outputs.status }}
-  static-content-deploy:
+    value: ${{ steps.setup-di-compile.outputs.setup_di_compile_status }}
+  static_content_deploy_status:
     description: "The status of static content deploy step"
-    value: ${{ steps.static-content-deploy.outputs.status }}
-  debug:
+    value: ${{ steps.static-content-deploy.outputs.static_content_deploy_status }}
+  debug_status:
     description: "The status of debug step"
-    value: ${{ steps.debug.outputs.status }}
+    value: ${{ steps.debug.outputs.debug_status }}
   
 runs:
   using: "composite"
@@ -51,12 +51,14 @@ runs:
       shell: bash
       run: |
         composer install --no-dev --no-interaction ${{ inputs.composer_options }}
+        [ $? -eq 0 ] && echo "composer_install_status=success" >> $GITHUB_OUTPUT || echo "composer_install_status=failure" >> $GITHUB_OUTPUT
 
     - name: Run setup di compile
       id: setup-di-compile
       shell: bash
       run: |
         bin/magento setup:di:compile -n ${{ inputs.setup_compile_options }}
+        [ $? -eq 0 ] && echo "setup_di_compile_status=success" >> $GITHUB_OUTPUT || echo "setup_di_compile_status=failure" >> $GITHUB_OUTPUT
 
     - name: Generate static files
       id: static-content-deploy
@@ -64,9 +66,13 @@ runs:
       shell: bash
       run: |
         bin/magento setup:static-content:deploy -f -n ${{ inputs.static_content_deploy_options }}
+        [ $? -eq 0 ] && echo "static_content_deploy_status=success" >> $GITHUB_OUTPUT || echo "static_content_deploy_status=failure" >> $GITHUB_OUTPUT
 
     - name: Debug with custom output
       id: debug
       shell: bash
       run: |
         ${{ inputs.debug_command }}
+        [ $? -eq 0 ] && echo "debug_status=success" >> $GITHUB_OUTPUT || echo "debug_status=failure" >> $GITHUB_OUTPUT
+
+
