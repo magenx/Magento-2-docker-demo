@@ -24,7 +24,7 @@ jobs:
         uses: ./.github/actions/composer-cache
 
       - name: Magento compilation setup:di:compile
-        id: setup-di-compile
+        id: compile
         uses: ./.github/actions/setup-di-compile
         with:
           composer_auth: "${{ secrets.COMPOSER_AUTH }}"
@@ -67,9 +67,10 @@ jobs:
           COMMENT+="${job_icons[${{ job.status }}]} BUILD STATUS: ${{ job.status }}\n\n"
           
           declare -A step_icons=( ["success"]="✔️" ["failure"]="❌" ["skipped"]="➖" ["cancelled"]="✖️" )
-          COMMENT+="${step_icons[${{ steps.composer-install.outcome }}]} Composer install ${{ steps.composer-install.outcome }}\n"
-          COMMENT+="${step_icons[${{ steps.setup-di-compile.outcome }}]} Code compilation ${{ steps.setup-di-compile.outcome }}\n"
-          COMMENT+="${step_icons[${{ steps.static-content-deploy.outcome }}]} Static content deploy ${{ steps.static-content-deploy.outcome }}\n"
+          COMMENT+="${step_icons[${{ ${{ steps.compile.composer-install.outcome }} }}]} Composer install ${{ steps.compile.composer-install.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.compile.setup-di-compile.outcome }}]} Code compilation ${{ steps.compile.setup-di-compile.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.compile.static-content-deploy.outcome }}]} Static content deploy ${{ steps.compile.static-content-deploy.outcome }}\n"
+          COMMENT+="${step_icons[${{ steps.compile.debug.outcome }}]} Debug command ${{ steps.compile.debug.outcome }}\n"
           
           if [ "${{ job.status }}" == "success" ]; then
             COMMENT+="\n## Build and artifact details:\n"
