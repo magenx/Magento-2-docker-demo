@@ -8,11 +8,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name: ${{ github.event.client_payload.environemt }}
+      name: ${{ github.event.client_payload.environment }}
     steps:
       - name: Find ${{ github.job.environment.name }} release PR
         id: find-pr
-        if: ${{ github.event.client_payload.environemt == 'staging' }}
+        if: ${{ github.event.client_payload.environment == 'staging' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -85,7 +85,7 @@ jobs:
 
       - name: Find existing issue
         id: find-issues
-        if: ${{ github.event.client_payload.environemt != 'staging' && always() }}
+        if: ${{ github.event.client_payload.environment != 'staging' && always() }}
         uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
         with:
           actions: 'find-issues'
