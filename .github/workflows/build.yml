@@ -83,10 +83,11 @@ jobs:
           if [ "${{ job.status }}" == "success" ]; then
             COMMENT+="\n## Build and artifact details:\n"
             COMMENT+="- **ARTIFACT_ID**: ${{ steps.upload-artifact.outputs.artifact-id }}\n"
-            COMMENT+="- **RUN_ID**: ${GITHUB_RUN_ID}\n"
             COMMENT+="- **ARTIFACT_NAME**: ${{ env.ARTIFACT_NAME }}\n"
-            COMMENT+="- **RUN_URL**: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\n"
+            COMMENT+="- **ARTIFACT_DIGEST**: ${{ steps.upload-artifact.outputs.artifact-digest }}\n"
             COMMENT+="- **ARTIFACT_URL**: ${{ steps.upload-artifact.outputs.artifact-url }}\n"
+            COMMENT+="- **RUN_ID**: ${GITHUB_RUN_ID}\n"
+            COMMENT+="- **RUN_URL**: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\n"
           fi
           
           COMMENT+="\n@${GITHUB_REPOSITORY_OWNER} Please review this PR.\n"
