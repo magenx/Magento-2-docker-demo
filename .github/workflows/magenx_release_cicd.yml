@@ -33,15 +33,15 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
-      prs_created: ${{ steps.release.outputs.prs_created }}
-      pr: ${{ steps.release.outputs.pr }}
-      upload_url: ${{ steps.release.outputs.upload_url }}
-      version: ${{ steps.release.outputs.version }}
-      sha: ${{ steps.release.outputs.sha }}
+      tag_name: ${{ steps.pre-release.outputs.tag_name }}
+      prs_created: ${{ steps.pre-release.outputs.prs_created }}
+      pr: ${{ steps.pre-release.outputs.pr }}
+      upload_url: ${{ steps.pre-release.outputs.upload_url }}
+      version: ${{ steps.pre-release.outputs.version }}
+      sha: ${{ steps.pre-release.outputs.sha }}
     steps:
       - name: Create pre-release
-        id: release
+        id: pre-release
         uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 #v4.2.0
         with:
           token: ${{ secrets.MAGENX_CI_GITHUB_TOKEN }}
@@ -51,7 +51,7 @@ jobs:
 
   release:
     name: Publish pre-release then release PR
-    if: ${{ needs.pre-release-pr.outputs.releases_created == 'true' && contains(needs.pre-release-pr.outputs.tag_name, 'alpha') }}
+    if: ${{ needs.pre-release.outputs.releases_created == 'true' && contains(needs.pre-release.outputs.tag_name, 'alpha') }}
     runs-on: ubuntu-latest
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
@@ -64,6 +64,7 @@ jobs:
     needs: pre-release
     steps:
       - name: Create release PR
+        id: release
         if: ${{ always() }}
         uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 #v4.2.0
         with:
