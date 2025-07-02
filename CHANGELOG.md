@@ -1,5 +1,12 @@
 # Changelog
 
+## [23.0.1-alpha.1](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.1-alpha...v23.0.1-alpha.1) (2025-07-02)
+
+
+### 🐛 Bug Fixes
+
+* Test update health cehck php file to trigger ([#250](https://github.com/magenx/Magento-2-deployment-pipeline/issues/250)) ([dd87f6f](https://github.com/magenx/Magento-2-deployment-pipeline/commit/dd87f6f7527f7e95a95b16b5b61e25deb6ed2a28))
+
 ## [23.0.1-alpha](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.0...v23.0.1-alpha) (2025-07-02)
 
 
