@@ -1,18 +1,18 @@
 name: Deploy to environment
 
 on:
-  release:
-    types: [published]
+  repository_dispatch:
+    types: [artifact]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name: ${{ github.event.release.prerelease && 'staging' || 'production' }}
+      name: ${{ github.event.client_payload.environemt }}
     steps:
       - name: Find ${{ github.job.environment.name }} release PR
         id: find-pr
-        if: ${{ github.event.release.prerelease == true }}
+        if: ${{ github.event.client_payload.environemt == 'staging' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -31,9 +31,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release download ${{ github.event.release.tag_name }} \
+          gh release download ${{ github.event.client_payload.tag_name }} \
             --repo "${GITHUB_REPOSITORY}" \
-            --pattern "*.tar.gz" \
+            --pattern "${{ github.event.client_payload.artifact_name }}" \
             --dir ./${GITHUB_RUN_ID}/
 
       - name: Upload release assets to S3 storage
@@ -43,9 +43,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws --endpoint-url https://${{ secrets.S3_ENDPOINT }} \
-            s3 cp ./${GITHUB_RUN_ID}/ \
-            s3://${{ secrets.S3_BUCKET }}/releases/ \
-            --recursive --exclude "*" --include "*.tar.gz"
+            s3 cp ./${GITHUB_RUN_ID}/${{ github.event.client_payload.artifact_name }} \
+            s3://${{ secrets.S3_BUCKET }}/releases/${{ github.event.client_payload.artifact_name }}
 
       - name: Trigger webhook to start deployment
         id: deployment-webhook
@@ -54,9 +53,9 @@ jobs:
             -H "Content-Type: application/json" \
             -H "X-Webhook-Secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}" \
             -d '{
-                "pr_number": "${{ inputs.pr_number }}",
-                "run_id": "${{ inputs.run_id }}",
-                "artifact_name": "${{ inputs.artifact_name }}"
+                "pr_number": "${{ github.event.client_payload.pr_number }}",
+                "run_id": "${{ github.event.client_payload.run_id  }}",
+                "artifact_name": "${{ github.event.client_payload.artifact_name }}"
           }'
 
       - name: Comment about deployment status
@@ -86,7 +85,7 @@ jobs:
 
       - name: Find existing issue
         id: find-issues
-        if: ${{ github.event.release.prerelease != true && always() }}
+        if: ${{ github.event.client_payload.environemt != 'staging' && always() }}
         uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
         with:
           actions: 'find-issues'
