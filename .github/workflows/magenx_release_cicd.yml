@@ -32,7 +32,7 @@ jobs:
     name: Create pre-release PR
     runs-on: ubuntu-latest
     outputs:
-      releases_created: ${{ steps.release.outputs.releases_created }}
+      releases_created: ${{ steps.pre-release.outputs.releases_created }}
       tag_name: ${{ steps.pre-release.outputs.tag_name }}
       prs_created: ${{ steps.pre-release.outputs.prs_created }}
       pr: ${{ steps.pre-release.outputs.pr }}
