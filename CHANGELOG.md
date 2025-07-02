@@ -1,5 +1,12 @@
 # Changelog
 
+## [23.0.0-alpha.2](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.0-alpha.1...v23.0.0-alpha.2) (2025-07-02)
+
+
+### 🐛 Bug Fixes
+
+* Test update php file to trigger ([#242](https://github.com/magenx/Magento-2-deployment-pipeline/issues/242)) ([4e05bd4](https://github.com/magenx/Magento-2-deployment-pipeline/commit/4e05bd488c98826c6ae0a62bef078e67afba2b7e))
+
 ## [23.0.0-alpha.1](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.0-alpha...v23.0.0-alpha.1) (2025-07-01)
 
 
