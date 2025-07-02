@@ -7,9 +7,10 @@ on:
 env:
   PRELELEASE_TYPE: "alpha"
   ASSET_LABEL: "Magenx Cloud build"
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  deploy:
+  attach-artifact:
     runs-on: ubuntu-latest
     steps:
       - name: Find pre-release PR
@@ -46,8 +47,6 @@ jobs:
 
       - name: Download artifact
         id: download-artifact
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
           mkdir -p ./${{ steps.pr.outputs.run_id }}
           gh run download ${{ steps.pr.outputs.run_id }} \
@@ -57,8 +56,6 @@ jobs:
 
       - name: Attach artifact to release tag
         id: attach-artifact
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh --repo "${GITHUB_REPOSITORY}" release upload ${{ github.event.release.tag_name }} \
             ./${{ steps.pr.outputs.run_id }}/${{ steps.pr.outputs.artifact_name }}#${ASSET_LABEL}
