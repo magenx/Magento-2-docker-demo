@@ -34,11 +34,15 @@ jobs:
           run_id=$(echo "$comments" \
             | jq -r '.[] | select(.body | contains("RUN_ID")) .body' \
             | grep -oP "RUN_ID.*: \K[0-9]+" | tail -n1)
+          artifact_digest=$(echo "$comments" \
+            | jq -r '.[] | select(.body | contains("ARTIFACT_DIGEST")) .body' \
+            | grep -oP "ARTIFACT_DIGEST.*: \K[0-9]+" | tail -n1)
           artifact_name=$(echo "$comments" \
             | jq -r '.[] | select(.body | contains("ARTIFACT_NAME")) .body' \
             | grep -oP "ARTIFACT_NAME.*: \K[0-9].+\.gz" | tail -n1)
           echo "run_id=$run_id" >> ${GITHUB_OUTPUT}
           echo "artifact_name=$artifact_name" >> ${GITHUB_OUTPUT}
+          echo "artifact_digest=$artifact_name" >> ${GITHUB_OUTPUT}
 
       - name: Download artifact
         id: download-artifact
@@ -65,6 +69,7 @@ jobs:
             {
               "environment": "${{ github.event.release.prerelease && 'staging' || 'production' }}",
               "artifact_name": "${{ steps.pr.outputs.artifact_name }}",
+              "artifact_digest": "${{ steps.pr.outputs.artifact_digest }}",
               "run_id": "${{ steps.pr.outputs.run_id }}",
               "pr_number": "${{ steps.find-pr.outputs.pr_number }}",
               "tag_name": "${{ github.event.release.tag_name }}"
