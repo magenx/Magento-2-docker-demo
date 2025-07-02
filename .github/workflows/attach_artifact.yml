@@ -37,7 +37,7 @@ jobs:
             | grep -oP "RUN_ID.*: \K[0-9]+" | tail -n1)
           artifact_digest=$(echo "$comments" \
             | jq -r '.[] | select(.body | contains("ARTIFACT_DIGEST")) .body' \
-            | grep -oP "ARTIFACT_DIGEST.*: \K[0-9]+" | tail -n1)
+            | grep -oP "ARTIFACT_DIGEST.*: \K[0-9-a-z]+" | tail -n1)
           artifact_name=$(echo "$comments" \
             | jq -r '.[] | select(.body | contains("ARTIFACT_NAME")) .body' \
             | grep -oP "ARTIFACT_NAME.*: \K[0-9].+\.gz" | tail -n1)
