@@ -43,7 +43,7 @@ jobs:
             | grep -oP "ARTIFACT_NAME.*: \K[0-9].+\.gz" | tail -n1)
           echo "run_id=$run_id" >> ${GITHUB_OUTPUT}
           echo "artifact_name=$artifact_name" >> ${GITHUB_OUTPUT}
-          echo "artifact_digest=$artifact_name" >> ${GITHUB_OUTPUT}
+          echo "artifact_digest=$artifact_digest" >> ${GITHUB_OUTPUT}
 
       - name: Download artifact
         id: download-artifact
@@ -58,7 +58,7 @@ jobs:
         id: attach-artifact
         run: |
           gh --repo "${GITHUB_REPOSITORY}" release upload ${{ github.event.release.tag_name }} \
-            ./${{ steps.pr.outputs.run_id }}/${{ steps.pr.outputs.artifact_name }}#${ASSET_LABEL}
+            "./${{ steps.pr.outputs.run_id }}/${{ steps.pr.outputs.artifact_name }}#${ASSET_LABEL}"
 
       - name: Trigger post-release workflow
         id: payload
