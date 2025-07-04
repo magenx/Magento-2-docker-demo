@@ -1,10 +1,9 @@
-name: "Magento Compilation"
+name: "Magento compilation"
 
 on:
   pull_request:
     types:
       - opened
-      - edited
       - synchronize
     paths:
       - app/code/**
