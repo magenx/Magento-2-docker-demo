@@ -54,10 +54,27 @@ To maintain SOC 2 compliance, this template assumes all related testing and publ
   - make sure "Do not allow bypassing the above settings" is unchecked, else the automatic release commits won't work
 
 
-
+## A Better Deployments Pattern  
+Use remote storage (like S3 or container registries).  
+Trigger deployments through event systems (S3 events, RabbitMQ, Redis).  
+Pass only scoped tokens and minimal payloads.  
+  
+### Problems With the Traditional Approach  
+Master tokens expose the entire system if leaked  
+Secrets are scattered across repositories, environments, and configs  
+SSH keys are hard to rotate and prone to leakage  
+Changing IPs or ports often break pipelines  
+Infrastructure and deployment logic are tightly coupled  
+  
+### Benefits of Storage + Event-Based Deployment  
+Use short-lived, minimal-scope tokens  
+Event-driven model removes the need for client-side coordination  
+No exposed ports or hardcoded IPs to manage  
+Storage and queues provide built-in logging and auditability  
+Works across cloud, hybrid, and secure/offline environments  
 
 
 
 
 ---
-idea: https://github.com/sonderformat-llc/release-please-prerelease-example
+
