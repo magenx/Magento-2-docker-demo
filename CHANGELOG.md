@@ -1,5 +1,12 @@
 # Changelog
 
+## [23.0.2-alpha](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.1...v23.0.2-alpha) (2025-07-04)
+
+
+### 🚦 Maintenance
+
+* **cleanup:** Delete release please manifest json ([#254](https://github.com/magenx/Magento-2-deployment-pipeline/issues/254)) ([07561b6](https://github.com/magenx/Magento-2-deployment-pipeline/commit/07561b6a0e83f060618876149df03527e304c0be))
+
 ## [23.0.1](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.0...v23.0.1) (2025-07-02)
 
 
