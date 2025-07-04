@@ -5,12 +5,19 @@ The workflow automates version control, changelog generation, pre-release => rel
 
 ## Key Concepts
 
-The release process is divided into two stages:
-- **Pre-release:** Generates pre-release (alpha) for testing.
-- **Release:** Publishes the final release after successful completion of all tests.
+The release process is divided into stages:  
+**Pre-release PR**:  
+A pull request that prepares the codebase for a pre-release. This may include version bumps, changelog updates, and feature flags.  
 
-To maintain SOC 2 compliance, this template assumes all related testing and publishing workflows also adhere to compliance requirements, and that branch protection rules are properly configured.
+**Pre-release**:  
+Generates and publishes an alpha or beta version of the software for internal testing, CI validation, or staging environments. Not intended for production use.  
 
+**Release PR**:  
+A pull request that finalizes the release. It often includes finalized changelogs, version tags, and cleanup of temporary/test code from pre-release.  
+
+**Release**:  
+Publishes the official, production-ready release after all tests, approvals, and validations have passed. Artifacts are pushed to registries or deployment targets.  
+  
 ### Compliance Features
 
 - Works with protected main branches (no direct pushes)
@@ -24,6 +31,7 @@ To maintain SOC 2 compliance, this template assumes all related testing and publ
 - Manages comprehensive change documentation automatically
 - Integrates with PR approval workflows for access control
 - Keeps all the wworkflow messages and comments in PR
+> To maintain SOC 2 compliance, this template assumes all related testing and publishing workflows also adhere to compliance requirements, and that branch protection rules are properly configured.
 
 ## Workflow Highlights
 
@@ -53,25 +61,26 @@ To maintain SOC 2 compliance, this template assumes all related testing and publ
   - "Require linear history"
   - make sure "Do not allow bypassing the above settings" is unchecked, else the automatic release commits won't work
 
-
+  
 ## A Better Deployments Pattern  
-Use remote storage (like S3 or container registries).  
-Trigger deployments through event systems (S3 events, RabbitMQ, Redis).  
-Pass only scoped tokens and minimal payloads.  
+> [!TIP]
+> Use remote storage (like S3 or container registries).  
+> Trigger deployments through event systems (S3 events, RabbitMQ, Redis).  
+> Pass only scoped tokens and minimal payloads.  
   
 ### Problems With the Traditional Approach  
-Master tokens expose the entire system if leaked  
-Secrets are scattered across repositories, environments, and configs  
-SSH keys are hard to rotate and prone to leakage  
-Changing IPs or ports often break pipelines  
-Infrastructure and deployment logic are tightly coupled  
+- Master tokens expose the entire system if leaked  
+- Secrets are scattered across repositories, environments, and configs  
+- SSH keys are hard to rotate and prone to leakage  
+- Changing IPs or ports often break pipelines  
+- Infrastructure and deployment logic are tightly coupled  
   
 ### Benefits of Storage + Event-Based Deployment  
-Use short-lived, minimal-scope tokens  
-Event-driven model removes the need for client-side coordination  
-No exposed ports or hardcoded IPs to manage  
-Storage and queues provide built-in logging and auditability  
-Works across cloud, hybrid, and secure/offline environments  
+1. Use short-lived, minimal-scope tokens  
+2. Event-driven model removes the need for client-side coordination  
+3. No exposed ports or hardcoded IPs to manage  
+4. Storage and queues provide built-in logging and auditability  
+5. Works across cloud, hybrid, and secure/offline environments  
 
 
 
