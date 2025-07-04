@@ -1,10 +1,9 @@
-name: "Magento Build Workflow"
+name: "Magento complete build"
 
 on:
   pull_request:
     types: 
       - opened
-      - edited
       - synchronize
 
 concurrency:
