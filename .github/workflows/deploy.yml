@@ -72,7 +72,7 @@ jobs:
 
       - name: Comment about deployment status
         id: deployment-status-comment
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
@@ -90,7 +90,7 @@ jobs:
       
       - name: Add comment about deployment status
         id: deployment-status
-        if: ${{ github.event.client_payload.environment == 'staging' }}
+        if: ${{ github.event.client_payload.environment == 'staging' && !cancelled() }}
         run: | 
           gh pr comment ${{ steps.find-pr.outputs.pr_number }} \
           --repo "${GITHUB_REPOSITORY}" \
@@ -98,7 +98,7 @@ jobs:
 
       - name: Find existing issue
         id: find-issues
-        if: ${{ github.event.client_payload.environment != 'staging' }}
+        if: ${{ github.event.client_payload.environment != 'staging' && !cancelled() }}
         uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
         with:
           actions: 'find-issues'
@@ -111,6 +111,7 @@ jobs:
 
       - name: Process found issues
         id: found-issues
+        if: ${{ github.event.client_payload.environment != 'staging' && !cancelled() }}
         run: |
           printf '%s' '${{ steps.find-issues.outputs.issues }}' > issues.txt
           ISSUE_NUMBERS=$(grep -oP '(?<=number":)\d+' issues.txt | paste -sd,)
@@ -118,7 +119,7 @@ jobs:
 
       - name: Add labels
         id: issue-labeler
-        if: ${{ steps.found-issues.outputs.issue_numbers != '' }}
+        if: ${{ steps.found-issues.outputs.issue_numbers != '' && !cancelled() }}
         uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
         with:
           actions: 'add-labels'
@@ -127,12 +128,14 @@ jobs:
           labels: 'overdue'
 
       - name: Set current date
+        if: ${{ !cancelled() }}
         id: date
         run: echo "date=$(date +%Y-%m-%d-%H:%M)" >> $GITHUB_OUTPUT
 
       - name: Create and maintain issue
         uses: actions-cool/issues-helper@a610082f8ac0cf03e357eb8dd0d5e2ba075e017e #v3.6.0
         id: issue
+        if: ${{ github.event.client_payload.environment != 'staging' && !cancelled() }}
         with:
           actions: 'create-issue'
           token: ${{ secrets.GITHUB_TOKEN }}
