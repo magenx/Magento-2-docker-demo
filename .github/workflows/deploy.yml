@@ -76,7 +76,7 @@ jobs:
         run: | 
           COMMENT=""
           declare -A step_icons=( ["success"]="✔️" ["failure"]="❌" ["skipped"]="➖"  ["cancelled"]="✖️" )
-          COMMENT+="## 🚀 ${{ github.event.client_payload.environment }} release deployment status:\n"
+          COMMENT+="## ⚠️ ${{ github.event.client_payload.environment }} release deployment status:\n"
           COMMENT+="${step_icons[${{ steps.assets-download.outcome }}]} Download assets from ${{ github.job.environment.name }} release: ${{ steps.assets-download.outcome }}\n"
           COMMENT+="${step_icons[${{ steps.assets-upload.outcome }}]} Upload assets to S3 storage: ${{ steps.assets-upload.outcome }}\n"
           COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook event trigger: ${{ steps.deployment-webhook.outcome }}\n"
