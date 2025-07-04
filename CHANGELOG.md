@@ -1,5 +1,20 @@
 # Changelog
 
+## [23.0.2](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.1...v23.0.2) (2025-07-04)
+
+
+### 🐛 Bug Fixes
+
+* Test update php file to trigger ([#258](https://github.com/magenx/Magento-2-deployment-pipeline/issues/258)) ([9449907](https://github.com/magenx/Magento-2-deployment-pipeline/commit/94499070eb68d55211e11f2233051a2074241aa2))
+
+
+### 🚦 Maintenance
+
+* **cleanup:** Delete release please manifest json ([#254](https://github.com/magenx/Magento-2-deployment-pipeline/issues/254)) ([07561b6](https://github.com/magenx/Magento-2-deployment-pipeline/commit/07561b6a0e83f060618876149df03527e304c0be))
+* **cleanup:** Delete unused old PRERELEASE CHANGELOG.md ([#255](https://github.com/magenx/Magento-2-deployment-pipeline/issues/255)) ([ef808b2](https://github.com/magenx/Magento-2-deployment-pipeline/commit/ef808b200038f665fc971a59c90d3b574fe255c3))
+* **main:** magenxcloud 23.0.2-alpha ([#256](https://github.com/magenx/Magento-2-deployment-pipeline/issues/256)) ([afa774f](https://github.com/magenx/Magento-2-deployment-pipeline/commit/afa774fbdab03a723258e5a6495a6207c55ed2c5))
+* **main:** magenxcloud 23.0.2-alpha.1 ([#259](https://github.com/magenx/Magento-2-deployment-pipeline/issues/259)) ([0fb3a91](https://github.com/magenx/Magento-2-deployment-pipeline/commit/0fb3a91be93f5b9511ef4625d816b4743f7f2cae))
+
 ## [23.0.2-alpha.1](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.2-alpha...v23.0.2-alpha.1) (2025-07-04)
 
 
