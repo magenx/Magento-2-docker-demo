@@ -8,7 +8,7 @@ concurrency:
   group: deploy
 
 jobs:
-  deploy-staging:
+  deploy:
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.event.client_payload.environment }}
