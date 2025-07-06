@@ -44,7 +44,7 @@ jobs:
       - name: Set version for complete build
         id: set-build-version
         run: | 
-          echo "ARTIFACT_NAME=$(date +%Y%m%d%H%M).tar.gz" >> ${GITHUB_ENV}
+          echo "ARTIFACT_NAME=release_$(date +%Y%m%d%H%M).tar.gz" >> ${GITHUB_ENV}
 
       - name: Package build into tar archive
         id: tar-archive
@@ -66,6 +66,7 @@ jobs:
           path: ${{ env.ARTIFACT_NAME }}
 
       - name: Attach build to release assets
+        id: upload-asset
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 #v2.3.2
         with:
           tag_name: ${{ github.event.release.tag_name }}
@@ -133,10 +134,8 @@ jobs:
           event-type: deployment
           client-payload: |-
             {
-              "environment": "${{ github.event.release.prerelease && 'staging' || 'production' }}",
-              "artifact_name": "${{ env.ARTIFACT_NAME }}",
-              "artifact_digest": "${{ steps.upload-artifact.outputs.artifact-digest }}",
-              "run_id": "${GITHUB_RUN_ID}",
-              "pr_number": "${{ steps.find-pr.outputs.pr_number }}",
+              "environment": "staging",
+              "asset_name": "${{ env.ARTIFACT_NAME }}",
+              "asset_digest": "${{ fromJSON(steps.upload-asset.outputs.assets)[0].digest }}",
               "tag_name": "${{ github.event.release.tag_name }}"
             }
