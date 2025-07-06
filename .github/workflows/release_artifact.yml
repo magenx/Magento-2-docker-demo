@@ -1,4 +1,4 @@
-name: "Sync build to production release"
+name: "Sync asset to production release"
 
 on:
   release:
