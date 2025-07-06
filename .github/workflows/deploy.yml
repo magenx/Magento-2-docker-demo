@@ -20,7 +20,7 @@ jobs:
         run: |
           gh release download ${{ github.event.client_payload.tag_name }} \
             --repo "${GITHUB_REPOSITORY}" \
-            --pattern "${{ github.event.client_payload.artifact_name }}" \
+            --pattern "${{ github.event.client_payload.asset_name }}" \
             --dir ./${GITHUB_RUN_ID}/
 
       - name: Upload release assets to S3 storage
@@ -30,20 +30,18 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws --endpoint-url https://${{ secrets.S3_ENDPOINT }} \
-            s3 cp ./${GITHUB_RUN_ID}/${{ github.event.client_payload.artifact_name }} \
-            s3://${{ secrets.S3_BUCKET }}/releases/${{ github.event.client_payload.artifact_name }}
+            s3 cp ./${GITHUB_RUN_ID}/${{ github.event.client_payload.asset_name }} \
+            s3://${{ secrets.S3_BUCKET }}/releases/${{ github.event.client_payload.asset_name }}
 
       - name: Trigger webhook to start deployment
         id: deployment-webhook
         run: |
           timestamp=$(date -u +%s)
           webhook_payload=$(jq -n \
-            --arg pr_number "${{ github.event.client_payload.pr_number }}" \
-            --arg run_id "${{ github.event.client_payload.run_id }}" \
-            --arg artifact_name "${{ github.event.client_payload.artifact_name }}" \
-            --arg artifact_digest "${{ github.event.client_payload.artifact_digest }}" \
-            --arg ts "$timestamp" \
-            '{pr_number: $pr_number, run_id: $run_id, artifact_name: $artifact_name, artifact_digest: $artifact_digest, timestamp: $ts}')
+            --arg asset_name "${{ github.event.client_payload.name }}" \
+            --arg asset_digest "${{ github.event.client_payload.digest }}" \
+            --arg timestamp "$timestamp" \
+            '{asset_name: $asset_name, asset_digest: $asset_digest, timestamp: $timestamp}')
 
           webhook_payload_signature=$(echo -n "$webhook_payload" | openssl dgst -sha256 -hmac "${{ secrets.SIGNATURE_HMAC_KEY }}" | cut -d ' ' -f2)
 
