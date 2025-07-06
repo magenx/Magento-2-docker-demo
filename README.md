@@ -41,7 +41,7 @@ Publishes the official, production-ready release after all tests, approvals, and
 4. Starts Magento 2 build and deployment.
 5. PR updated with job outcome status.
 6. Test your deployment on staging server.
-7. Merging the pre-release PR generates a release PR.
+7. Merging the pre-release PR generates a [release PR](https://github.com/magenx/Magento-2-deployment-pipeline/pull/265)
 8. Run additional tests on staging.
 9. Merging the release PR publishes the production release.
 10. Deployment starts to production.
