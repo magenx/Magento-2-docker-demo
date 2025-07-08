@@ -38,8 +38,8 @@ jobs:
         run: |
           timestamp=$(date -u +%s)
           webhook_payload=$(jq -n \
-            --arg asset_name "${{ github.event.client_payload.name }}" \
-            --arg asset_digest "${{ github.event.client_payload.digest }}" \
+            --arg asset_name "${{ github.event.client_payload.asset_name }}" \
+            --arg asset_digest "${{ github.event.client_payload.asset_digest }}" \
             --arg timestamp "$timestamp" \
             '{asset_name: $asset_name, asset_digest: $asset_digest, timestamp: $timestamp}')
 
@@ -58,7 +58,7 @@ jobs:
         run: | 
           COMMENT=""
           declare -A step_icons=( ["success"]="✔️" ["failure"]="❌" ["skipped"]="➖"  ["cancelled"]="✖️" )
-          COMMENT+="## ⚠️ ${{ github.event.client_payload.environment }} release deployment status:\n"
+          COMMENT+="## ⚠️ ${{ github.event.client_payload.environment }} release ${{ github.event.client_payload.tag_name }} deployment status:\n"
           COMMENT+="${step_icons[${{ steps.assets-download.outcome }}]} Download assets from ${{ github.job.environment.name }} release: ${{ steps.assets-download.outcome }}\n"
           COMMENT+="${step_icons[${{ steps.assets-upload.outcome }}]} Upload assets to S3 storage: ${{ steps.assets-upload.outcome }}\n"
           COMMENT+="${step_icons[${{ steps.deployment-webhook.outcome }}]} Deployment webhook event trigger: ${{ steps.deployment-webhook.outcome }}\n"
