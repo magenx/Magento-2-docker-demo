@@ -145,6 +145,6 @@ jobs:
               
             generated on: [${{ steps.date.outputs.date }}]
             [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-          labels: 'releases,deployment'
+          labels: 'release,deployment: ${{ job.status }}'
           assignees: ${{ github.repository_owner }}
 
