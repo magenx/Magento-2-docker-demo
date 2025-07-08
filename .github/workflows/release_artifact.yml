@@ -13,14 +13,13 @@ jobs:
         id: pre-release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURRENT_TAG: ${{ github.event.release.tag_name }}
         run: |
-          EXCLUDE_TAG="${{ github.event.release.tag_name }}"
           tag=$(gh release list \
-            --repo "${GITHUB_REPOSITORY}" \
+            --repo "$GITHUB_REPOSITORY" \
             --exclude-drafts \
             --json tagName,isPrerelease \
-            --jq '.[] | select(.isPrerelease and .tagName != $current_tag) | .tagName' \
-            --arg current_tag "${{ github.event.release.tag_name }}")
+            | jq -r "[ .[] | select(.isPrerelease == true and .tagName != \"$CURRENT_TAG\") ] | .[0].tagName")
           echo "tag_name=$tag" >> $GITHUB_OUTPUT
 
       - name: Find stable asset in previous pre-release
