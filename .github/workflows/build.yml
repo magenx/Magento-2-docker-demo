@@ -34,6 +34,7 @@ jobs:
         id: compile
         uses: ./.github/actions/setup-di-compile
         with:
+          composer_install: true
           composer_auth: "${{ secrets.COMPOSER_AUTH }}"
           composer_options: "--optimize-autoloader --apcu-autoloader"
           setup_compile_options: ""
