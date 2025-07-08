@@ -3,6 +3,10 @@ author: "MagenX"
 description: "Check if setup-di-compile works without errors"
 
 inputs:
+  composer_install:
+    description: 'Emable composer  installation'
+    required: true
+    default: true
   composer_auth:
     description: 'Composer auth'
     required: true
@@ -46,6 +50,7 @@ runs:
   steps:
     - name: Composer install modules and updates
       id: composer-install
+      if: ${{ inputs.composer_install == 'true' }}
       env:
         COMPOSER_AUTH: ${{ inputs.composer_auth }}
       shell: bash
