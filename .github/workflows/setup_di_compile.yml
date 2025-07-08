@@ -31,6 +31,7 @@ jobs:
         id: setup-di-compile
         uses: ./.github/actions/setup-di-compile
         with:
+          composer_install: true
           composer_auth: "${{ secrets.COMPOSER_AUTH }}"
           composer_options: ""
           setup_compile_options: ""
