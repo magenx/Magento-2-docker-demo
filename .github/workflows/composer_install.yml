@@ -31,8 +31,8 @@ jobs:
       - name: Extract require block from base
         id: require_base
         run: |
-          jq -r '.require | to_entries[] | "\(.key):\(.value)"' base/composer.json | sort > base/require_modules_old.txt
-          composer show --working-dir="base/" --locked -N >  base/locked_modules_old.txt
+          jq -r '.require | to_entries[] | "\(.key):\(.value)"' base/composer.json | sort > base/require_old.txt
+          composer show --working-dir="base/" --locked -N >  base/locked_old.txt
 
       - name: Validate composer.json from PR
         id: composer-validate
@@ -41,18 +41,30 @@ jobs:
 
       - name: Extract require block from PR
         id: require_pr
-        run: jq -r '.require | to_entries[] | "\(.key):\(.value)"' composer.json | sort > require_modules_new.txt
+        run: jq -r '.require | to_entries[] | "\(.key):\(.value)"' composer.json | sort > require_new.txt
 
       - name: Find new modules in require block
         id: find-new-modules
         run: |
-          comm -13 base/require_modules_old.txt require_modules_new.txt > modules.txt
-          if [ ! -s modules.txt ]; then
+          comm -13 base/require_old.txt require_new.txt > require.txt
+          if [ ! -s require.txt ]; then
             echo "No new composer packages."
           else
             echo "⚠️ New composer packages require:"
-            cat modules.txt
-            echo "new_modules=true" >> ${GITHUB_OUTPUT}
+            cat require.txt
+            echo "require=true" >> ${GITHUB_OUTPUT}
+          fi
+
+      - name: Find removed modules in require block
+        id: find-removed-modules
+        run: |
+          comm -23 base/require_old.txt require_new.txt > remove.txt
+          if [ ! -s remove.txt ]; then
+            echo "No packages removed."
+          else
+            echo "⚠️ Composer packages removed:"
+            cat remove.txt
+            echo "remove=true" >> ${GITHUB_OUTPUT}
           fi
 
       - uses: reviewdog/action-setup@e04ffabe3898a0af8d0fb1af00c188831c4b5893 #v1.3.2
@@ -65,7 +77,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          MODULES=$(awk '{printf "- **%s**<br>", $0}' modules.txt | sed 's/ $//')
+          MODULES=$(awk '{printf "- **%s**<br>", $0}' require.txt | sed 's/ $//')
           printf "composer.json: %s" "<br>$MODULES" \
           | reviewdog -efm="%f: %m" \
             -name=" NEW COMPOSER PACKAGES REQUIRE: " \
@@ -75,35 +87,35 @@ jobs:
 
       - name: Install dependencies
         id: composer-install
-        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        if: ${{ steps.find-new-modules.outputs.require == 'true' }}
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: |
           while read module; do
             composer require "$module"
-          done < modules.txt
+          done < require.txt
           composer install --no-dev --no-interaction 
-          composer show --locked -N > locked_modules_new.txt
+          composer show --locked -N > locked_new.txt
 
       - name: Find new modules dependencies in composer lock
         id: find-new-modules-lock
         run: |
-          comm -13 base/locked_modules_old.txt locked_modules_new.txt > locked_modules.txt
-          if [ ! -s locked_modules.txt ]; then
+          comm -13 base/locked_old.txt locked_new.txt > locked.txt
+          if [ ! -s locked.txt ]; then
             echo "No new composer dependency."
           else
             echo "⚠️ Including a required dependency:"
-            cat locked_modules.txt
-            echo "new_locked_modules=true" >> ${GITHUB_OUTPUT}
+            cat locked.txt
+            echo "locked=true" >> ${GITHUB_OUTPUT}
           fi
 
       - name: New modules review comment to PR
         id: module-lock-comment-pr
-        if: ${{ steps.find-new-modules-lock.outputs.new_locked_modules == 'true' }}
+        if: ${{ steps.find-new-modules-lock.outputs.locked == 'true' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          MODULES=$(awk '{printf "- **%s**<br>", $0}' locked_modules.txt | sed 's/ $//')
+          MODULES=$(awk '{printf "- **%s**<br>", $0}' locked.txt | sed 's/ $//')
           printf "composer.lock: %s" "<br>$MODULES" \
           | reviewdog -efm="%f: %m" \
             -name=" INCLUDING A REQUIRED DEPENDENCY: " \
@@ -113,7 +125,7 @@ jobs:
 
       - name: Extract Magento module names
         id: modules-new-names
-        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        if: ${{ steps.find-new-modules.outputs.require == 'true' }}
         run: |
           while read module; do
             registration_file="vendor/$(echo ${module%:*})/registration.php"
@@ -125,7 +137,7 @@ jobs:
                 echo "$module_name"
               fi
             fi
-          done < ./locked_modules.txt > ./magento_modules.txt
+          done < ./locked.txt > ./magento_modules.txt
           echo "New Magento modules:"
           cat ./magento_modules.txt
 
@@ -138,19 +150,19 @@ jobs:
 
       - name: Run setup di compile
         id: setup-di-compile
-        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        if: ${{ steps.find-new-modules.outputs.require == 'true' }}
         run: | 
           bin/magento setup:di:compile -n
       
       - name: Check for lock file changes
         id: git-diff-composer-lock
-        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        if: ${{ steps.find-new-modules.outputs.require == 'true' }}
         run: |
           echo "lock_changed=$(git diff --quiet composer.lock && echo false || echo true)" >> "${GITHUB_OUTPUT}"
 
       - name: Check for config.php changes
         id: git-diff-config
-        if: ${{ steps.find-new-modules.outputs.new_modules == 'true' }}
+        if: ${{ steps.find-new-modules.outputs.require == 'true' }}
         run: |
           echo "config_changed=$(git diff --quiet app/etc/config.php && echo false || echo true)" >> "${GITHUB_OUTPUT}"
 
