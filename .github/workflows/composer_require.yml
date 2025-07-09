@@ -70,20 +70,6 @@ jobs:
         with:
           base_path: "base"
 
-      - name: New modules review comment to PR
-        id: module-lock-comment-pr
-        if: ${{ steps.composer-lock-diff.outputs.locked == 'true' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          MODULES=$(awk '{printf "- **%s**<br>", $0}' locked.txt | sed 's/ $//')
-          printf "composer.lock: %s" "<br>$MODULES" \
-          | reviewdog -efm="%f: %m" \
-            -name=" INCLUDING A REQUIRED DEPENDENCY: " \
-            -reporter=github-pr-review \
-            -filter-mode=nofilter \
-            -level=warning
-
       - name: Enable newly installed modules
         id: module-enable
         if: ${{ steps.composer-lock-diff.outputs.magento_modules != '' }}
@@ -124,3 +110,18 @@ jobs:
         with:
           commit_message: "chore(composer): Update composer.lock to match composer.json"
           file_pattern: composer.lock
+
+      - name: New modules review comment to PR
+        id: module-lock-comment-pr
+        if: ${{ steps.composer-lock-diff.outputs.locked == 'true' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MODULES=$(awk '{printf "- **%s**<br>", $0}' locked.txt | sed 's/ $//')
+          printf "composer.lock: %s" "<br>$MODULES" \
+          | reviewdog -efm="%f: %m" \
+            -name=" INCLUDING A REQUIRED DEPENDENCY: " \
+            -reporter=github-pr-review \
+            -filter-mode=nofilter \
+            -level=warning
+
