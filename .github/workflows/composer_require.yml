@@ -48,7 +48,7 @@ jobs:
           MODULES=$(awk '{printf "- **%s**<br>", $0}' require.txt | sed 's/ $//')
           printf "composer.json: %s" "<br>$MODULES" \
           | reviewdog -efm="%f: %m" \
-            -name=" NEW COMPOSER PACKAGES REQUIRE: " \
+            -name="COMPOSER PACKAGES REQUIRE:" \
             -reporter=github-pr-review \
             -filter-mode=nofilter \
             -level=info
@@ -79,10 +79,10 @@ jobs:
           MODULES=$(awk '{printf "- **%s**<br>", $0}' locked.txt | sed 's/ $//')
           printf "composer.lock: %s" "<br>$MODULES" \
           | reviewdog -efm="%f: %m" \
-            -name=" INCLUDING A REQUIRED DEPENDENCY: " \
+            -name="INCLUDING A REQUIRED DEPENDENCY:" \
             -reporter=github-pr-review \
             -filter-mode=nofilter \
-            -level=info
+            -level=warning
 
       - name: Enable newly installed modules
         id: module-enable
