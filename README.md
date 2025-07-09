@@ -81,7 +81,7 @@ Publishes the official, production-ready release after all tests, approvals, and
 2. Event-driven model removes the need for client-side coordination  
 3. No exposed ports or hardcoded IPs to manage  
 4. Storage and queues provide built-in logging and auditability  
-5. Works across cloud, hybrid, and secure/offline environments  
+5. Works across cloud, hybrid, and secure/private environments  
 
 
 
