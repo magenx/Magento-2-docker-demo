@@ -1,11 +1,8 @@
 name: "Composer Lock Diff & Magento Module Extract"
 description: "Finds new dependencies in composer.lock and extracts new Magento modules."
 inputs:
-  base_locked:
+  base_path:
     description: 'Path to base composer.lock dependencies list (e.g., base/locked_old.txt)'
-    required: true
-  new_locked:
-    description: 'Path to new composer.lock dependencies list (e.g., locked_new.txt)'
     required: true
 outputs:
   new_dependencies:
@@ -24,7 +21,9 @@ runs:
       id: find-new-modules-lock
       shell: bash
       run: |
-        comm -13 "${{ inputs.base_locked }}" "${{ inputs.new_locked }}" > locked.txt
+        composer show --working-dir="${{ inputs.base_path }}/" --locked -N >  ${{ inputs.base_path }}/locked_old.txt
+        composer show --locked -N > locked_new.txt
+        comm -13 "${{ inputs.base_path }}/locked_old.txt" locked_new.txt > locked.txt
         if [ ! -s locked.txt ]; then
           echo "No new composer dependency."
         else
