@@ -37,14 +37,15 @@ Publishes the official, production-ready release after all tests, approvals, and
 
 1. Open PR with code changes to the dev branch using Conventional Commit messages.
 2. PR and changed files validation. [Review](https://github.com/magenx/Magento-2-deployment-pipeline/pull/215) and merge.
-3. The workflow opens a [pre-release PR](https://github.com/magenx/Magento-2-deployment-pipeline/pull/206) automatically.
+3. The workflow opens a [pre-release PR](https://github.com/magenx/Magento-2-deployment-pipeline/pull/270) automatically.
 4. Starts Magento 2 build and deployment.
 5. PR updated with job outcome status.
 6. Test your deployment on staging server.
-7. Merging the pre-release PR generates a [release PR](https://github.com/magenx/Magento-2-deployment-pipeline/pull/265)
+7. Merging the pre-release PR generates a [release PR](https://github.com/magenx/Magento-2-deployment-pipeline/pull/271)
 8. Run additional tests on staging.
 9. Merging the release PR publishes the production release.
-10. Deployment starts to production.
+10. Issue report deployment [status](https://github.com/magenx/Magento-2-deployment-pipeline/issues/272)
+11. Deployment starts to production.
 
 ## SOC 2 Requirements
 
