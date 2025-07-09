@@ -1,10 +1,9 @@
-name: Update Magento 2 to latest version
+name: Upgrade Magento 2 to latest version
 
 on:
   workflow_dispatch:
 
 env:
-  MAGENTO_VERSION: 2.4.8-p1
   PHP_VERSION: 8.4
 
 jobs:
@@ -13,12 +12,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
         with:
           ref: main 
 
       - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@0f7f1d08e3e32076e51cae65eb0b0c871405b16e #v2.34.1
         with:
           php-version: '${{ env.PHP_VERSION }}'
 
@@ -27,21 +26,21 @@ jobs:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: |
           MAGENTO_LATEST=$(curl -s https://api.github.com/repos/magento/magento2/tags 2>&1 | grep -m1 -oP '(?<=name": ")[0-9].*-p.*(?=")')
-          echo MAGENTO_RELEASE=${MAGENTO_LATEST}
+          echo "MAGENTO LATEST VERSION ${MAGENTO_LATEST}"
           composer update -W  --ignore-platform-reqs
-          composer require-commerce magento/product-community-edition=${MAGENTO_VERSION} --no-update --ignore-platform-reqs
+          composer require-commerce magento/product-community-edition=${MAGENTO_LATEST} --no-update --ignore-platform-reqs
           composer update -W  --ignore-platform-reqs
 
       - name: Create PR and review changes
         run: |
-          BRANCH="upgrade-magento-${MAGENTO_VERSION}-$(date +%s)"
+          BRANCH="upgrade-magento-${MAGENTO_LATEST}-$(date +%s)"
           git checkout -b "${BRANCH}"
 
           git add .
-          git commit -m "Updated Magento to ${MAGENTO_VERSION} with PHP ${PHP_VERSION}"
+          git commit -m "Upgrade Magento to ${MAGENTO_LATEST} with PHP ${PHP_VERSION}"
           git push origin "${BRANCH}"
 
-          gh pr create --title "feat!(upgrade): Upgrade Magento to ${MAGENTO_VERSION} with PHP ${PHP_VERSION}" \
-          --body "Automated upgrade of Magento to ${MAGENTO_VERSION} with PHP ${PHP_VERSION}" \
+          gh pr create --title "feat!(upgrade): Upgrade Magento to ${MAGENTO_LATEST} with PHP ${PHP_VERSION}" \
+          --body "Automated upgrade of Magento to ${MAGENTO_LATEST} with PHP ${PHP_VERSION}" \
           --base main \
           --head "${BRANCH}"
