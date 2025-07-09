@@ -68,8 +68,7 @@ jobs:
         id: composer-lock-diff
         uses: ./.github/actions/composer-lock-diff
         with:
-          base_locked: base/locked_old.txt
-          new_locked: locked_new.txt
+          base_path: "base"
 
       - name: New modules review comment to PR
         id: module-lock-comment-pr
