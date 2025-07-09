@@ -1,0 +1,80 @@
+name: "Composer Require Diff"
+description: "Compares composer.json require block with a base branch and outputs new and removed modules."
+inputs:
+  base_ref:
+    description: 'Base branch ref to compare against'
+    required: true
+  base_path:
+    description: 'Checkout path for base branch'
+    required: false
+    default: 'base'
+outputs:
+  new_modules:
+    description: 'List of new required modules (one per line)'
+    value: ${{ steps.find-new-modules.outputs.new_modules }}
+  removed_modules:
+    description: 'List of removed modules (one per line)'
+    value: ${{ steps.find-removed-modules.outputs.removed_modules }}
+  require:
+    description: 'Boolean if there are new modules'
+    value: ${{ steps.find-new-modules.outputs.require }}
+  remove:
+    description: 'Boolean if there are removed modules'
+    value: ${{ steps.find-removed-modules.outputs.remove }}
+runs:
+  using: "composite"
+  steps:
+    - name: Validate composer.json from PR
+      shell: bash
+      run: |
+        composer validate --no-check-all --no-check-lock --no-check-publish --no-check-version 
+
+    - name: Checkout base branch
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+      with:
+        ref: ${{ inputs.base_ref }}
+        path: ${{ inputs.base_path }}
+
+    - name: Extract require block from base
+      id: require-base
+      shell: bash
+      run: |
+        jq -r '.require | to_entries[] | "\(.key):\(.value)"' "${{ inputs.base_path }}/composer.json" | sort > "${{ inputs.base_path }}/require_old.txt"
+
+    - name: Extract require block from PR
+      id: require-pr
+      shell: bash
+      run: |
+        jq -r '.require | to_entries[] | "\(.key):\(.value)"' composer.json | sort > require_new.txt
+
+    - name: Find new modules in require block
+      id: find-new-modules
+      shell: bash
+      run: |
+        comm -13 "${{ inputs.base_path }}/require_old.txt" require_new.txt > require.txt
+        if [ ! -s require.txt ]; then
+          echo "No new composer packages."
+        else
+          echo "⚠️ New composer packages require:"
+          cat require.txt
+          echo "require=true" >> "${GITHUB_OUTPUT}"
+          echo "new_modules<<EOF" >> "${GITHUB_OUTPUT}"
+          cat require.txt >> "${GITHUB_OUTPUT}"
+          echo "EOF" >> "${GITHUB_OUTPUT}"
+        fi
+
+    - name: Find removed modules in require block
+      id: find-removed-modules
+      shell: bash
+      run: |
+        comm -23 "${{ inputs.base_path }}/require_old.txt" require_new.txt > remove.txt
+        if [ ! -s remove.txt ]; then
+          echo "No packages removed."
+        else
+          echo "⚠️ Composer packages removed:"
+          cat remove.txt
+          echo "remove=true" >> "${GITHUB_OUTPUT}"
+          echo "removed_modules<<EOF" >> "${GITHUB_OUTPUT}"
+          cat remove.txt >> "${GITHUB_OUTPUT}"
+          echo "EOF" >> "${GITHUB_OUTPUT}"
+        fi
