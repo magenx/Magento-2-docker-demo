@@ -17,11 +17,11 @@
     },
     "version": "2.4.4",
     "require": {
-        "cweagans/composer-patches": "^1.7",
         "magento/composer-dependency-version-audit-plugin": "~0.1",
         "magento/composer-root-update-plugin": "^2.0.4",
         "magento/product-community-edition": "2.4.8-p1",
-        "stripe/stripe-payments": "^4.4"
+        "stripe/stripe-payments": "^4.4",
+        "vlucas/phpdotenv": "^5.6"
     },
     "autoload": {
         "exclude-from-classmap": [
