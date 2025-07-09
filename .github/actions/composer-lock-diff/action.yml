@@ -1,0 +1,59 @@
+name: "Composer Lock Diff & Magento Module Extract"
+description: "Finds new dependencies in composer.lock and extracts new Magento modules."
+inputs:
+  base_locked:
+    description: 'Path to base composer.lock dependencies list (e.g., base/locked_old.txt)'
+    required: true
+  new_locked:
+    description: 'Path to new composer.lock dependencies list (e.g., locked_new.txt)'
+    required: true
+outputs:
+  new_dependencies:
+    description: 'List of new composer locked dependencies (one per line)'
+    value: ${{ steps.find-new-modules-lock.outputs.new_dependencies }}
+  locked:
+    description: 'Boolean: true if new dependencies found'
+    value: ${{ steps.find-new-modules-lock.outputs.locked }}
+  magento_modules:
+    description: 'List of new Magento module names (one per line)'
+    value: ${{ steps.modules-new-names.outputs.magento_modules }}
+runs:
+  using: "composite"
+  steps:
+    - name: Find new modules dependencies in composer lock
+      id: find-new-modules-lock
+      shell: bash
+      run: |
+        comm -13 "${{ inputs.base_locked }}" "${{ inputs.new_locked }}" > locked.txt
+        if [ ! -s locked.txt ]; then
+          echo "No new composer dependency."
+        else
+          echo "⚠️ Including a required dependency:"
+          cat locked.txt
+          echo "locked=true" >> "${GITHUB_OUTPUT}"
+        fi
+        echo "new_dependencies<<EOF" >> "${GITHUB_OUTPUT}"
+        cat locked.txt >> "${GITHUB_OUTPUT}"
+        echo "EOF" >> "${GITHUB_OUTPUT}"
+
+    - name: Extract Magento module names from new dependencies
+      id: modules-new-names
+      shell: bash
+      run: |
+        while read module; do
+          # Only process magento module
+          registration_file="vendor/${module%:*}/registration.php"
+          if [ -f "$registration_file" ]; then
+            module_name=$(php -r "\$f=file_get_contents('$registration_file'); \
+              preg_match('/ComponentRegistrar\:\:MODULE\,\s*\'([^\']+)\'/', \$f, \$m); \
+              echo isset(\$m[1])?\$m[1]:'';")
+            if [ ! -z "$module_name" ]; then
+              echo "$module_name"
+            fi
+          fi
+        done < locked.txt > magento_modules.txt
+        echo "⚠️ New Magento modules:"
+        cat magento_modules.txt
+        echo "magento_modules<<EOF" >> "${GITHUB_OUTPUT}"
+        cat magento_modules.txt >> "${GITHUB_OUTPUT}"
+        echo "EOF" >> "${GITHUB_OUTPUT}"
