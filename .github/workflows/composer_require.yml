@@ -39,7 +39,7 @@ jobs:
         with:
           reviewdog_version: v0.20.3
 
-      - name: New modules review comment to PR
+      - name: Composer require review comment to PR
         id: module-comment-pr
         if: ${{ steps.composer-diff.outputs.require == 'true' }}
         env:
@@ -70,7 +70,7 @@ jobs:
         with:
           base_path: "base"
 
-      - name: New modules review comment to PR
+      - name: Composer lock review comment to PR
         id: module-lock-comment-pr
         if: ${{ steps.composer-lock-diff.outputs.locked == 'true' }}
         env:
