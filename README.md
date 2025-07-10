@@ -61,7 +61,17 @@ Publishes the official, production-ready release after all tests, approvals, and
   - "Require conversation resolution before merging"
   - "Require linear history"
   - make sure "Do not allow bypassing the above settings" is unchecked, else the automatic release commits won't work
-
+  
+### setup Github PAT for the repository  
+> required because of branch protection is enabled and workflow triggers protection
+- go to https://github.com/settings/personal-access-tokens
+- set Expiration
+- select the right resource owner
+- under "Repository" access,
+  - select "Only select repositories"
+- under "Permissions"
+  - set "Contents", "Issues" and "Pull requests" to "Read and write"
+- copy the generated token to a new RELEASE_GITHUB_TOKEN repository secret on the Github repository
   
 ## A Better Deployments Pattern  
 > [!TIP]
