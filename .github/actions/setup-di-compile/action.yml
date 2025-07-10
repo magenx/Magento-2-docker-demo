@@ -26,6 +26,14 @@ inputs:
     description: 'Additional Magento static deploy parameters'
     required: false
     default: ''
+  hyva_theme:
+    description: 'Enable HyvaTheme css build command'
+    required: false
+    default: false
+  hyva_theme_path:
+    description: 'Path to HyvaTheme directory'
+    required: false
+    default: ''
   debug_command:
     description: 'Additional Magento command debug options'
     required: false
@@ -38,6 +46,9 @@ outputs:
   setup_di_compile_status:
     description: "The status of compilation step"
     value: ${{ steps.setup-di-compile.outputs.setup_di_compile_status }}
+  hyva_theme_status:
+    description: "The status of hyva theme generation step"
+    value: ${{ steps.hyva-theme.outputs.hyva_theme_status }}
   static_content_deploy_status:
     description: "The status of static content deploy step"
     value: ${{ steps.static-content-deploy.outputs.static_content_deploy_status }}
@@ -64,6 +75,14 @@ runs:
       run: |
         bin/magento setup:di:compile -n ${{ inputs.setup_compile_options }}
         [ $? -eq 0 ] && echo "setup_di_compile_status=success" >> $GITHUB_OUTPUT || echo "setup_di_compile_status=failure" >> $GITHUB_OUTPUT
+
+    - name: Generate Hyva Theme css
+      id: hyva-theme
+      if: ${{ inputs.hyva_theme == 'true' }}
+      shell: bash
+      run: |
+        npm --prefix ${{ inputs.hyva_theme_path }} run build-prod
+        [ $? -eq 0 ] && echo "hyva_theme_status=success" >> $GITHUB_OUTPUT || echo "hyva_theme_status=failure" >> $GITHUB_OUTPUT
 
     - name: Generate static files
       id: static-content-deploy
