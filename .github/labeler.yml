@@ -1,6 +1,19 @@
-workflow:
+actions:
 - changed-files:
-  - any-glob-to-any-file: '.github/**'
+  - any-glob-to-any-file:
+    - '.github/workflows/**'
+    - '.github/actions/**'
+
+'release-please: config':
+- changed-files:
+  - any-glob-to-any-file:
+    - '.github/release/*.json'
+
+git:
+- changed-files:
+  - any-glob-to-any-file:
+    - '.editorconfig'
+    - '.gitignore'
 
 module:
 - changed-files:
@@ -9,9 +22,27 @@ module:
     - 'composer.json'
     - 'composer.lock'
 
-theme:
+composer:
 - changed-files:
-  - any-glob-to-any-file: 'app/design/**'
+  - any-glob-to-any-file:
+    - 'composer.json'
+    - 'composer.lock'
+
+'custom theme':
+- all:
+  - changed-files:
+    - any-glob-to-any-file: 'app/design/frontend/**/*'
+    - all-globs-to-all-files: '!app/design/frontend/Magento/**'
+
+'theme: magento admin':
+- changed-files:
+  - any-glob-to-any-file:
+    - 'app/design/adminhtml/Magento/**'
+
+'theme: magento frontend':
+- changed-files:
+  - any-glob-to-any-file:
+    - 'app/design/frontend/Magento/**'
 
 javascript:
 - changed-files:
