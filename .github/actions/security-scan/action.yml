@@ -1,0 +1,35 @@
+name: "Run security scan"
+description: "Downloads and setup scanners and runs a scan on the repository."
+
+inputs:
+  scan-path:
+    description: "Path to project folder"
+    required: false
+    default: "."
+  scan-log:
+    description: "Path to scan log file"
+    required: false
+    default: "./security_scan_log"
+
+outputs:
+  output:
+    description: "The output of the eComscan scan"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download eComscan
+      id: ecomscan
+      run: wget https://ecomscan.com/downloads/linux-amd64/ecomscan
+
+    - name: Run eComscan
+      id: security-scan
+      env:
+        ECOMSCAN_KEY: ${{ secrets.ECOMSCAN_KEY }}
+      shell: bash
+      run: |
+        chmod +x ecomscan
+        outputs=$(./ecomscan --no-auto-update --skip-database --skip-dashboard --newonly --state-file ${{ inputs.scan-log }} ${{ inputs.scan-path }})
+        echo "output<<EOF" >> $GITHUB_OUTPUT
+        echo "$outputs" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
