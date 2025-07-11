@@ -5,9 +5,7 @@ on:
     branches: 
       - main
     paths-ignore:
-      - '**.md'
-      - '**.txt'
-      - '.github/**.yml'
+      - '.github/**'
 
 permissions:
   contents: write
@@ -18,10 +16,10 @@ permissions:
   
 env:
   PRERELEASE_TYPE: "alpha"
-  PRERELEASE_CONFIG: ".github/.release-please-config-prerelease.json"
-  PRERELEASE_MANIFEST: ".github/.release-please-manifest-prerelease.json"
-  RELEASE_CONFIG: ".github/.release-please-config.json"
-  RELEASE_MANIFEST: ".github/.release-please-manifest.json"
+  PRERELEASE_CONFIG: ".github/release/prerelease-config.json"
+  PRERELEASE_MANIFEST: ".github/release/prerelease-manifest.json"
+  RELEASE_CONFIG: ".github/release/config.json"
+  RELEASE_MANIFEST: ".github/release/manifest.json"
 
 concurrency:
   group: release
