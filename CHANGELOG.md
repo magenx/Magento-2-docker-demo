@@ -1,5 +1,21 @@
 # Changelog
 
+## [23.0.6](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.5...v23.0.6) (2025-07-11)
+
+
+### 🐛 Bug Fixes
+
+* Test update php file to trigger ([#277](https://github.com/magenx/Magento-2-deployment-pipeline/issues/277)) ([693115f](https://github.com/magenx/Magento-2-deployment-pipeline/commit/693115fdbf482254e61db1cc66e7be91aaedaf0d))
+
+
+### 🚦 Maintenance
+
+* **labeler:** More labels for changed files ([7660b3f](https://github.com/magenx/Magento-2-deployment-pipeline/commit/7660b3f66836a5740f8329dab75f495e50568e0c))
+* **main:** magenxcloud 23.0.6-alpha ([#278](https://github.com/magenx/Magento-2-deployment-pipeline/issues/278)) ([a90a191](https://github.com/magenx/Magento-2-deployment-pipeline/commit/a90a19103ed924cb56a1f3f7aa506a3a58c187d3))
+* **readme:** Add Github PAT instructions ([18cc976](https://github.com/magenx/Magento-2-deployment-pipeline/commit/18cc9761863816ecc3f19c7a436bfd316c5560b3))
+* **workflow:** Add hyva theme and path variable ([e7853ec](https://github.com/magenx/Magento-2-deployment-pipeline/commit/e7853ecbd3f9a47420447cc856ece06742959ca3))
+* **workflow:** Move release config to its own directory ([19f7b13](https://github.com/magenx/Magento-2-deployment-pipeline/commit/19f7b136222551495930016d557b3d3b71146565))
+
 ## [23.0.6-alpha](https://github.com/magenx/Magento-2-deployment-pipeline/compare/v23.0.5...v23.0.6-alpha) (2025-07-11)
 
 
